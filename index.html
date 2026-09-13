@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" class="dark">
+<html lang="ko" class="dark" data-theme="emerald">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 검색 엔진 노출 원천 차단 (Private 보안) -->
   <meta name="robots" content="noindex, nofollow">
   <title>Private Alpha Wealth Terminal</title>
   <!-- Tailwind CSS CDN -->
@@ -33,8 +32,8 @@
     }
   </script>
   <style>
-    /* 4대 테마 CSS 변수 */
-    :root[data-theme="emerald"] {
+    /* 다크모드 색상 변수 강제 바인딩 (html, body 모두 완벽 매칭) */
+    html[data-theme="emerald"], body[data-theme="emerald"], [data-theme="emerald"] {
       --bg-main: #0a0f1d;
       --bg-card: #111827;
       --bg-card-hover: #1f2937;
@@ -43,7 +42,7 @@
       --secondary-color: #059669;
       --accent-color: #00f5a0;
     }
-    :root[data-theme="cyan"] {
+    html[data-theme="cyan"], body[data-theme="cyan"], [data-theme="cyan"] {
       --bg-main: #070b14;
       --bg-card: #0f172a;
       --bg-card-hover: #1e293b;
@@ -52,7 +51,7 @@
       --secondary-color: #3b82f6;
       --accent-color: #38bdf8;
     }
-    :root[data-theme="gold"] {
+    html[data-theme="gold"], body[data-theme="gold"], [data-theme="gold"] {
       --bg-main: #121214;
       --bg-card: #18181b;
       --bg-card-hover: #27272a;
@@ -61,7 +60,7 @@
       --secondary-color: #d97706;
       --accent-color: #fbbf24;
     }
-    :root[data-theme="stealth"] {
+    html[data-theme="stealth"], body[data-theme="stealth"], [data-theme="stealth"] {
       --bg-main: #09090b;
       --bg-card: #141416;
       --bg-card-hover: #202024;
@@ -71,24 +70,25 @@
       --accent-color: #e4e4e7;
     }
 
-    body {
-      background-color: var(--bg-main);
-      color: #f3f4f6;
+    html, body {
+      background-color: var(--bg-main, #0a0f1d) !important;
+      color: #f3f4f6 !important;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Pretendard", sans-serif;
+      min-height: 100vh;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     .custom-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
+      background-color: var(--bg-card, #111827) !important;
+      border: 1px solid var(--border-color, #1f2937) !important;
       transition: all 0.2s ease;
     }
     .custom-card:hover {
-      background-color: var(--bg-card-hover);
-      border-color: var(--primary-color);
+      background-color: var(--bg-card-hover, #1f2937) !important;
+      border-color: var(--primary-color, #10b981) !important;
     }
-    .text-theme { color: var(--primary-color); }
-    .bg-theme { background-color: var(--primary-color); }
-    .border-theme { border-color: var(--primary-color); }
+    .text-theme { color: var(--primary-color) !important; }
+    .bg-theme { background-color: var(--primary-color) !important; }
+    .border-theme { border-color: var(--primary-color) !important; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-black" data-theme="emerald">
@@ -99,14 +99,14 @@
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/10 flex items-center justify-center text-theme text-2xl">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
-      <h2 class="text-2xl font-black mb-1 tracking-tight">PRIVATE ACCESS LOCK</h2>
+      <h2 class="text-2xl font-black mb-1 tracking-tight text-white">PRIVATE ACCESS LOCK</h2>
       <p class="text-xs text-gray-400 mb-6">인가된 투자자 전용 4자리 보안 PIN을 입력해 주세요</p>
       
       <div class="flex justify-center gap-3 mb-6">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 focus:border-emerald-400 focus:outline-none" autofocus>
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 focus:border-emerald-400 focus:outline-none">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 focus:border-emerald-400 focus:outline-none">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 focus:border-emerald-400 focus:outline-none">
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-emerald-400 focus:outline-none" autofocus>
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-emerald-400 focus:outline-none">
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-emerald-400 focus:outline-none">
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-gray-900 border border-gray-700 text-white focus:border-emerald-400 focus:outline-none">
       </div>
       <p id="pinError" class="text-xs text-rose-500 font-semibold mb-4 hidden">🚨 보안 PIN 번호가 올바르지 않습니다</p>
       <button onclick="unlockDashboard()" class="w-full py-3.5 bg-theme text-black font-extrabold rounded-xl hover:opacity-90 transition active:scale-95 shadow-lg">
@@ -117,7 +117,7 @@
   </div>
 
   <!-- ================= 1. 상단 네비게이션 바 ================= -->
-  <header class="sticky top-0 z-40 custom-card border-b backdrop-blur-lg bg-opacity-80 px-4 lg:px-8 py-3.5">
+  <header class="sticky top-0 z-40 custom-card border-b backdrop-blur-lg bg-opacity-90 px-4 lg:px-8 py-3.5">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
       <!-- 로고 -->
       <div class="flex items-center gap-3">
@@ -125,19 +125,19 @@
           <i class="fa-solid fa-chart-line"></i>
         </div>
         <div>
-          <span class="text-lg font-black tracking-wider block">ALPHA TERMINAL</span>
+          <span class="text-lg font-black tracking-wider block text-white">ALPHA TERMINAL</span>
           <span class="text-[10px] text-gray-400 font-mono tracking-widest uppercase">Private Wealth Suite</span>
         </div>
       </div>
 
       <!-- 환율 자동 연동 & 테마 체인저 & 잠금 -->
       <div class="flex items-center gap-3">
-        <!-- 전일 마감 환율 자동 연동 (USD/KRW) -->
+        <!-- 환율 자동 연동 (USD/KRW) -->
         <div class="flex items-center bg-gray-900/90 border border-gray-800 rounded-lg px-2.5 py-1 text-xs">
           <span class="text-gray-400 mr-1.5 font-semibold">USD/KRW:</span>
-          <input type="number" id="usdExchangeRate" value="1350" onchange="renderAll()" class="w-16 bg-transparent text-right font-mono font-bold text-theme focus:outline-none">
+          <input type="number" id="usdExchangeRate" value="1343" onchange="renderAll()" class="w-16 bg-transparent text-right font-mono font-bold text-theme focus:outline-none">
           <span class="text-gray-400 ml-1">원</span>
-          <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">동기화 중...</span>
+          <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">동기화 완료 🟢</span>
         </div>
 
         <!-- 실시간 테마 선택기 -->
@@ -170,7 +170,7 @@
             <span class="w-2 h-2 rounded-full bg-theme animate-ping"></span>
             ACTIVE QUANT SYSTEM • 100% PRIVATE
           </div>
-          <h1 class="text-2xl lg:text-3xl font-black tracking-tight mb-2">
+          <h1 class="text-2xl lg:text-3xl font-black tracking-tight mb-2 text-white">
             지능형 통합 포트폴리오 & 리밸런싱 사령탑 🚀✨
           </h1>
           <p class="text-xs lg:text-sm text-gray-400 max-w-2xl leading-relaxed">
@@ -218,7 +218,7 @@
           <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">총 투자 평가액 (KRW/USD)</span>
           <span class="p-2 rounded-lg bg-gray-900 text-theme text-xs"><i class="fa-solid fa-vault"></i></span>
         </div>
-        <div class="text-2xl font-black font-mono tracking-tight" id="kpiTotalKRW">₩0</div>
+        <div class="text-2xl font-black font-mono tracking-tight text-white" id="kpiTotalKRW">₩0</div>
         <div class="text-xs text-gray-400 font-mono mt-1" id="kpiTotalUSD">$0.00</div>
         <div class="mt-3 text-[11px] text-gray-500 flex items-center justify-between border-t border-gray-800/80 pt-2">
           <span>전략 대기 현금 비중</span>
@@ -390,7 +390,7 @@
   <div id="buyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border shadow-2xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-base font-black flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-theme"></i> 신규 매수 자산 기록</h3>
+        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-cart-shopping text-theme"></i> 신규 매수 자산 기록</h3>
         <button onclick="closeModal('buyModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <form onsubmit="handleBuySubmit(event)" class="space-y-3.5 text-xs">
@@ -438,7 +438,7 @@
   <div id="sellModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border shadow-2xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-base font-black flex items-center gap-2"><i class="fa-solid fa-receipt text-theme"></i> 매도 실현손익 기록</h3>
+        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-receipt text-theme"></i> 매도 실현손익 기록</h3>
         <button onclick="closeModal('sellModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <form onsubmit="handleSellSubmit(event)" class="space-y-3.5 text-xs">
@@ -475,7 +475,6 @@
 
   <!-- ================= 자바스크립트 엔진 ================= -->
   <script>
-    /* 1. 구글 스프레드시트 초기 데이터 세팅 */
     const INITIAL_HOLDINGS = [
       { category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, avgPrice: 477.84, curPrice: 261.30, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (반등 시 점진 매도)' },
       { category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, avgPrice: 33.79, curPrice: 28.72, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (평단 회복 시 매도)' },
@@ -498,7 +497,7 @@
     ];
 
     const TOTAL_SEED_KRW = 35761903;
-    const MASTER_PIN = "5929"; // 고정 보안 PIN 번호 🔒
+    const MASTER_PIN = "5929";
 
     let holdings = JSON.parse(localStorage.getItem('alpha_holdings')) || INITIAL_HOLDINGS;
     let realizedList = JSON.parse(localStorage.getItem('alpha_realized')) || INITIAL_REALIZED;
@@ -506,7 +505,7 @@
     let donutChartInstance = null;
     let trendChartInstance = null;
 
-    /* 2. PIN 5929 잠금 제어 */
+    /* PIN 잠금 제어 */
     const pinDigits = document.querySelectorAll('.pin-digit');
     pinDigits.forEach((input, index) => {
       input.addEventListener('input', (e) => {
@@ -543,7 +542,7 @@
       pinDigits[0].focus();
     }
 
-    /* 3. 전일 마감 환율 자동 수신 엔진 (open.er-api.com) */
+    /* 전일 마감 환율 자동 수신 엔진 */
     async function fetchLatestExchangeRate() {
       const rateInput = document.getElementById('usdExchangeRate');
       const badge = document.getElementById('rateStatusBadge');
@@ -560,27 +559,29 @@
             return;
           }
         }
-        throw new Error('API 데이터 형식 이상');
+        throw new Error('API 예외');
       } catch (err) {
-        console.warn('환율 자동 수신 에러 (기본값 사용):', err);
+        console.warn('환율 자동 수신 에러 (기본값 유지):', err);
         badge.textContent = '수동 설정 ⚪';
       }
     }
 
-    /* 4. 테마 스위처 */
+    /* 테마 스위처 (HTML 및 BODY 최상단 완벽 주입) */
     function changeTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
       document.body.setAttribute('data-theme', themeName);
       localStorage.setItem('alpha_theme', themeName);
       renderCharts();
     }
 
     const savedTheme = localStorage.getItem('alpha_theme') || 'emerald';
+    document.documentElement.setAttribute('data-theme', savedTheme);
     document.body.setAttribute('data-theme', savedTheme);
     document.getElementById('themeSelector').value = savedTheme;
 
-    /* 5. 렌더링 총괄 */
+    /* 렌더링 총괄 */
     function renderAll() {
-      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1350;
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
       
       let totalValueKRW = 0;
       let totalValueUSD = 0;
@@ -676,7 +677,7 @@
         tr.innerHTML = `
           <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${h.category === '미국주식' ? 'bg-blue-950/60 text-blue-300 border border-blue-800/50' : h.category === '현금' ? 'bg-amber-950/60 text-amber-300 border border-amber-800/50' : 'bg-purple-950/60 text-purple-300'}">${h.category}</span></td>
           <td class="py-3 px-3"><strong class="text-white text-sm">${h.ticker}</strong> <span class="text-gray-400 text-xs">(${h.name})</span></td>
-          <td class="py-3 px-3 text-right font-bold">${h.shares.toLocaleString()}주</td>
+          <td class="py-3 px-3 text-right font-bold text-gray-200">${h.shares.toLocaleString()}주</td>
           <td class="py-3 px-3 text-right text-gray-300">${h.currency === 'USD' ? '$' + h.avgPrice.toFixed(2) : '₩' + h.avgPrice.toLocaleString()}</td>
           <td class="py-3 px-3 text-right font-bold text-white">${h.currency === 'USD' ? '$' + h.curPrice.toFixed(2) : '₩' + h.curPrice.toLocaleString()}</td>
           <td class="py-3 px-3 text-right">
@@ -745,7 +746,7 @@
     }
 
     function renderCharts() {
-      const currentTheme = document.body.getAttribute('data-theme') || 'emerald';
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'emerald';
       let primaryColor = '#10b981';
       if (currentTheme === 'cyan') primaryColor = '#06b6d4';
       if (currentTheme === 'gold') primaryColor = '#f59e0b';
@@ -935,7 +936,6 @@
       }
     }
 
-    // 초기 실행 시 전일 마감 환율 자동 수신 엔진 가동
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('sellDate').value = new Date().toISOString().split('T')[0];
       fetchLatestExchangeRate();
