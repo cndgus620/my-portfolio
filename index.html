@@ -77,7 +77,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-black" data-theme="stealth">
 
-  <!-- ================= 보안 PIN 5929 잠금 모달 ================= -->
+  <!-- ================= 스마트 4자리 즉시 자동 잠금 해제 PIN 모달 ================= -->
   <div id="pinLockModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md transition-opacity duration-300">
     <div class="custom-card p-8 rounded-2xl w-11/12 max-w-md text-center shadow-2xl border border-zinc-800">
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-400 text-2xl border border-sky-500/20">
@@ -119,6 +119,12 @@
           <input type="number" id="usdExchangeRate" value="1343" onchange="renderAll()" class="w-16 bg-transparent text-right font-num font-bold text-sky-400 focus:outline-none">
           <span class="text-zinc-400 ml-1">원</span>
           <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">동기화 완료 🟢</span>
+        </div>
+
+        <div class="relative">
+          <select id="themeSelector" onchange="changeTheme(this.value)" class="bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 font-bold rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-sky-400 cursor-pointer">
+            <option value="stealth">👑 Stealth Titanium</option>
+          </select>
         </div>
 
         <button onclick="lockDashboard()" title="화면 즉시 잠금" class="p-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 transition">
@@ -621,7 +627,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 1. 신규 매수 ================= -->
+  <!-- ================= 모달 1. 신규 매수 (매수 당시 환율 입력칸 추가!) ================= -->
   <div id="buyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -672,6 +678,13 @@
           <input type="hidden" id="buyCurrency" value="USD">
           <input type="number" step="any" id="buyPrice" placeholder="매입 단가 입력" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
+        
+        <!-- 🌟 [신규 추가] 미국 주식 선택 시 나타나는 매수 당시 환율 입력칸 🌟 -->
+        <div id="buyRateWrapper">
+          <label class="block text-zinc-400 mb-1 font-semibold">매수 당시 적용 환율 (원/달러)</label>
+          <input type="number" step="any" id="buyRate" placeholder="예: 1133.5" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
+        </div>
+
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매매 전략 / 비고</label>
           <input type="text" id="buyNote" placeholder="예: 분할 적립식 매수 / 20일선 돌파" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
@@ -1009,7 +1022,7 @@
     </div>
   </div>
 
-  <!-- ================= 🌟 자바스크립트 완전 무결 엔진 (차트 강제 렌더링 보장) 🌟 ================= -->
+  <!-- ================= 자바스크립트 완전 무결 엔진 (환율 필드 동적 제어 포함) ================= -->
   <script>
     const MASTER_PIN = "5929";
 
@@ -1041,7 +1054,6 @@
           modal.style.display = 'none';
           try {
             renderAll();
-            // 차트 렌더링 강제 재조정
             if (donutChartInstance) donutChartInstance.resize();
             if (yearlyChartInstance) yearlyChartInstance.resize();
             if (assetTrendChartInstance) assetTrendChartInstance.resize();
@@ -1320,17 +1332,28 @@
     let assetTrendChartInstance = null;
     let tickerProfitChartInstance = null;
 
-    /* 통화 버튼 제어 */
+    /* 통화 및 환율 필드 동적 노출 제어 */
     function setBuyCurrency(curr) {
       document.getElementById('buyCurrency').value = curr;
+      const rateWrapper = document.getElementById('buyRateWrapper');
+      const rateInput = document.getElementById('buyRate');
+      const topRate = document.getElementById('usdExchangeRate');
+
       if (curr === 'KRW') {
         document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         document.getElementById('buyPrice').placeholder = "매입 단가 (₩ 원화)";
+        if (rateWrapper) rateWrapper.style.display = 'none';
+        if (rateInput) rateInput.removeAttribute('required');
       } else {
         document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         document.getElementById('buyPrice').placeholder = "매입 단가 ($ 달러)";
+        if (rateWrapper) rateWrapper.style.display = 'block';
+        if (rateInput) {
+          rateInput.setAttribute('required', 'required');
+          if (!rateInput.value && topRate) rateInput.value = topRate.value;
+        }
       }
     }
 
@@ -1455,11 +1478,104 @@
     function changeDividendsPage(p) { currentPageDividends = p; renderAll(); }
     function changeTaxesPage(p) { currentPageTaxes = p; renderAll(); }
 
-    /* 7. 데이터 계산 & 렌더링 총괄 (오류 완전 차단 및 차트 즉시 리사이즈) */
+    /* 삭제 확인 처리 */
+    let pendingDelete = null;
+
+    function triggerDelete(type, index) {
+      pendingDelete = { type, index };
+      const title = document.getElementById('delModalTitle');
+      const details = document.getElementById('delModalDetails');
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+
+      let titleText = '기록 삭제 확인';
+      let html = '';
+
+      if (type === 'buy') {
+        const item = buyList[index];
+        if (!item) return;
+        titleText = '매수 기록 삭제 확인';
+        const buyRate = item.currency === 'USD' ? (Number(item.rate) || rate) : 1;
+        const totalKRW = (item.currency === 'USD') ? (Number(item.shares) * Number(item.price) * buyRate) : (Number(item.shares) * Number(item.price));
+        html = `
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매수 일자</span><strong class="text-white">${item.date}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white">${item.ticker} (${item.name || ''})</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매수 수량 / 단가</span><span class="text-white">${Number(item.shares).toLocaleString()}주 / ${item.currency === 'USD' ? '$' + Number(item.price).toFixed(2) : '₩' + Math.round(item.price).toLocaleString()}</span></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매입금액 (적용환율: ${buyRate})</span><span class="text-sky-400 font-bold">₩${Math.round(totalKRW).toLocaleString()}</span></div>
+          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">비고</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
+        `;
+      } else if (type === 'sell') {
+        const item = realizedList[index];
+        if (!item) return;
+        titleText = '매도 실현손익 기록 삭제 확인';
+        html = `
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매도 일자</span><strong class="text-white">${item.date}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white">${item.ticker}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매매손익</span><span class="text-zinc-300">₩${Number(item.gross).toLocaleString()}</span></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">확정 실현손익</span><span class="text-sky-400 font-bold">+₩${Number(item.net).toLocaleString()}</span></div>
+          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">비고</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
+        `;
+      } else if (type === 'deposit') {
+        const item = depositList[index];
+        if (!item) return;
+        titleText = '현금 입출금 기록 삭제 확인';
+        const valKRW = item.currency === 'KRW' ? Number(item.amount) : (Number(item.amount) * rate);
+        html = `
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">거래 일자</span><strong class="text-white">${item.date}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">구분 / 금액</span><strong class="text-white">${item.type === 'WITHDRAW' ? '출금' : '입금'} / ${item.currency === 'USD' ? '$' + Math.abs(item.amount).toLocaleString() : '₩' + Math.abs(item.amount).toLocaleString()}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="${valKRW >= 0 ? 'text-sky-400' : 'text-rose-400'} font-bold">${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}</span></div>
+          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">사유</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
+        `;
+      } else if (type === 'dividend') {
+        const item = dividendList[index];
+        if (!item) return;
+        titleText = '배당금 입금 기록 삭제 확인';
+        const valKRW = item.currency === 'KRW' ? Number(item.amount) : (Number(item.amount) * Number(item.rate));
+        html = `
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">입금 일자</span><strong class="text-white">${item.date}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">배당 종목</span><strong class="text-white">${item.ticker} (${item.name || ''})</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">실수령액</span><span class="text-white">${item.currency === 'USD' ? '$' + Number(item.amount).toFixed(2) : '₩' + Math.round(item.amount).toLocaleString()}</span></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 입금액</span><span class="text-sky-400 font-bold">+₩${Math.round(valKRW).toLocaleString()}</span></div>
+          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">비고</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
+        `;
+      } else if (type === 'tax') {
+        const item = taxList[index];
+        if (!item) return;
+        titleText = '외화 세금 출금 기록 삭제 확인';
+        const valKRW = item.currency === 'KRW' ? Number(item.amount) : (Number(item.amount) * Number(item.rate));
+        html = `
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">출금 일자</span><strong class="text-white">${item.date}</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목</span><strong class="text-white">${item.ticker} (${item.name || ''})</strong></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">출금 세액</span><span class="text-white">${item.currency === 'USD' ? '$' + Number(item.amount).toFixed(2) : '₩' + Math.round(item.amount).toLocaleString()}</span></div>
+          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="text-rose-400 font-bold">-₩${Math.round(valKRW).toLocaleString()}</span></div>
+          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">사유</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
+        `;
+      }
+
+      title.textContent = titleText;
+      details.innerHTML = html;
+      openModal('deleteConfirmModal');
+    }
+
+    function confirmExecuteDelete() {
+      if (!pendingDelete) return;
+      const { type, index } = pendingDelete;
+      if (type === 'buy' && buyList[index]) buyList.splice(index, 1);
+      else if (type === 'sell' && realizedList[index]) realizedList.splice(index, 1);
+      else if (type === 'deposit' && depositList[index]) depositList.splice(index, 1);
+      else if (type === 'dividend' && dividendList[index]) dividendList.splice(index, 1);
+      else if (type === 'tax' && taxList[index]) taxList.splice(index, 1);
+      
+      pendingDelete = null;
+      closeModal('deleteConfirmModal');
+      renderAll();
+    }
+
+    /* 8. 데이터 계산 & 렌더링 총괄 (과거 매수 시점 환율 b.rate 완벽 반영) */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
-      const rate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
+      const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
 
+      // 날짜 오름차순 정렬
       depositList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
       buyList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
       realizedList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
@@ -1468,7 +1584,7 @@
 
       let totalSeedKRW = 0;
       depositList.forEach(d => {
-        const valKRW = (d.currency === 'KRW') ? Number(d.amount || 0) : (Number(d.amount || 0) * rate);
+        const valKRW = (d.currency === 'KRW') ? Number(d.amount || 0) : (Number(d.amount || 0) * currentRate);
         totalSeedKRW += valKRW;
       });
 
@@ -1478,9 +1594,9 @@
       let cashKRW = 0;
 
       holdings.forEach(h => {
-        const valUSD = (h.currency === 'USD') ? (h.shares * h.curPrice) : (h.shares * h.curPrice / rate);
-        const valKRW = (h.currency === 'USD') ? (valUSD * rate) : (h.shares * h.curPrice);
-        const buyKRW = (h.currency === 'USD') ? (h.shares * h.avgPrice * rate) : (h.shares * h.avgPrice);
+        const valUSD = (h.currency === 'USD') ? (h.shares * h.curPrice) : (h.shares * h.curPrice / currentRate);
+        const valKRW = (h.currency === 'USD') ? (valUSD * currentRate) : (h.shares * h.curPrice);
+        const buyKRW = (h.currency === 'USD') ? (h.shares * h.avgPrice * currentRate) : (h.shares * h.avgPrice);
 
         totalValueUSD += valUSD;
         totalValueKRW += valKRW;
@@ -1492,16 +1608,19 @@
       const totalNetRealizedKRW = realizedList.reduce((acc, cur) => acc + Number(cur.net || 0), 0);
       const totalDividendKRW = dividendList.reduce((acc, cur) => {
         const amt = Number(cur.amount || 0);
-        const rt = Number(cur.rate || rate);
+        const rt = Number(cur.rate || currentRate);
         return acc + ((cur.currency === 'KRW') ? amt : (amt * rt));
       }, 0);
       const totalTaxKRW = taxList.reduce((acc, cur) => {
         const amt = Number(cur.amount || 0);
-        const rt = Number(cur.rate || rate);
+        const rt = Number(cur.rate || currentRate);
         return acc + ((cur.currency === 'KRW') ? amt : (amt * rt));
       }, 0);
+
+      // 🌟 [핵심] 매수 장부 총 매수금액: 개별 매수 당시 환율(b.rate) 적용! 🌟
       const totalBuysKRW = buyList.reduce((acc, cur) => {
-        const val = (cur.currency === 'USD') ? (Number(cur.shares || 0) * Number(cur.price || 0) * rate) : (Number(cur.shares || 0) * Number(cur.price || 0));
+        const buyRate = (cur.currency === 'USD') ? (Number(cur.rate) || currentRate) : 1;
+        const val = (cur.currency === 'USD') ? (Number(cur.shares || 0) * Number(cur.price || 0) * buyRate) : (Number(cur.shares || 0) * Number(cur.price || 0));
         return acc + val;
       }, 0);
 
@@ -1550,15 +1669,14 @@
       setText('dividendHeaderTotalKRW', '+₩' + Math.round(totalDividendKRW).toLocaleString());
       setText('taxHeaderTotalKRW', '-₩' + Math.round(totalTaxKRW).toLocaleString());
 
-      renderRebalanceGuide(totalValueUSD, rate);
-      renderHoldingsUI(rate, totalValueUSD);
-      renderBuysTable(rate);
+      renderRebalanceGuide(totalValueUSD, currentRate);
+      renderHoldingsUI(currentRate, totalValueUSD);
+      renderBuysTable(currentRate);
       renderRealizedTable();
-      renderDepositsTable(rate);
+      renderDepositsTable(currentRate);
       renderDividendsTable();
       renderTaxesTable();
 
-      // 🌟 모든 차트 렌더링 및 캔버스 크기 강제 갱신 🌟
       renderAllCharts(totalValueKRW, overallRealizedKRW, totalDividendKRW);
 
       localStorage.setItem('alpha_holdings', JSON.stringify(holdings));
@@ -1684,7 +1802,8 @@
       } else {
         pageItems.forEach((b, localIdx) => {
           const globalIndex = startIndex + localIdx;
-          const totalKRW = (b.currency === 'USD') ? (Number(b.shares) * Number(b.price) * rate) : (Number(b.shares) * Number(b.price));
+          const buyRate = (b.currency === 'USD') ? (Number(b.rate) || rate) : 1;
+          const totalKRW = (b.currency === 'USD') ? (Number(b.shares) * Number(b.price) * buyRate) : (Number(b.shares) * Number(b.price));
           const tr = document.createElement('tr');
           tr.className = "hover:bg-zinc-800/40 transition border-b border-zinc-800/40";
           tr.innerHTML = `
@@ -1940,7 +2059,8 @@
           </thead>
           <tbody class="divide-y divide-zinc-800/60 font-num">`;
         buyList.forEach(b => {
-          const totalKRW = (b.currency === 'USD') ? (Number(b.shares) * Number(b.price) * rate) : (Number(b.shares) * Number(b.price));
+          const buyRate = (b.currency === 'USD') ? (Number(b.rate) || rate) : 1;
+          const totalKRW = (b.currency === 'USD') ? (Number(b.shares) * Number(b.price) * buyRate) : (Number(b.shares) * Number(b.price));
           html += `<tr>
             <td class="py-2.5 px-3 text-zinc-400">${b.date}</td>
             <td class="py-2.5 px-3"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-zinc-800 border border-zinc-700 text-zinc-300">${b.category}</span></td>
@@ -2072,7 +2192,7 @@
       openModal('fullHistoryModal');
     }
 
-    /* 10. 차트 렌더링 총괄 (완벽한 리사이즈 보장) */
+    /* 10. 차트 렌더링 총괄 */
     function renderAllCharts(currentTotalAssetKRW, overallRealizedKRW, totalDividendKRW) {
       renderDonutChart();
       renderYearlyOverviewChart();
@@ -2518,6 +2638,271 @@
       if (b1) b1.className = level === 1 ? "px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black transition" : "px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition";
       if (b2) b2.className = level === 2 ? "px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black transition" : "px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition";
       renderDonutChart();
+    }
+
+    /* 🌟 신규 매수 제출 처리 (과거 매수 시점 환율 b.rate 저장) 🌟 */
+    function handleBuySubmit(e) {
+      e.preventDefault();
+      const curr = document.getElementById('buyCurrency').value;
+      const inputPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+      const shares = parseFloat(document.getElementById('buyShares').value) || 0;
+      const ticker = document.getElementById('buyTicker').value.toUpperCase().trim();
+      const name = document.getElementById('buyName').value.trim() || ticker;
+      const category = document.getElementById('buyCategory').value;
+      const date = document.getElementById('buyDate').value;
+      const note = document.getElementById('buyNote').value.trim() || '신규 편입';
+      const topRate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+      const customRate = curr === 'USD' ? (parseFloat(document.getElementById('buyRate').value) || topRate) : 1;
+
+      buyList.push({ date, category, ticker, name, shares, price: inputPrice, currency: curr, rate: customRate, note });
+
+      let exist = holdings.find(h => h.ticker === ticker);
+      if (exist) {
+        const totalOldCost = exist.shares * exist.avgPrice;
+        const totalNewCost = shares * inputPrice;
+        exist.shares += shares;
+        exist.avgPrice = (totalOldCost + totalNewCost) / exist.shares;
+        exist.curPrice = inputPrice;
+      } else {
+        holdings.push({ category, ticker, name, shares, avgPrice: inputPrice, curPrice: inputPrice, currency: curr, target: 0, note });
+      }
+
+      closeModal('buyModal');
+      e.target.reset();
+      setBuyCurrency('USD');
+      renderAll();
+    }
+
+    function handleSellSubmit(e) {
+      e.preventDefault();
+      const newSell = {
+        date: document.getElementById('sellDate').value,
+        ticker: document.getElementById('sellTicker').value.toUpperCase().trim(),
+        gross: parseInt(document.getElementById('sellGrossProfit').value) || 0,
+        net: parseInt(document.getElementById('sellNetProfit').value) || 0,
+        note: document.getElementById('sellNote').value.trim() || '수익 실현'
+      };
+
+      realizedList.push(newSell);
+      closeModal('sellModal');
+      e.target.reset();
+      renderAll();
+    }
+
+    function handleDepositSubmit(e) {
+      e.preventDefault();
+      const type = document.getElementById('depositType').value;
+      const curr = document.getElementById('depositCurrency').value;
+      const rawAmt = parseFloat(document.getElementById('depositAmount').value) || 0;
+      const amt = (type === 'WITHDRAW') ? -Math.abs(rawAmt) : Math.abs(rawAmt);
+      const date = document.getElementById('depositDate').value;
+      const note = document.getElementById('depositNote').value.trim() || (type === 'DEPOSIT' ? '추가 입금' : '계좌 출금');
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+
+      depositList.push({ date, type, currency: curr, amount: amt, note });
+
+      let cashHolding = holdings.find(h => h.ticker === 'CASH');
+      if (cashHolding) {
+        if (curr === 'USD') {
+          cashHolding.curPrice += amt;
+          cashHolding.avgPrice = cashHolding.curPrice;
+        } else {
+          cashHolding.curPrice += (amt / rate);
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
+
+      closeModal('depositModal');
+      e.target.reset();
+      setDepositType('DEPOSIT');
+      setDepositCurrency('KRW');
+      renderAll();
+    }
+
+    function handleDividendSubmit(e) {
+      e.preventDefault();
+      const date = document.getElementById('divDate').value;
+      const ticker = document.getElementById('divTicker').value.toUpperCase().trim();
+      const name = document.getElementById('divName').value.trim() || ticker;
+      const curr = document.getElementById('divCurrency').value;
+      const amount = parseFloat(document.getElementById('divAmount').value) || 0;
+      const tax = parseFloat(document.getElementById('divTax').value) || 0;
+      const rate = parseFloat(document.getElementById('divRate').value) || 1343;
+      const note = document.getElementById('divNote').value.trim() || '배당금 입금';
+
+      dividendList.push({ date, ticker, name, currency: curr, amount, tax, rate, note });
+
+      let cashHolding = holdings.find(h => h.ticker === 'CASH');
+      if (cashHolding) {
+        if (curr === 'USD') {
+          cashHolding.curPrice += amount;
+          cashHolding.avgPrice = cashHolding.curPrice;
+        } else {
+          cashHolding.curPrice += (amount / rate);
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
+
+      closeModal('dividendModal');
+      e.target.reset();
+      setDivCurrency('USD');
+      renderAll();
+    }
+
+    function handleTaxSubmit(e) {
+      e.preventDefault();
+      const date = document.getElementById('taxDate').value;
+      const ticker = document.getElementById('taxTicker').value.toUpperCase().trim();
+      const name = document.getElementById('taxName').value.trim() || ticker;
+      const curr = document.getElementById('taxCurrency').value;
+      const amount = parseFloat(document.getElementById('taxAmount').value) || 0;
+      const rate = parseFloat(document.getElementById('taxRate').value) || 1343;
+      const note = document.getElementById('taxNote').value.trim() || '외화 세금 출금';
+
+      taxList.push({ date, ticker, name, currency: curr, amount, rate, note });
+
+      let cashHolding = holdings.find(h => h.ticker === 'CASH');
+      if (cashHolding) {
+        if (curr === 'USD') {
+          cashHolding.curPrice -= amount;
+          cashHolding.avgPrice = cashHolding.curPrice;
+        } else {
+          cashHolding.curPrice -= (amount / rate);
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
+
+      closeModal('taxModal');
+      e.target.reset();
+      setTaxCurrency('USD');
+      renderAll();
+    }
+
+    function openDeleteSellModal(index) {
+      targetDeleteSellIndex = index;
+      const item = realizedList[index];
+      if (!item) return;
+
+      document.getElementById('delSellDate').textContent = item.date;
+      document.getElementById('delSellTicker').textContent = item.ticker;
+      document.getElementById('delSellGross').textContent = '₩' + Number(item.gross || 0).toLocaleString();
+      document.getElementById('delSellNet').textContent = '+₩' + Number(item.net || 0).toLocaleString();
+      document.getElementById('delSellNote').textContent = item.note || '-';
+
+      openModal('deleteSellConfirmModal');
+    }
+
+    function confirmExecuteDeleteSell() {
+      if (targetDeleteSellIndex >= 0 && targetDeleteSellIndex < realizedList.length) {
+        realizedList.splice(targetDeleteSellIndex, 1);
+        targetDeleteSellIndex = -1;
+        closeModal('deleteSellConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteBuyModal(index) {
+      targetDeleteBuyIndex = index;
+      const item = buyList[index];
+      if (!item) return;
+
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+      const buyRate = (item.currency === 'USD') ? (Number(item.rate) || rate) : 1;
+      const totalKRW = (item.currency === 'USD') ? (Number(item.shares || 0) * Number(item.price || 0) * buyRate) : (Number(item.shares || 0) * Number(item.price || 0));
+
+      document.getElementById('delBuyDate').textContent = item.date;
+      document.getElementById('delBuyCategory').textContent = item.category;
+      document.getElementById('delBuyTickerName').textContent = `${item.ticker} (${item.name})`;
+      document.getElementById('delBuyShares').textContent = `${Number(item.shares || 0).toLocaleString()}주`;
+      document.getElementById('delBuyPrice').textContent = item.currency === 'USD' ? '$' + Number(item.price || 0).toFixed(2) : '₩' + Math.round(Number(item.price || 0)).toLocaleString();
+      document.getElementById('delBuyTotal').textContent = '₩' + Math.round(totalKRW).toLocaleString();
+      document.getElementById('delBuyNote').textContent = item.note || '-';
+
+      openModal('deleteBuyConfirmModal');
+    }
+
+    function confirmExecuteDeleteBuy() {
+      if (targetDeleteBuyIndex >= 0 && targetDeleteBuyIndex < buyList.length) {
+        buyList.splice(targetDeleteBuyIndex, 1);
+        targetDeleteBuyIndex = -1;
+        closeModal('deleteBuyConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteDepositModal(index) {
+      targetDeleteDepositIndex = index;
+      const item = depositList[index];
+      if (!item) return;
+
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+      const valKRW = (item.currency === 'USD') ? (Number(item.amount || 0) * rate) : Number(item.amount || 0);
+
+      document.getElementById('delDepDate').textContent = item.date;
+      document.getElementById('delDepAmount').textContent = `${item.type === 'WITHDRAW' ? '출금: ' : '입금: '}${item.currency === 'USD' ? '$' + Math.abs(Number(item.amount || 0)).toLocaleString() : '₩' + Math.abs(Number(item.amount || 0)).toLocaleString()}`;
+      document.getElementById('delDepKRW').textContent = `${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}`;
+      document.getElementById('delDepNote').textContent = item.note || '-';
+
+      openModal('deleteDepositConfirmModal');
+    }
+
+    function confirmExecuteDeleteDeposit() {
+      if (targetDeleteDepositIndex >= 0 && targetDeleteDepositIndex < depositList.length) {
+        depositList.splice(targetDeleteDepositIndex, 1);
+        targetDeleteDepositIndex = -1;
+        closeModal('deleteDepositConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteDividendModal(index) {
+      targetDeleteDividendIndex = index;
+      const item = dividendList[index];
+      if (!item) return;
+
+      const valKRW = (item.currency === 'KRW') ? Number(item.amount || 0) : (Number(item.amount || 0) * Number(item.rate || 1343));
+
+      document.getElementById('delDivDate').textContent = item.date;
+      document.getElementById('delDivTicker').textContent = `${item.ticker} (${item.name})`;
+      document.getElementById('delDivAmount').textContent = item.currency === 'USD' ? '$' + Number(item.amount || 0).toFixed(2) : '₩' + Math.round(Number(item.amount || 0)).toLocaleString();
+      document.getElementById('delDivKRW').textContent = '+₩' + Math.round(valKRW).toLocaleString();
+      document.getElementById('delDivNote').textContent = item.note || '-';
+
+      openModal('deleteDividendConfirmModal');
+    }
+
+    function confirmExecuteDeleteDividend() {
+      if (targetDeleteDividendIndex >= 0 && targetDeleteDividendIndex < dividendList.length) {
+        dividendList.splice(targetDeleteDividendIndex, 1);
+        targetDeleteDividendIndex = -1;
+        closeModal('deleteDividendConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteTaxModal(index) {
+      targetDeleteTaxIndex = index;
+      const item = taxList[index];
+      if (!item) return;
+
+      const valKRW = (item.currency === 'KRW') ? Number(item.amount || 0) : (Number(item.amount || 0) * Number(item.rate || 1343));
+
+      document.getElementById('delTaxDate').textContent = item.date;
+      document.getElementById('delTaxTicker').textContent = `${item.ticker} (${item.name})`;
+      document.getElementById('delTaxAmount').textContent = item.currency === 'USD' ? '$' + Number(item.amount || 0).toFixed(2) : '₩' + Math.round(Number(item.amount || 0)).toLocaleString();
+      document.getElementById('delTaxKRW').textContent = '-₩' + Math.round(valKRW).toLocaleString();
+      document.getElementById('delTaxNote').textContent = item.note || '-';
+
+      openModal('deleteTaxConfirmModal');
+    }
+
+    function confirmExecuteDeleteTax() {
+      if (targetDeleteTaxIndex >= 0 && targetDeleteTaxIndex < taxList.length) {
+        taxList.splice(targetDeleteTaxIndex, 1);
+        targetDeleteTaxIndex = -1;
+        closeModal('deleteTaxConfirmModal');
+        renderAll();
+      }
     }
 
     /* 초기 진입 이벤트 */
