@@ -77,7 +77,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-black" data-theme="stealth">
 
-  <!-- ================= 스마트 4자리 즉시 자동 잠금 해제 PIN 모달 ================= -->
+  <!-- ================= 4자리 즉시 자동 잠금 해제 PIN 모달 ================= -->
   <div id="pinLockModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md transition-opacity duration-300">
     <div class="custom-card p-8 rounded-2xl w-11/12 max-w-md text-center shadow-2xl border border-zinc-800">
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-400 text-2xl border border-sky-500/20">
@@ -134,7 +134,7 @@
     </div>
   </header>
 
-  <!-- ================= 메인 컨테이너 (와이드 1650px) ================= -->
+  <!-- ================= 메인 컨테이너 ================= -->
   <main class="flex-1 max-w-[1650px] w-full mx-auto px-4 lg:px-10 py-6 space-y-6">
 
     <!-- ================= 히어로 섹션 ================= -->
@@ -245,7 +245,7 @@
       </div>
     </section>
 
-    <!-- ================= 차트 영역 ================= -->
+    <!-- ================= 🌟 차트 1 & 2: 도넛 차트(고대비 보석 팔레트 & 테두리선 제거) 🌟 ================= -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <div class="lg:col-span-5 custom-card rounded-2xl p-5 shadow-lg flex flex-col justify-between">
         <div class="flex items-center justify-between mb-3">
@@ -281,6 +281,7 @@
       </div>
     </section>
 
+    <!-- ================= 차트 3: 총 자산 가치 증감 추이 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         <div>
@@ -299,6 +300,7 @@
       </div>
     </section>
 
+    <!-- ================= 차트 4: 월간 상세 실현손익 차트 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         <div>
@@ -318,13 +320,14 @@
       </div>
     </section>
 
+    <!-- ================= 차트 5: 종목별 실현손익 기여도 & 랭킹 리스트 (FNGU/ERX/GDXU 색상 완전 분리!) ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5 border-b border-zinc-800 pb-4">
         <div>
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-trophy text-amber-400"></i> 종목별 누적 실현손익 기여도 & 수익 랭킹 (Profit Champions)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">매도 익절 및 배당금을 지급한 모든 종목의 실제 순익과 전체 기여율(%)을 분석합니다 🏆</p>
+          <p class="text-xs text-zinc-400 mt-0.5">매도 익절 및 배당금을 지급한 모든 종목의 실제 순익과 전체 기여율(%)을 뚜렷한 개별 컬러로 분석합니다 🏆</p>
         </div>
         <span class="text-xs font-num font-bold text-sky-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl" id="rankTotalBadge">
           총 확정 실현손익: +0만 원
@@ -347,7 +350,7 @@
       </div>
     </section>
 
-    <!-- ================= 6대 장부 2단 나란히 (2×3 대칭 그리드) ================= -->
+    <!-- ================= 🌟 6대 장부 2단 나란히 (2×3 대칭 그리드) 🌟 ================= -->
 
     <!-- ROW 1: [현재 보유 자산 잔고] ↔ [투자현금 입/출금 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
@@ -394,7 +397,7 @@
         </div>
       </section>
 
-      <!-- 2. 투자현금 입/출금 장부 -->
+      <!-- 2. 투자현금 입/출금 장부 (스마트 윈도우 페이징 적용!) -->
       <section onclick="openFullHistoryModal('deposits')" class="custom-card interactive-ledger-card rounded-2xl p-5 lg:p-6 shadow-lg flex flex-col justify-between" title="카드를 클릭하면 전체 입출금 내역이 크게 열립니다 👆">
         <div>
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
@@ -429,7 +432,7 @@
           </div>
         </div>
 
-        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex items-center justify-between text-xs text-zinc-400" id="depositsPaginationBar"></div>
+        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400" id="depositsPaginationBar"></div>
       </section>
 
     </div>
@@ -437,7 +440,7 @@
     <!-- ROW 2: [매수 거래 장부] ↔ [실현손익 확정 거래 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
       
-      <!-- 3. 매수 거래 장부 -->
+      <!-- 3. 매수 거래 장부 (스마트 윈도우 페이징 적용!) -->
       <section onclick="openFullHistoryModal('buys')" class="custom-card interactive-ledger-card rounded-2xl p-5 lg:p-6 shadow-lg flex flex-col justify-between" title="카드를 클릭하면 전체 매수 내역이 크게 열립니다 👆">
         <div>
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
@@ -472,10 +475,10 @@
           </div>
         </div>
 
-        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex items-center justify-between text-xs text-zinc-400" id="buysPaginationBar"></div>
+        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400" id="buysPaginationBar"></div>
       </section>
 
-      <!-- 4. 실현손익 확정 거래 장부 -->
+      <!-- 4. 실현손익 확정 거래 장부 (스마트 윈도우 페이징 적용!) -->
       <section onclick="openFullHistoryModal('realized')" class="custom-card interactive-ledger-card rounded-2xl p-5 lg:p-6 shadow-lg flex flex-col justify-between" title="카드를 클릭하면 전체 매도 익절 내역이 크게 열립니다 👆">
         <div>
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
@@ -486,7 +489,7 @@
               <span class="text-[11px] font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-2.5 py-0.5 rounded-lg flex items-center gap-1.5">
                 <span>확정: <strong id="realizedHeaderNet" class="text-sky-400 font-bold">+₩0</strong></span>
                 <span class="text-zinc-600">|</span>
-                <span>누적: <strong id="realizedHeaderGross" class="text-zinc-200 font-bold">₩0</strong></span>
+                <span>누적: <strong id="realizedHeaderGross" class="text-zinc-200">₩0</strong></span>
               </span>
             </div>
             <button onclick="event.stopPropagation(); openModal('sellModal')" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
@@ -512,7 +515,7 @@
           </div>
         </div>
 
-        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex items-center justify-between text-xs text-zinc-400" id="realizedPaginationBar"></div>
+        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400" id="realizedPaginationBar"></div>
       </section>
 
     </div>
@@ -520,7 +523,7 @@
     <!-- ROW 3: [배당금 입금 이력 장부] ↔ [외화 세금 출금 내역 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
 
-      <!-- 5. 배당금 입금 이력 장부 -->
+      <!-- 5. 배당금 입금 이력 장부 (스마트 윈도우 페이징 적용!) -->
       <section onclick="openFullHistoryModal('dividends')" class="custom-card interactive-ledger-card rounded-2xl p-5 lg:p-6 shadow-lg flex flex-col justify-between" title="카드를 클릭하면 전체 배당금 입금 내역이 크게 열립니다 👆">
         <div>
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
@@ -555,10 +558,10 @@
           </div>
         </div>
 
-        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex items-center justify-between text-xs text-zinc-400" id="dividendsPaginationBar"></div>
+        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400" id="dividendsPaginationBar"></div>
       </section>
 
-      <!-- 6. 외화 세금 출금 내역 장부 -->
+      <!-- 6. 외화 세금 출금 내역 장부 (스마트 윈도우 페이징 적용!) -->
       <section onclick="openFullHistoryModal('taxes')" class="custom-card interactive-ledger-card rounded-2xl p-5 lg:p-6 shadow-lg flex flex-col justify-between" title="카드를 클릭하면 전체 세금 출금 내역이 크게 열립니다 👆">
         <div>
           <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
@@ -593,7 +596,7 @@
           </div>
         </div>
 
-        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex items-center justify-between text-xs text-zinc-400" id="taxesPaginationBar"></div>
+        <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800/80 mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400" id="taxesPaginationBar"></div>
       </section>
 
     </div>
@@ -627,7 +630,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 1. 신규 매수 (매수 당시 환율 입력칸 추가!) ================= -->
+  <!-- ================= 모달 1. 신규 매수 (매수 당시 환율 입력칸 탑재!) ================= -->
   <div id="buyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -679,7 +682,7 @@
           <input type="number" step="any" id="buyPrice" placeholder="매입 단가 입력" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
         
-        <!-- 🌟 [신규 추가] 미국 주식 선택 시 나타나는 매수 당시 환율 입력칸 🌟 -->
+        <!-- 매수 당시 환율 입력칸 (미국 주식 시 노출) -->
         <div id="buyRateWrapper">
           <label class="block text-zinc-400 mb-1 font-semibold">매수 당시 적용 환율 (원/달러)</label>
           <input type="number" step="any" id="buyRate" placeholder="예: 1133.5" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
@@ -895,7 +898,7 @@
 
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">거래처 및 사유</label>
-          <input type="text" id="depositNote" placeholder="예: 증권계좌 투자금 추가 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
+          <input type="text" id="depositNote" placeholder="예: 증권계좌 투자금 추가 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
         </div>
 
         <button type="submit" id="btnDepositSubmit" class="w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg">
@@ -905,124 +908,25 @@
     </div>
   </div>
 
-  <!-- ================= 삭제 확인 팝업 모달들 ================= -->
-  <div id="deleteSellConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
+  <!-- ================= 단일 통합 2중 안전 삭제 확인 모달 ================= -->
+  <div id="deleteConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
       <div class="text-center mb-4">
         <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-950/60 border border-rose-800/80 flex items-center justify-center text-rose-400 text-2xl">
           <i class="fa-solid fa-triangle-exclamation"></i>
         </div>
-        <h3 class="text-base font-black text-white">매도 실현손익 기록 삭제 확인</h3>
-        <p class="text-xs text-zinc-400 mt-1">정말로 아래 매도 기록을 영구 삭제하시겠습니까?</p>
+        <h3 class="text-base font-black text-white" id="delModalTitle">기록 삭제 확인</h3>
+        <p class="text-xs text-zinc-400 mt-1">정말로 아래 내역을 영구 삭제하시겠습니까?</p>
       </div>
-      <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5">
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매도 일자</span><strong class="text-white" id="delSellDate">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white text-sm" id="delSellTicker">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매매손익 (KRW)</span><span class="text-zinc-300 font-bold" id="delSellGross">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">확정 실현손익 (KRW)</span><span class="text-sky-400 font-bold text-sm" id="delSellNet">-</span></div>
-        <div class="flex justify-between pt-0.5"><span class="text-zinc-500">매매 비고</span><span class="text-zinc-300 truncate max-w-[200px]" id="delSellNote">-</span></div>
-      </div>
+      <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5" id="delModalDetails"></div>
       <div class="grid grid-cols-2 gap-3">
-        <button onclick="closeModal('deleteSellConfirmModal')" class="py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl border border-zinc-700 text-xs transition">취소</button>
-        <button onclick="confirmExecuteDeleteSell()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-rose-900/40">네, 삭제합니다 🗑️</button>
+        <button onclick="closeModal('deleteConfirmModal')" class="py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl border border-zinc-700 text-xs transition">취소</button>
+        <button onclick="confirmExecuteDelete()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-rose-900/40">네, 삭제합니다 🗑️</button>
       </div>
     </div>
   </div>
 
-  <div id="deleteBuyConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
-    <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
-      <div class="text-center mb-4">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-950/60 border border-rose-800/80 flex items-center justify-center text-rose-400 text-2xl">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <h3 class="text-base font-black text-white">매수 기록 삭제 확인</h3>
-        <p class="text-xs text-zinc-400 mt-1">정말로 아래 매수 기록을 영구 삭제하시겠습니까?</p>
-      </div>
-      <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5">
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매수 일자</span><strong class="text-white" id="delBuyDate">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">자산 구분</span><span class="text-zinc-300 font-bold" id="delBuyCategory">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker / 명칭)</span><strong class="text-white text-sm" id="delBuyTickerName">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매수 수량</span><span class="text-white font-bold" id="delBuyShares">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매입 단가</span><span class="text-zinc-200 font-bold" id="delBuyPrice">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매입금액 (환산)</span><span class="text-white font-bold" id="delBuyTotal">-</span></div>
-        <div class="flex justify-between pt-0.5"><span class="text-zinc-500">매매 비고</span><span class="text-zinc-300 truncate max-w-[200px]" id="delBuyNote">-</span></div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="closeModal('deleteBuyConfirmModal')" class="py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl border border-zinc-700 text-xs transition">취소</button>
-        <button onclick="confirmExecuteDeleteBuy()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-rose-900/40">네, 삭제합니다 🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="deleteDepositConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
-    <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
-      <div class="text-center mb-4">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-950/60 border border-rose-800/80 flex items-center justify-center text-rose-400 text-2xl">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <h3 class="text-base font-black text-white">현금 입출금 기록 삭제 확인</h3>
-        <p class="text-xs text-zinc-400 mt-1">정말로 아래 내역을 삭제하시겠습니까?</p>
-      </div>
-      <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5">
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">거래 일자</span><strong class="text-white" id="delDepDate">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">거래 구분 / 금액</span><span class="text-white font-bold" id="delDepAmount">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="text-sky-400 font-bold" id="delDepKRW">-</span></div>
-        <div class="flex justify-between pt-0.5"><span class="text-zinc-500">거래처 및 사유</span><span class="text-zinc-300 truncate max-w-[200px]" id="delDepNote">-</span></div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="closeModal('deleteDepositConfirmModal')" class="py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl border border-zinc-700 text-xs transition">취소</button>
-        <button onclick="confirmExecuteDeleteDeposit()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-rose-900/40">네, 삭제합니다 🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="deleteDividendConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
-    <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
-      <div class="text-center mb-4">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-950/60 border border-rose-800/80 flex items-center justify-center text-rose-400 text-2xl">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <h3 class="text-base font-black text-white">배당금 입금 기록 삭제 확인</h3>
-        <p class="text-xs text-zinc-400 mt-1">정말로 아래 배당금 입금 기록을 삭제하시겠습니까?</p>
-      </div>
-      <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5">
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">입금 일자</span><strong class="text-white" id="delDivDate">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">배당 종목</span><strong class="text-white text-sm" id="delDivTicker">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">세후 실수령액</span><span class="text-white font-bold" id="delDivAmount">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">원화 환산액</span><span class="text-sky-400 font-bold" id="delDivKRW">-</span></div>
-        <div class="flex justify-between pt-0.5"><span class="text-zinc-500">배당 비고</span><span class="text-zinc-300 truncate max-w-[200px]" id="delDivNote">-</span></div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="closeModal('deleteDividendConfirmModal')" class="py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl border border-zinc-700 text-xs transition">취소</button>
-        <button onclick="confirmExecuteDeleteDividend()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-rose-900/40">네, 삭제합니다 🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="deleteTaxConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
-    <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
-      <div class="text-center mb-4">
-        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-950/60 border border-rose-800/80 flex items-center justify-center text-rose-400 text-2xl">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <h3 class="text-base font-black text-white">외화 세금 출금 기록 삭제 확인</h3>
-        <p class="text-xs text-zinc-400 mt-1">정말로 아래 세금 출금 기록을 삭제하시겠습니까?</p>
-      </div>
-      <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5">
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">출금 일자</span><strong class="text-white" id="delTaxDate">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white text-sm" id="delTaxTicker">-</strong></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">외화 출금세액</span><span class="text-white font-bold" id="delTaxAmount">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="text-rose-400 font-bold" id="delTaxKRW">-</span></div>
-        <div class="flex justify-between pt-0.5"><span class="text-zinc-500">세금 사유</span><span class="text-zinc-300 truncate max-w-[200px]" id="delTaxNote">-</span></div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="closeModal('deleteTaxConfirmModal')" class="py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl border border-zinc-700 text-xs transition">취소</button>
-        <button onclick="confirmExecuteDeleteTax()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-rose-900/40">네, 삭제합니다 🗑️</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= 자바스크립트 완전 무결 엔진 (환율 필드 동적 제어 포함) ================= -->
+  <!-- ================= 🌟 자바스크립트 엔진 (스마트 윈도우 페이징 & 컬러 완벽 적용) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
@@ -1106,6 +1010,7 @@
             inputs[index + 1].select();
           }
 
+          // 4자리 채워지는 순간 버튼 클릭 없이 자동 잠금 해제!
           const entered = getEnteredPin();
           if (entered.length === 4) {
             if (entered === MASTER_PIN) unlockDashboard();
@@ -1140,9 +1045,11 @@
       });
     }
 
+    /* 2. 모달 열기/닫기 */
     function openModal(id) { const m = document.getElementById(id); if (m) m.classList.remove('hidden'); }
     function closeModal(id) { const m = document.getElementById(id); if (m) m.classList.add('hidden'); }
 
+    /* 3. 테마 스위처 */
     function changeTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
       document.body.setAttribute('data-theme', themeName);
@@ -1156,6 +1063,7 @@
     const themeSelectorEl = document.getElementById('themeSelector');
     if (themeSelectorEl) themeSelectorEl.value = savedTheme;
 
+    /* 4. 초기 데이터 정의 */
     const INITIAL_HOLDINGS = [
       { category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, avgPrice: 477.84, curPrice: 261.30, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (반등 시 점진 매도)' },
       { category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, avgPrice: 33.79, curPrice: 28.72, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (평단 회복 시 매도)' },
@@ -1213,20 +1121,23 @@
     const INITIAL_DIVIDENDS = [];
     const INITIAL_TAXES = [];
 
+    /* 🌟 고대비 보석 컬러 매핑 (FNGU: 오렌지 vs ERX: 에메랄드 완벽 분리!) 🌟 */
     const TICKER_COLOR_MAP = {
-      'TQQQ': '#38bdf8',
-      'GDXU': '#fbbf24',
-      'TECL': '#a855f7',
-      '005930': '#10b981',
-      '005930(삼성전자)': '#10b981',
-      '삼성전자': '#10b981',
-      'ERX': '#f97316',
-      'SOXL': '#06b6d4',
-      'LABU': '#f43f5e',
-      'WEBL': '#ec4899',
-      'BITX': '#eab308',
+      'TQQQ': '#38bdf8', // 맑은 스카이 블루
+      'GDXU': '#fbbf24', // 황금 앰버 골드 (금광 ETF)
+      'TECL': '#8b5cf6', // 딥 바이올렛
+      '005930': '#14b8a6', // 틸 그린
+      '005930(삼성전자)': '#14b8a6',
+      '삼성전자': '#14b8a6',
+      'FNGU': '#f97316', // 비비드 오렌지 (빅테크)
+      'ERX': '#10b981',  // 🌟 싱그러운 에메랄드 그린 (FNGU와 극명하게 다름!) 🌟
+      'ERY': '#ef4444',  // 레드
+      'SOXL': '#06b6d4', // 일렉트릭 시안 (반도체)
+      'LABU': '#f43f5e', // 코랄 로즈 (바이오)
+      'WEBL': '#a855f7', // 퍼플 (인터넷)
+      'BITX': '#eab308', // 골드
       'BTC': '#eab308',
-      'CASH': '#71717a'
+      'CASH': '#64748b'  // 티타늄 슬레이트
     };
 
     const TICKER_NAME_MAP = {
@@ -1320,154 +1231,80 @@
     let currentPageDividends = 1;
     let currentPageTaxes = 1;
 
-    let targetDeleteSellIndex = -1;
-    let targetDeleteBuyIndex = -1;
-    let targetDeleteDepositIndex = -1;
-    let targetDeleteDividendIndex = -1;
-    let targetDeleteTaxIndex = -1;
-
     let donutChartInstance = null;
     let yearlyChartInstance = null;
     let monthlyChartInstance = null;
     let assetTrendChartInstance = null;
     let tickerProfitChartInstance = null;
 
-    /* 통화 및 환율 필드 동적 노출 제어 */
-    function setBuyCurrency(curr) {
-      document.getElementById('buyCurrency').value = curr;
-      const rateWrapper = document.getElementById('buyRateWrapper');
-      const rateInput = document.getElementById('buyRate');
-      const topRate = document.getElementById('usdExchangeRate');
-
-      if (curr === 'KRW') {
-        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        document.getElementById('buyPrice').placeholder = "매입 단가 (₩ 원화)";
-        if (rateWrapper) rateWrapper.style.display = 'none';
-        if (rateInput) rateInput.removeAttribute('required');
-      } else {
-        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        document.getElementById('buyPrice').placeholder = "매입 단가 ($ 달러)";
-        if (rateWrapper) rateWrapper.style.display = 'block';
-        if (rateInput) {
-          rateInput.setAttribute('required', 'required');
-          if (!rateInput.value && topRate) rateInput.value = topRate.value;
-        }
-      }
-    }
-
-    function autoSelectCurrencyByCategory(cat, currencyCallback) {
-      if (cat === '국내주식' || cat === '가상자산') currencyCallback('KRW');
-      else currencyCallback('USD');
-    }
-
-    function setDepositType(type) {
-      document.getElementById('depositType').value = type;
-      const btnDep = document.getElementById('btnTypeDeposit');
-      const btnWith = document.getElementById('btnTypeWithdraw');
-      const submitBtn = document.getElementById('btnDepositSubmit');
-      const label = document.getElementById('depositAmountLabel');
-      const curr = document.getElementById('depositCurrency').value;
-
-      if (type === 'DEPOSIT') {
-        btnDep.className = "py-2.5 rounded-lg font-extrabold border border-emerald-500 bg-emerald-500/20 text-emerald-300 transition shadow";
-        btnWith.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-white transition";
-        submitBtn.className = "w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg";
-        submitBtn.textContent = "입금 장부 반영 & 현금(CASH) 충전 💵";
-        label.textContent = curr === 'KRW' ? "입금 금액 (원화 ₩)" : "입금 금액 (달러 $)";
-      } else {
-        btnWith.className = "py-2.5 rounded-lg font-extrabold border border-rose-500 bg-rose-500/20 text-rose-300 transition shadow";
-        btnDep.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-white transition";
-        submitBtn.className = "w-full py-3 bg-rose-600 text-white font-extrabold rounded-xl hover:bg-rose-500 transition mt-2 shadow-lg";
-        submitBtn.textContent = "출금 장부 반영 & 현금(CASH) 차감 💸";
-        label.textContent = curr === 'KRW' ? "출금 금액 (원화 ₩)" : "출금 금액 (달러 $)";
-      }
-    }
-
-    function setDepositCurrency(curr) {
-      document.getElementById('depositCurrency').value = curr;
-      const type = document.getElementById('depositType').value;
-      const label = document.getElementById('depositAmountLabel');
-      const input = document.getElementById('depositAmount');
-      const actionName = type === 'DEPOSIT' ? '입금' : '출금';
-
-      if (curr === 'KRW') {
-        document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = `${actionName} 금액 (원화 ₩)`;
-        input.placeholder = "예: 1000000";
-      } else {
-        document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = `${actionName} 금액 (달러 $)`;
-        input.placeholder = "예: 1000";
-      }
-    }
-
-    function setDivCurrency(curr) {
-      document.getElementById('divCurrency').value = curr;
-      const label = document.getElementById('divAmountLabel');
-      const amountInput = document.getElementById('divAmount');
-
-      if (curr === 'KRW') {
-        document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "세후 입금액 (원화 ₩)";
-        amountInput.placeholder = "예: 50000";
-      } else {
-        document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "세후 입금액 (외화 $)";
-        amountInput.placeholder = "예: 0.94";
-      }
-    }
-
-    function setTaxCurrency(curr) {
-      document.getElementById('taxCurrency').value = curr;
-      const label = document.getElementById('taxAmountLabel');
-      const amountInput = document.getElementById('taxAmount');
-
-      if (curr === 'KRW') {
-        document.getElementById('btnTaxKRW').className = "py-2 rounded-lg font-bold border border-rose-400 bg-rose-400 text-black transition shadow";
-        document.getElementById('btnTaxUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "출금 세액 (원화 ₩)";
-        amountInput.placeholder = "예: 15000";
-      } else {
-        document.getElementById('btnTaxUSD').className = "py-2 rounded-lg font-bold border border-rose-400 bg-rose-400 text-black transition shadow";
-        document.getElementById('btnTaxKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "외화정산금액 (출금세액 $)";
-        amountInput.placeholder = "예: 5.20";
-      }
-    }
-
+    /* 🌟 스마트 윈도우 페이징 UI 렌더러 ([맨앞] [1] [...] [맨끝] 지원) 🌟 */
     function renderPaginationUI(containerId, currentPage, totalPages, onPageClickFnName) {
       const bar = document.getElementById(containerId);
       if (!bar) return;
 
       if (totalPages <= 1) {
-        bar.innerHTML = `<span class="text-zinc-500">1 / 1 페이지 (총 ${PAGE_SIZE}개 이하)</span>`;
+        bar.innerHTML = `<span class="text-zinc-500 font-num text-[11px]">1 / 1 페이지 (총 ${PAGE_SIZE}개 이하)</span>`;
         return;
       }
 
-      let html = `<div class="flex items-center gap-1.5">
-        <button onclick="${onPageClickFnName}(${Math.max(1, currentPage - 1)})" ${currentPage === 1 ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition"'}>
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>`;
+      let html = `<div class="flex flex-wrap items-center gap-1">`;
+      
+      const isFirst = currentPage === 1;
+      const isLast = currentPage === totalPages;
 
-      for (let p = 1; p <= totalPages; p++) {
-        if (p === currentPage) {
-          html += `<button class="px-2.5 py-1 rounded bg-sky-400 text-black font-bold font-num shadow">${p}</button>`;
-        } else {
-          html += `<button onclick="${onPageClickFnName}(${p})" class="px-2.5 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 font-num transition">${p}</button>`;
+      // [맨앞]
+      html += `<button onclick="${onPageClickFnName}(1)" ${isFirst ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 text-[11px] cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-bold transition"'}>맨앞</button>`;
+      
+      // [<]
+      html += `<button onclick="${onPageClickFnName}(${Math.max(1, currentPage - 1)})" ${isFirst ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 text-[11px] cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] transition"'}>
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>`;
+
+      // 스마트 윈도잉 번호 계산 ([1] ... [18] [19] [20])
+      const pages = [];
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (currentPage > 4) pages.push('...');
+
+        let start = Math.max(2, currentPage - 1);
+        let end = Math.min(totalPages - 1, currentPage + 1);
+
+        if (currentPage <= 4) {
+          start = 2;
+          end = 5;
+        } else if (currentPage >= totalPages - 3) {
+          start = totalPages - 4;
+          end = totalPages - 1;
         }
+
+        for (let i = start; i <= end; i++) pages.push(i);
+
+        if (currentPage < totalPages - 3) pages.push('...');
+        pages.push(totalPages);
       }
 
-      html += `<button onclick="${onPageClickFnName}(${Math.min(totalPages, currentPage + 1)})" ${currentPage === totalPages ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition"'}>
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
-      <span class="text-zinc-500 font-num">${currentPage} / ${totalPages} 페이지</span>`;
+      pages.forEach(p => {
+        if (p === '...') {
+          html += `<span class="px-1.5 py-0.5 text-zinc-500 text-xs">...</span>`;
+        } else if (p === currentPage) {
+          html += `<button class="px-2.5 py-1 rounded bg-sky-400 text-black font-bold font-num text-[11px] shadow">${p}</button>`;
+        } else {
+          html += `<button onclick="${onPageClickFnName}(${p})" class="px-2.5 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 font-num text-[11px] transition">${p}</button>`;
+        }
+      });
+
+      // [>]
+      html += `<button onclick="${onPageClickFnName}(${Math.min(totalPages, currentPage + 1)})" ${isLast ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 text-[11px] cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] transition"'}>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>`;
+
+      // [맨끝]
+      html += `<button onclick="${onPageClickFnName}(${totalPages})" ${isLast ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 text-[11px] cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-bold transition"'}>맨끝</button>`;
+
+      html += `</div>
+      <span class="text-zinc-500 font-num text-[11px] whitespace-nowrap">${currentPage} / ${totalPages} 페이지</span>`;
 
       bar.innerHTML = html;
     }
@@ -1478,99 +1315,7 @@
     function changeDividendsPage(p) { currentPageDividends = p; renderAll(); }
     function changeTaxesPage(p) { currentPageTaxes = p; renderAll(); }
 
-    /* 삭제 확인 처리 */
-    let pendingDelete = null;
-
-    function triggerDelete(type, index) {
-      pendingDelete = { type, index };
-      const title = document.getElementById('delModalTitle');
-      const details = document.getElementById('delModalDetails');
-      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
-
-      let titleText = '기록 삭제 확인';
-      let html = '';
-
-      if (type === 'buy') {
-        const item = buyList[index];
-        if (!item) return;
-        titleText = '매수 기록 삭제 확인';
-        const buyRate = item.currency === 'USD' ? (Number(item.rate) || rate) : 1;
-        const totalKRW = (item.currency === 'USD') ? (Number(item.shares) * Number(item.price) * buyRate) : (Number(item.shares) * Number(item.price));
-        html = `
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매수 일자</span><strong class="text-white">${item.date}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white">${item.ticker} (${item.name || ''})</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매수 수량 / 단가</span><span class="text-white">${Number(item.shares).toLocaleString()}주 / ${item.currency === 'USD' ? '$' + Number(item.price).toFixed(2) : '₩' + Math.round(item.price).toLocaleString()}</span></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매입금액 (적용환율: ${buyRate})</span><span class="text-sky-400 font-bold">₩${Math.round(totalKRW).toLocaleString()}</span></div>
-          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">비고</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
-        `;
-      } else if (type === 'sell') {
-        const item = realizedList[index];
-        if (!item) return;
-        titleText = '매도 실현손익 기록 삭제 확인';
-        html = `
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매도 일자</span><strong class="text-white">${item.date}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white">${item.ticker}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매매손익</span><span class="text-zinc-300">₩${Number(item.gross).toLocaleString()}</span></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">확정 실현손익</span><span class="text-sky-400 font-bold">+₩${Number(item.net).toLocaleString()}</span></div>
-          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">비고</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
-        `;
-      } else if (type === 'deposit') {
-        const item = depositList[index];
-        if (!item) return;
-        titleText = '현금 입출금 기록 삭제 확인';
-        const valKRW = item.currency === 'KRW' ? Number(item.amount) : (Number(item.amount) * rate);
-        html = `
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">거래 일자</span><strong class="text-white">${item.date}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">구분 / 금액</span><strong class="text-white">${item.type === 'WITHDRAW' ? '출금' : '입금'} / ${item.currency === 'USD' ? '$' + Math.abs(item.amount).toLocaleString() : '₩' + Math.abs(item.amount).toLocaleString()}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="${valKRW >= 0 ? 'text-sky-400' : 'text-rose-400'} font-bold">${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}</span></div>
-          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">사유</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
-        `;
-      } else if (type === 'dividend') {
-        const item = dividendList[index];
-        if (!item) return;
-        titleText = '배당금 입금 기록 삭제 확인';
-        const valKRW = item.currency === 'KRW' ? Number(item.amount) : (Number(item.amount) * Number(item.rate));
-        html = `
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">입금 일자</span><strong class="text-white">${item.date}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">배당 종목</span><strong class="text-white">${item.ticker} (${item.name || ''})</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">실수령액</span><span class="text-white">${item.currency === 'USD' ? '$' + Number(item.amount).toFixed(2) : '₩' + Math.round(item.amount).toLocaleString()}</span></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 입금액</span><span class="text-sky-400 font-bold">+₩${Math.round(valKRW).toLocaleString()}</span></div>
-          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">비고</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
-        `;
-      } else if (type === 'tax') {
-        const item = taxList[index];
-        if (!item) return;
-        titleText = '외화 세금 출금 기록 삭제 확인';
-        const valKRW = item.currency === 'KRW' ? Number(item.amount) : (Number(item.amount) * Number(item.rate));
-        html = `
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">출금 일자</span><strong class="text-white">${item.date}</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목</span><strong class="text-white">${item.ticker} (${item.name || ''})</strong></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">출금 세액</span><span class="text-white">${item.currency === 'USD' ? '$' + Number(item.amount).toFixed(2) : '₩' + Math.round(item.amount).toLocaleString()}</span></div>
-          <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="text-rose-400 font-bold">-₩${Math.round(valKRW).toLocaleString()}</span></div>
-          <div class="flex justify-between pt-0.5"><span class="text-zinc-500">사유</span><span class="text-zinc-300 truncate max-w-[200px]">${item.note || '-'}</span></div>
-        `;
-      }
-
-      title.textContent = titleText;
-      details.innerHTML = html;
-      openModal('deleteConfirmModal');
-    }
-
-    function confirmExecuteDelete() {
-      if (!pendingDelete) return;
-      const { type, index } = pendingDelete;
-      if (type === 'buy' && buyList[index]) buyList.splice(index, 1);
-      else if (type === 'sell' && realizedList[index]) realizedList.splice(index, 1);
-      else if (type === 'deposit' && depositList[index]) depositList.splice(index, 1);
-      else if (type === 'dividend' && dividendList[index]) dividendList.splice(index, 1);
-      else if (type === 'tax' && taxList[index]) taxList.splice(index, 1);
-      
-      pendingDelete = null;
-      closeModal('deleteConfirmModal');
-      renderAll();
-    }
-
-    /* 8. 데이터 계산 & 렌더링 총괄 (과거 매수 시점 환율 b.rate 완벽 반영) */
+    /* 8. 데이터 계산 & 렌더링 총괄 */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
       const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
@@ -1617,7 +1362,6 @@
         return acc + ((cur.currency === 'KRW') ? amt : (amt * rt));
       }, 0);
 
-      // 🌟 [핵심] 매수 장부 총 매수금액: 개별 매수 당시 환율(b.rate) 적용! 🌟
       const totalBuysKRW = buyList.reduce((acc, cur) => {
         const buyRate = (cur.currency === 'USD') ? (Number(cur.rate) || currentRate) : 1;
         const val = (cur.currency === 'USD') ? (Number(cur.shares || 0) * Number(cur.price || 0) * buyRate) : (Number(cur.shares || 0) * Number(cur.price || 0));
@@ -2192,7 +1936,7 @@
       openModal('fullHistoryModal');
     }
 
-    /* 10. 차트 렌더링 총괄 */
+    /* 10. 차트 렌더링 총괄 (완벽한 리사이즈 & 고대비 보석 컬러 & 테두리 0) */
     function renderAllCharts(currentTotalAssetKRW, overallRealizedKRW, totalDividendKRW) {
       renderDonutChart();
       renderYearlyOverviewChart();
@@ -2418,7 +2162,7 @@
               y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } }
             },
             plugins: {
-              legend: { labels: { color: '#f4f4f5', font: { weight: 'bold' } } }
+              legend: { labels: { color: '#f4f4f5' } }
             }
           }
         });
@@ -2528,7 +2272,7 @@
       const labels = sortedTickers.map(t => t.displayName);
       const dataValues = sortedTickers.map(t => t.totalNet);
 
-      const backupPalette = ['#38bdf8', '#fbbf24', '#a855f7', '#10b981', '#f97316', '#06b6d4', '#f43f5e', '#ec4899'];
+      const backupPalette = ['#38bdf8', '#fbbf24', '#8b5cf6', '#14b8a6', '#f97316', '#10b981', '#06b6d4', '#f43f5e', '#a855f7'];
       const rankColors = sortedTickers.map((item, idx) => {
         const raw = item.ticker;
         return TICKER_COLOR_MAP[raw] || backupPalette[idx % backupPalette.length];
@@ -2640,7 +2384,7 @@
       renderDonutChart();
     }
 
-    /* 🌟 신규 매수 제출 처리 (과거 매수 시점 환율 b.rate 저장) 🌟 */
+    /* 11. 신규 매수 제출 처리 (과거 매수 시점 환율 buyRate 완벽 연동) */
     function handleBuySubmit(e) {
       e.preventDefault();
       const curr = document.getElementById('buyCurrency').value;
@@ -2767,7 +2511,7 @@
           cashHolding.curPrice -= amount;
           cashHolding.avgPrice = cashHolding.curPrice;
         } else {
-          cashHolding.curPrice -= (amount / rate);
+          cashHolding.curPrice += (amount / rate);
           cashHolding.avgPrice = cashHolding.curPrice;
         }
       }
@@ -2776,133 +2520,6 @@
       e.target.reset();
       setTaxCurrency('USD');
       renderAll();
-    }
-
-    function openDeleteSellModal(index) {
-      targetDeleteSellIndex = index;
-      const item = realizedList[index];
-      if (!item) return;
-
-      document.getElementById('delSellDate').textContent = item.date;
-      document.getElementById('delSellTicker').textContent = item.ticker;
-      document.getElementById('delSellGross').textContent = '₩' + Number(item.gross || 0).toLocaleString();
-      document.getElementById('delSellNet').textContent = '+₩' + Number(item.net || 0).toLocaleString();
-      document.getElementById('delSellNote').textContent = item.note || '-';
-
-      openModal('deleteSellConfirmModal');
-    }
-
-    function confirmExecuteDeleteSell() {
-      if (targetDeleteSellIndex >= 0 && targetDeleteSellIndex < realizedList.length) {
-        realizedList.splice(targetDeleteSellIndex, 1);
-        targetDeleteSellIndex = -1;
-        closeModal('deleteSellConfirmModal');
-        renderAll();
-      }
-    }
-
-    function openDeleteBuyModal(index) {
-      targetDeleteBuyIndex = index;
-      const item = buyList[index];
-      if (!item) return;
-
-      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
-      const buyRate = (item.currency === 'USD') ? (Number(item.rate) || rate) : 1;
-      const totalKRW = (item.currency === 'USD') ? (Number(item.shares || 0) * Number(item.price || 0) * buyRate) : (Number(item.shares || 0) * Number(item.price || 0));
-
-      document.getElementById('delBuyDate').textContent = item.date;
-      document.getElementById('delBuyCategory').textContent = item.category;
-      document.getElementById('delBuyTickerName').textContent = `${item.ticker} (${item.name})`;
-      document.getElementById('delBuyShares').textContent = `${Number(item.shares || 0).toLocaleString()}주`;
-      document.getElementById('delBuyPrice').textContent = item.currency === 'USD' ? '$' + Number(item.price || 0).toFixed(2) : '₩' + Math.round(Number(item.price || 0)).toLocaleString();
-      document.getElementById('delBuyTotal').textContent = '₩' + Math.round(totalKRW).toLocaleString();
-      document.getElementById('delBuyNote').textContent = item.note || '-';
-
-      openModal('deleteBuyConfirmModal');
-    }
-
-    function confirmExecuteDeleteBuy() {
-      if (targetDeleteBuyIndex >= 0 && targetDeleteBuyIndex < buyList.length) {
-        buyList.splice(targetDeleteBuyIndex, 1);
-        targetDeleteBuyIndex = -1;
-        closeModal('deleteBuyConfirmModal');
-        renderAll();
-      }
-    }
-
-    function openDeleteDepositModal(index) {
-      targetDeleteDepositIndex = index;
-      const item = depositList[index];
-      if (!item) return;
-
-      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
-      const valKRW = (item.currency === 'USD') ? (Number(item.amount || 0) * rate) : Number(item.amount || 0);
-
-      document.getElementById('delDepDate').textContent = item.date;
-      document.getElementById('delDepAmount').textContent = `${item.type === 'WITHDRAW' ? '출금: ' : '입금: '}${item.currency === 'USD' ? '$' + Math.abs(Number(item.amount || 0)).toLocaleString() : '₩' + Math.abs(Number(item.amount || 0)).toLocaleString()}`;
-      document.getElementById('delDepKRW').textContent = `${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}`;
-      document.getElementById('delDepNote').textContent = item.note || '-';
-
-      openModal('deleteDepositConfirmModal');
-    }
-
-    function confirmExecuteDeleteDeposit() {
-      if (targetDeleteDepositIndex >= 0 && targetDeleteDepositIndex < depositList.length) {
-        depositList.splice(targetDeleteDepositIndex, 1);
-        targetDeleteDepositIndex = -1;
-        closeModal('deleteDepositConfirmModal');
-        renderAll();
-      }
-    }
-
-    function openDeleteDividendModal(index) {
-      targetDeleteDividendIndex = index;
-      const item = dividendList[index];
-      if (!item) return;
-
-      const valKRW = (item.currency === 'KRW') ? Number(item.amount || 0) : (Number(item.amount || 0) * Number(item.rate || 1343));
-
-      document.getElementById('delDivDate').textContent = item.date;
-      document.getElementById('delDivTicker').textContent = `${item.ticker} (${item.name})`;
-      document.getElementById('delDivAmount').textContent = item.currency === 'USD' ? '$' + Number(item.amount || 0).toFixed(2) : '₩' + Math.round(Number(item.amount || 0)).toLocaleString();
-      document.getElementById('delDivKRW').textContent = '+₩' + Math.round(valKRW).toLocaleString();
-      document.getElementById('delDivNote').textContent = item.note || '-';
-
-      openModal('deleteDividendConfirmModal');
-    }
-
-    function confirmExecuteDeleteDividend() {
-      if (targetDeleteDividendIndex >= 0 && targetDeleteDividendIndex < dividendList.length) {
-        dividendList.splice(targetDeleteDividendIndex, 1);
-        targetDeleteDividendIndex = -1;
-        closeModal('deleteDividendConfirmModal');
-        renderAll();
-      }
-    }
-
-    function openDeleteTaxModal(index) {
-      targetDeleteTaxIndex = index;
-      const item = taxList[index];
-      if (!item) return;
-
-      const valKRW = (item.currency === 'KRW') ? Number(item.amount || 0) : (Number(item.amount || 0) * Number(item.rate || 1343));
-
-      document.getElementById('delTaxDate').textContent = item.date;
-      document.getElementById('delTaxTicker').textContent = `${item.ticker} (${item.name})`;
-      document.getElementById('delTaxAmount').textContent = item.currency === 'USD' ? '$' + Number(item.amount || 0).toFixed(2) : '₩' + Math.round(Number(item.amount || 0)).toLocaleString();
-      document.getElementById('delTaxKRW').textContent = '-₩' + Math.round(valKRW).toLocaleString();
-      document.getElementById('delTaxNote').textContent = item.note || '-';
-
-      openModal('deleteTaxConfirmModal');
-    }
-
-    function confirmExecuteDeleteTax() {
-      if (targetDeleteTaxIndex >= 0 && targetDeleteTaxIndex < taxList.length) {
-        taxList.splice(targetDeleteTaxIndex, 1);
-        targetDeleteTaxIndex = -1;
-        closeModal('deleteTaxConfirmModal');
-        renderAll();
-      }
     }
 
     /* 초기 진입 이벤트 */
