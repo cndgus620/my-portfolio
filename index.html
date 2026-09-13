@@ -266,7 +266,7 @@
       </div>
     </section>
 
-    <!-- ================= 상단 차트: 도넛 & 연도별 실현손익 ================= -->
+    <!-- ================= 1. 최상단: 도넛 & 연도별 실현손익 ================= -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <div class="lg:col-span-5 custom-card rounded-2xl p-5 shadow-lg flex flex-col justify-between">
         <div class="flex items-center justify-between mb-3">
@@ -302,7 +302,26 @@
       </div>
     </section>
 
-    <!-- ================= 중단 차트: 월간 상세 실현손익 차트 ================= -->
+    <!-- ================= 2. 총 자산 가치 증감 추이 ================= -->
+    <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+        <div>
+          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-arrow-trend-up text-emerald-400"></i> 총 자산 가치(현금 + 주식자산) 증감 추이 (Net Worth Trend)
+          </h3>
+          <p class="text-xs text-zinc-400 mt-0.5">투자 원금과 확정 손익 및 보유 주식 평가액이 결합된 전체 순자산의 성장 흐름입니다 📈</p>
+        </div>
+        <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold gap-1">
+          <button onclick="switchAssetTrendView('YEARLY')" id="btnAssetYearly" class="px-3 py-1.5 rounded-lg bg-white text-black transition shadow">연도별 추이</button>
+          <button onclick="switchAssetTrendView('MONTHLY')" id="btnAssetMonthly" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">월별 상세 추이</button>
+        </div>
+      </div>
+      <div class="relative h-72 w-full">
+        <canvas id="totalAssetTrendChart"></canvas>
+      </div>
+    </section>
+
+    <!-- ================= 3. 월간 상세 실현손익 차트 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         <div>
@@ -322,26 +341,41 @@
       </div>
     </section>
 
-    <!-- ================= 하단 차트: 총 자산 가치 증감 추이 ================= -->
+    <!-- ================= 🌟 4. [신규 추가] 종목별 실현손익 기여도 & 랭킹 리스트 🌟 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5 border-b border-zinc-800 pb-4">
         <div>
-          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-arrow-trend-up text-emerald-400"></i> 총 자산 가치(현금 + 주식자산) 증감 추이 (Net Worth Trend)
+          <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i> 종목별 누적 실현손익 기여도 & 수익 랭킹 (Profit Champions)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">투자 원금과 확정 손익 및 보유 주식 평가액이 결합된 전체 순자산의 성장 흐름입니다 📈</p>
+          <p class="text-xs text-zinc-400 mt-0.5">어떤 종목이 실제로 수익을 안겨주었는지 종목별 순익과 전체 실현손익 기여율(%)을 분석합니다 🏆</p>
         </div>
-        <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold gap-1">
-          <button onclick="switchAssetTrendView('YEARLY')" id="btnAssetYearly" class="px-3 py-1.5 rounded-lg bg-white text-black transition">연도별 추이</button>
-          <button onclick="switchAssetTrendView('MONTHLY')" id="btnAssetMonthly" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">월별 상세 추이</button>
-        </div>
+        <span class="text-xs font-num font-bold text-emerald-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl">
+          총 확정 실현손익: +1,102만 원[cite: 1]
+        </span>
       </div>
-      <div class="relative h-72 w-full">
-        <canvas id="totalAssetTrendChart"></canvas>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- 1) 도넛 차트 (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center p-3">
+          <div class="relative w-full h-64 flex items-center justify-center">
+            <canvas id="tickerProfitChart"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+              <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">TOTAL PROFIT</span>
+              <span class="text-sm font-black font-num text-emerald-400 mt-0.5" id="donutCenterTotalProfit">+₩1,102만</span>
+            </div>
+          </div>
+          <p class="text-[11px] text-zinc-400 mt-2 text-center">각 종목별 수익 기여 비중 (%)</p>
+        </div>
+
+        <!-- 2) 종목별 수익 상세 랭킹 리스트 (7 cols) -->
+        <div class="lg:col-span-7 space-y-3" id="tickerProfitRankList">
+          <!-- JS 동적 렌더링 -->
+        </div>
       </div>
     </section>
 
-    <!-- ================= 1. 현재 보유 자산 잔고 ================= -->
+    <!-- ================= 5. 현재 보유 자산 잔고 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
         <div>
@@ -376,7 +410,7 @@
       <div id="holdingsMobileCards" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 lg:hidden"></div>
     </section>
 
-    <!-- ================= 2. 매수 거래 장부 ================= -->
+    <!-- ================= 6. 매수 거래 장부 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
         <div>
@@ -409,14 +443,14 @@
       </div>
     </section>
 
-    <!-- ================= 3. 실현손익 확정 거래 장부 ================= -->
+    <!-- ================= 7. 실현손익 확정 거래 장부 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
         <div>
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-book-bookmark text-zinc-300"></i> 실현손익 확정 거래 장부 (나무증권 MTS 규격 일치)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">과거 9건의 스윙 익절 기록이 오염 없이 보존되어 있습니다 💸</p>
+          <p class="text-xs text-zinc-400 mt-0.5">과거 9건의 스윙 익절 기록이 오염 없이 보존되어 있습니다[cite: 1] 💸</p>
         </div>
         <button onclick="openModal('sellModal')" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
           + 매도 기록 추가
@@ -441,7 +475,7 @@
       </div>
     </section>
 
-    <!-- ================= 4. 투자 현금 입금 이력 장부 ================= -->
+    <!-- ================= 8. 투자 현금 입금 이력 장부 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
         <div>
@@ -475,7 +509,7 @@
 
   </main>
 
-  <!-- ================= 모달 1. 신규 매수 기록 모달 (티커 자동완성 탑재!) ================= -->
+  <!-- ================= 모달 1. 신규 매수 모달 ================= -->
   <div id="buyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -488,12 +522,11 @@
           <input type="date" id="buyDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-white">
         </div>
 
-        <!-- 티커 입력칸 (입력 시 종목명 자동완성 이벤트 연결) -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold flex items-center justify-between">
               <span>Ticker (심볼)</span>
-              <span class="text-[10px] text-emerald-400 font-normal">자동완성 지원 ⚡</span>
+              <span class="text-[10px] text-emerald-400 font-normal">자동완성 ⚡</span>
             </label>
             <input type="text" id="buyTicker" oninput="handleTickerAutoFill(this.value)" placeholder="예: TQQQ, SOXL" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-white">
           </div>
@@ -621,7 +654,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 4. 매도 기록 삭제 확인 팝업 모달 ================= -->
+  <!-- ================= 모달 4. 매도 기록 삭제 확인 팝업 ================= -->
   <div id="deleteSellConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
       <div class="text-center mb-4">
@@ -645,7 +678,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 5. 매수 기록 삭제 확인 팝업 모달 ================= -->
+  <!-- ================= 모달 5. 매수 기록 삭제 확인 팝업 ================= -->
   <div id="deleteBuyConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
       <div class="text-center mb-4">
@@ -671,7 +704,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 6. 입금 기록 삭제 확인 팝업 모달 ================= -->
+  <!-- ================= 모달 6. 입금 기록 삭제 확인 팝업 ================= -->
   <div id="deleteDepositConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-rose-800/80 shadow-2xl">
       <div class="text-center mb-4">
@@ -696,7 +729,7 @@
 
   <!-- ================= 자바스크립트 엔진 ================= -->
   <script>
-    /* 1. 구글 스프레드시트 초기 데이터 세팅 */
+    /* 1. 기본 데이터 세팅 */
     const INITIAL_HOLDINGS = [
       { category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, avgPrice: 477.84, curPrice: 261.30, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (반등 시 점진 매도)' },
       { category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, avgPrice: 33.79, curPrice: 28.72, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (평단 회복 시 매도)' },
@@ -751,7 +784,6 @@
       { date: '2025-11-21', currency: 'KRW', amount: 400000, note: '투자금 추가 입금 (총 3,576만원 완성)' }
     ];
 
-    /* ================= 🌟 티커 자동완성 사전 딕셔너리 🌟 ================= */
     const TICKER_NAME_MAP = {
       'TQQQ': { name: '나스닥 3X', category: '미국주식', curr: 'USD' },
       'SOXL': { name: '반도체 3X', category: '미국주식', curr: 'USD' },
@@ -769,6 +801,7 @@
       'BTC': { name: '비트코인', category: '가상자산', curr: 'KRW' },
       'ETH': { name: '이더리움', category: '가상자산', curr: 'KRW' },
       '005930': { name: '삼성전자', category: '국내주식', curr: 'KRW' },
+      '005930(삼성전자)': { name: '삼성전자', category: '국내주식', curr: 'KRW' },
       '000660': { name: 'SK하이닉스', category: '국내주식', curr: 'KRW' }
     };
 
@@ -790,7 +823,14 @@
     let holdings = JSON.parse(localStorage.getItem('alpha_holdings')) || INITIAL_HOLDINGS;
     let buyList = JSON.parse(localStorage.getItem('alpha_buys')) || INITIAL_BUYS;
     let realizedList = JSON.parse(localStorage.getItem('alpha_realized')) || INITIAL_REALIZED;
-    let depositList = JSON.parse(localStorage.getItem('alpha_deposits')) || INITIAL_DEPOSITS;
+    
+    let savedDeposits = null;
+    try {
+      savedDeposits = JSON.parse(localStorage.getItem('alpha_deposits'));
+    } catch(e) {}
+    let depositList = (savedDeposits && Array.isArray(savedDeposits) && savedDeposits.length > 0)
+      ? savedDeposits
+      : INITIAL_DEPOSITS;
     
     let currentMonthlyYearFilter = 'ALL';
     let currentAssetTrendView = 'YEARLY';
@@ -804,6 +844,7 @@
     let yearlyChartInstance = null;
     let monthlyChartInstance = null;
     let assetTrendChartInstance = null;
+    let tickerProfitChartInstance = null; // 신규: 종목별 실현손익 차트 인스턴스
 
     /* 2. 보안 PIN 잠금 제어 */
     const pinDigits = document.querySelectorAll('.pin-digit');
@@ -970,7 +1011,7 @@
       renderBuysTable(rate);
       renderRealizedTable();
       renderDepositsTable(rate);
-      renderAllCharts(totalValueKRW);
+      renderAllCharts(totalValueKRW, totalNetRealizedKRW);
 
       localStorage.setItem('alpha_holdings', JSON.stringify(holdings));
       localStorage.setItem('alpha_buys', JSON.stringify(buyList));
@@ -1152,11 +1193,12 @@
       });
     }
 
-    function renderAllCharts(currentTotalAssetKRW) {
+    function renderAllCharts(currentTotalAssetKRW, totalNetRealizedKRW) {
       renderDonutChart();
       renderYearlyOverviewChart();
-      renderMonthlyDetailChart();
       renderTotalAssetTrendChart(currentTotalAssetKRW);
+      renderMonthlyDetailChart();
+      renderTickerProfitChart(totalNetRealizedKRW); // 🌟 신규: 종목별 실현손익 차트 & 랭킹 호출!
     }
 
     function renderDonutChart() {
@@ -1274,51 +1316,6 @@
       });
     }
 
-    function renderMonthlyDetailChart() {
-      if (monthlyChartInstance) monthlyChartInstance.destroy();
-
-      const monthMap = {};
-      realizedList.forEach(r => {
-        const parts = r.date.split('-');
-        const year = parts[0];
-        const month = parts[1];
-        
-        if (currentMonthlyYearFilter === 'ALL' || currentMonthlyYearFilter === year) {
-          const label = `${year}년 ${month}월`;
-          monthMap[label] = (monthMap[label] || 0) + r.net;
-        }
-      });
-
-      const monthLabels = Object.keys(monthMap).sort();
-      const monthData = monthLabels.map(m => Math.round(monthMap[m] / 10000));
-
-      const ctx = document.getElementById('monthlyProfitChart').getContext('2d');
-      monthlyChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: monthLabels.length > 0 ? monthLabels : ['데이터 없음'],
-          datasets: [{
-            label: '월간 실현손익 (만 원)',
-            data: monthData.length > 0 ? monthData : [0],
-            backgroundColor: 'rgba(52, 211, 153, 0.75)',
-            hoverBackgroundColor: '#10b981',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', font: { size: 11 } } },
-            y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } }
-          },
-          plugins: {
-            legend: { labels: { color: '#f4f4f5' } }
-          }
-        }
-      });
-    }
-
     function renderTotalAssetTrendChart(currentTotalAssetKRW) {
       if (assetTrendChartInstance) assetTrendChartInstance.destroy();
       const ctx = document.getElementById('totalAssetTrendChart').getContext('2d');
@@ -1402,6 +1399,151 @@
           }
         });
       }
+    }
+
+    function renderMonthlyDetailChart() {
+      if (monthlyChartInstance) monthlyChartInstance.destroy();
+
+      const monthMap = {};
+      realizedList.forEach(r => {
+        const parts = r.date.split('-');
+        const year = parts[0];
+        const month = parts[1];
+        
+        if (currentMonthlyYearFilter === 'ALL' || currentMonthlyYearFilter === year) {
+          const label = `${year}년 ${month}월`;
+          monthMap[label] = (monthMap[label] || 0) + r.net;
+        }
+      });
+
+      const monthLabels = Object.keys(monthMap).sort();
+      const monthData = monthLabels.map(m => Math.round(monthMap[m] / 10000));
+
+      const ctx = document.getElementById('monthlyProfitChart').getContext('2d');
+      monthlyChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: monthLabels.length > 0 ? monthLabels : ['데이터 없음'],
+          datasets: [{
+            label: '월간 실현손익 (만 원)',
+            data: monthData.length > 0 ? monthData : [0],
+            backgroundColor: 'rgba(52, 211, 153, 0.75)',
+            hoverBackgroundColor: '#10b981',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', font: { size: 11 } } },
+            y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } }
+          },
+          plugins: {
+            legend: { labels: { color: '#f4f4f5' } }
+          }
+        }
+      });
+    }
+
+    /* ================= 🌟 7. [신규 기능] 종목별 실현손익 기여도 & 랭킹 리스트 렌더링 🌟 ================= */
+    function renderTickerProfitChart(totalNetRealizedKRW) {
+      if (tickerProfitChartInstance) tickerProfitChartInstance.destroy();
+
+      // 1) 종목별 손익 및 건수 집계
+      const tickerMap = {};
+      realizedList.forEach(r => {
+        const rawTicker = r.ticker;
+        let displayName = rawTicker;
+        if (TICKER_NAME_MAP[rawTicker]) {
+          displayName = `${rawTicker} (${TICKER_NAME_MAP[rawTicker].name})`;
+        } else if (rawTicker === '005930(삼성전자)') {
+          displayName = '삼성전자';
+        }
+
+        if (!tickerMap[displayName]) {
+          tickerMap[displayName] = { ticker: rawTicker, totalNet: 0, count: 0, displayName: displayName };
+        }
+        tickerMap[displayName].totalNet += r.net;
+        tickerMap[displayName].count += 1;
+      });
+
+      // 2) 수익 순 내림차순 정렬
+      const sortedTickers = Object.values(tickerMap).sort((a, b) => b.totalNet - a.totalNet);
+
+      const labels = sortedTickers.map(t => t.displayName);
+      const dataValues = sortedTickers.map(t => t.totalNet);
+      const palette = ['#10b981', '#38bdf8', '#f59e0b', '#a855f7', '#ec4899', '#6366f1', '#14b8a6'];
+
+      // 센터 텍스트 업데이트
+      document.getElementById('donutCenterTotalProfit').textContent = `+₩${Math.round(totalNetRealizedKRW / 10000)}만`;
+
+      // 3) Chart.js 도넛 차트 렌더링
+      const ctx = document.getElementById('tickerProfitChart').getContext('2d');
+      tickerProfitChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: dataValues,
+            backgroundColor: palette,
+            borderColor: '#141416',
+            borderWidth: 3,
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const val = context.parsed;
+                  const pct = totalNetRealizedKRW > 0 ? ((val / totalNetRealizedKRW) * 100).toFixed(1) : 0;
+                  return ` 실현손익: +₩${val.toLocaleString()} (${pct}%)`;
+                }
+              }
+            }
+          },
+          cutout: '72%'
+        }
+      });
+
+      // 4) 우측 랭킹 리스트 렌더링 (프로그레스 바 포함)
+      const rankContainer = document.getElementById('tickerProfitRankList');
+      rankContainer.innerHTML = '';
+
+      sortedTickers.forEach((item, idx) => {
+        const pct = totalNetRealizedKRW > 0 ? ((item.totalNet / totalNetRealizedKRW) * 100).toFixed(1) : 0;
+        const color = palette[idx % palette.length];
+
+        const card = document.createElement('div');
+        card.className = "p-3.5 rounded-xl bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 transition flex flex-col gap-2";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${idx === 0 ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/30' : idx === 1 ? 'bg-zinc-300 text-black' : idx === 2 ? 'bg-amber-700 text-white' : 'bg-zinc-800 text-zinc-400'}">
+                ${idx + 1}
+              </span>
+              <div>
+                <span class="font-bold text-sm text-white">${item.displayName}</span>
+                <span class="text-[11px] text-zinc-400 ml-1.5 font-num">총 ${item.count}회 익절</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm font-black font-num text-emerald-400">+₩${item.totalNet.toLocaleString()}</div>
+              <div class="text-[11px] font-num text-zinc-400 font-semibold">${pct}% 기여</div>
+            </div>
+          </div>
+          <!-- 시각적 기여도 프로그레스 게이지 바 -->
+          <div class="w-full bg-zinc-800 rounded-full h-1.5 overflow-hidden">
+            <div class="h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${color}"></div>
+          </div>
+        `;
+        rankContainer.appendChild(card);
+      });
     }
 
     function switchAssetTrendView(view) {
