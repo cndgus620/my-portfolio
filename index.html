@@ -77,7 +77,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-black" data-theme="stealth">
 
-  <!-- ================= 보안 PIN 5929 잠금 모달 ================= -->
+  <!-- ================= 🌟 스마트 자동 연속입력 PIN 5929 잠금 모달 🌟 ================= -->
   <div id="pinLockModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md transition-opacity duration-300">
     <div class="custom-card p-8 rounded-2xl w-11/12 max-w-md text-center shadow-2xl border border-zinc-800">
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-400 text-2xl border border-sky-500/20">
@@ -86,11 +86,12 @@
       <h2 class="text-2xl font-black mb-1 tracking-tight text-white">PRIVATE ACCESS LOCK</h2>
       <p class="text-xs text-zinc-400 mb-6 font-medium">인가된 투자자 전용 4자리 보안 PIN을 입력해 주세요</p>
       
-      <div class="flex justify-center gap-3 mb-6">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none" autofocus>
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none">
+      <!-- 4자리 연속 입력 박스 -->
+      <div class="flex justify-center gap-3 mb-6" id="pinInputContainer">
+        <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none transition" autofocus>
+        <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none transition">
+        <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none transition">
+        <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none transition">
       </div>
       <p id="pinError" class="text-xs text-rose-500 font-semibold mb-4 hidden">🚨 보안 PIN 번호가 올바르지 않습니다</p>
       <button onclick="unlockDashboard()" class="w-full py-3.5 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition active:scale-95 shadow-lg">
@@ -1010,206 +1011,64 @@
     </div>
   </div>
 
-  <!-- ================= 자바스크립트 엔진 ================= -->
+  <!-- ================= 🌟 자바스크립트 엔진 (스마트 연속 PIN 입력 & 자동 해제 탑재) 🌟 ================= -->
   <script>
-    const INITIAL_HOLDINGS = [
-      { category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, avgPrice: 477.84, curPrice: 261.30, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (반등 시 점진 매도)' },
-      { category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, avgPrice: 33.79, curPrice: 28.72, currency: 'USD', target: 0, note: '🚨 과비중 탈출 관리 (평단 회복 시 매도)' },
-      { category: '미국주식', ticker: 'SOXL', name: '반도체 3X', shares: 14, avgPrice: 160.93, curPrice: 121.82, currency: 'USD', target: 30, note: '🟢 반도체 알파 스윙 (목표 30%)' },
-      { category: '미국주식', ticker: 'GDXU', name: '금광 3X', shares: 10, avgPrice: 148.59, curPrice: 149.30, currency: 'USD', target: 0, note: '🎯 익절 대기 (+15% 기계적 전량 매도)' },
-      { category: '미국주식', ticker: 'TQQQ', name: '나스닥 3X', shares: 11, avgPrice: 81.14, curPrice: 70.98, currency: 'USD', target: 40, note: '🟢 나스닥 핵심 성장 (목표 40%)' },
-      { category: '현금', ticker: 'CASH', name: '전략 대기 현금', shares: 1, avgPrice: 420.00, curPrice: 420.00, currency: 'USD', target: 30, note: '💵 예수금 및 CMA-RP 총알' }
-    ];
+    /* 1. 스마트 연속 PIN 입력 & 자동 잠금 해제 엔진 */
+    const pinDigits = document.querySelectorAll('.pin-digit');
 
-    const INITIAL_BUYS = [
-      { date: '2025-06-15', category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, price: 477.84, currency: 'USD', note: '스윙 진입 포지션' },
-      { date: '2025-06-20', category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, price: 33.79, currency: 'USD', note: '빅테크 분할 매수' },
-      { date: '2025-07-10', category: '미국주식', ticker: 'SOXL', name: '반도체 3X', shares: 14, price: 160.93, currency: 'USD', note: '반도체 알파 스윙 1차' },
-      { date: '2025-07-15', category: '미국주식', ticker: 'GDXU', name: '금광 3X', shares: 10, price: 148.59, currency: 'USD', note: '헤지 금광 스윙' },
-      { date: '2025-07-25', category: '미국주식', ticker: 'TQQQ', name: '나스닥 3X', shares: 11, price: 81.14, currency: 'USD', note: '나스닥 핵심 성장 편입' }
-    ];
+    pinDigits.forEach((input, index) => {
+      // 숫자 입력 시 자동으로 다음 칸으로 이동 & 4자리 채워지면 자동 해제!
+      input.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (val.length >= 1) {
+          e.target.value = val.slice(-1); // 마지막 1글자만 유지
+          if (index < pinDigits.length - 1) {
+            pinDigits[index + 1].focus();
+            pinDigits[index + 1].select();
+          }
+        }
+        checkPinAutoSubmit();
+      });
 
-    const INITIAL_REALIZED = [
-      { date: '2025-08-05', ticker: 'GDXU', gross: 172773, net: 169893, note: '🎯 금광 3X 1차 익절' },
-      { date: '2025-09-18', ticker: 'TQQQ', gross: 2144603, net: 2139696, note: '🎯 나스닥 3X 대규모 익절' },
-      { date: '2025-09-18', ticker: 'TECL', gross: 2137535, net: 2127841, note: '🎯 테크 3X 대규모 익절' },
-      { date: '2025-10-16', ticker: 'GDXU', gross: 651323, net: 647758, note: '🎯 금광 3X 2차 익절' },
-      { date: '2025-10-28', ticker: 'TQQQ', gross: 1326220, net: 1312252, note: '🎯 나스닥 3X 2차 익절' },
-      { date: '2025-12-22', ticker: 'GDXU', gross: 2167685, net: 2161891, note: '🎯 금광 3X 전량 익절 (2025 결산)' },
-      { date: '2026-01-08', ticker: '005930(삼성전자)', gross: 314060, net: 314060, note: '🇰🇷 국내주식 삼성전자 1차 익절' },
-      { date: '2026-04-27', ticker: 'TQQQ', gross: 1167495, net: 1160041, note: '🎯 나스닥 3X 3차 익절' },
-      { date: '2026-05-06', ticker: '005930(삼성전자)', gross: 1167495, net: 991350, note: '🇰🇷 국내주식 삼성전자 2차 익절 (2026 결산)' }
-    ];
+      // 백스페이스 및 엔터 키 처리
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          pinDigits[index - 1].focus();
+          pinDigits[index - 1].value = '';
+        }
+        if (e.key === 'Enter') {
+          unlockDashboard();
+        }
+      });
 
-    const INITIAL_DEPOSITS = [
-      { date: '2021-02-06', type: 'DEPOSIT', currency: 'KRW', amount: 5000000, note: '초기 투자금 입금' },
-      { date: '2021-02-19', type: 'DEPOSIT', currency: 'KRW', amount: 5000000, note: '투자금 추가 입금' },
-      { date: '2021-02-26', type: 'DEPOSIT', currency: 'KRW', amount: 5000000, note: '투자금 추가 입금' },
-      { date: '2021-03-16', type: 'DEPOSIT', currency: 'KRW', amount: 5000000, note: '투자금 추가 입금' },
-      { date: '2021-05-14', type: 'DEPOSIT', currency: 'KRW', amount: 200000, note: '투자금 추가 입금' },
-      { date: '2021-05-26', type: 'DEPOSIT', currency: 'KRW', amount: 412633, note: '투자금 추가 입금' },
-      { date: '2021-07-14', type: 'DEPOSIT', currency: 'KRW', amount: 1000000, note: '투자금 추가 입금' },
-      { date: '2021-09-21', type: 'DEPOSIT', currency: 'KRW', amount: 1000000, note: '투자금 추가 입금' },
-      { date: '2021-09-22', type: 'DEPOSIT', currency: 'KRW', amount: 2000000, note: '투자금 추가 입금' },
-      { date: '2021-10-15', type: 'DEPOSIT', currency: 'KRW', amount: 1000000, note: '투자금 추가 입금' },
-      { date: '2022-01-10', type: 'DEPOSIT', currency: 'KRW', amount: 1000000, note: '투자금 추가 입금' },
-      { date: '2022-01-27', type: 'DEPOSIT', currency: 'KRW', amount: 1500000, note: '투자금 추가 입금' },
-      { date: '2022-01-29', type: 'DEPOSIT', currency: 'KRW', amount: 2000000, note: '투자금 추가 입금' },
-      { date: '2022-02-07', type: 'DEPOSIT', currency: 'KRW', amount: 1740734, note: '투자금 추가 입금' },
-      { date: '2022-03-02', type: 'DEPOSIT', currency: 'KRW', amount: 1000000, note: '투자금 추가 입금' },
-      { date: '2022-08-12', type: 'DEPOSIT', currency: 'KRW', amount: 300000, note: '투자금 추가 입금' },
-      { date: '2022-08-17', type: 'WITHDRAW', currency: 'KRW', amount: -55557, note: '일부 출금' },
-      { date: '2024-08-14', type: 'DEPOSIT', currency: 'KRW', amount: 100000, note: '투자금 추가 입금' },
-      { date: '2024-09-05', type: 'DEPOSIT', currency: 'KRW', amount: 159093, note: '투자금 추가 입금' },
-      { date: '2025-05-08', type: 'DEPOSIT', currency: 'KRW', amount: 5000, note: '투자금 추가 입금' },
-      { date: '2025-07-22', type: 'DEPOSIT', currency: 'KRW', amount: 2000000, note: '투자금 추가 입금' },
-      { date: '2025-11-21', type: 'DEPOSIT', currency: 'KRW', amount: 400000, note: '투자금 추가 입금 (총 3,576만원 완성)' }
-    ];
+      // 클릭 시 해당 칸 내용 자동 선택
+      input.addEventListener('focus', (e) => {
+        e.target.select();
+      });
+    });
 
-    const INITIAL_DIVIDENDS = [];
-    const INITIAL_TAXES = [];
-
-    // TQQQ: 스카이블루, GDXU: 앰버골드 색상 분리
-    const TICKER_COLOR_MAP = {
-      'TQQQ': '#38bdf8',
-      'GDXU': '#fbbf24',
-      'TECL': '#a855f7',
-      '005930': '#10b981',
-      '005930(삼성전자)': '#10b981',
-      '삼성전자': '#10b981',
-      'ERX': '#f97316',
-      'SOXL': '#06b6d4',
-      'LABU': '#f43f5e',
-      'WEBL': '#ec4899',
-      'BITX': '#eab308',
-      'BTC': '#eab308',
-      'CASH': '#71717a'
-    };
-
-    const TICKER_NAME_MAP = {
-      'ERX': { name: '에너지 2X (디렉시온)', category: '미국주식', curr: 'USD' },
-      'ERY': { name: '에너지 인버스 2X', category: '미국주식', curr: 'USD' },
-      'TQQQ': { name: '나스닥 3X', category: '미국주식', curr: 'USD' },
-      'SQQQ': { name: '나스닥 인버스 3X', category: '미국주식', curr: 'USD' },
-      'SOXL': { name: '반도체 3X', category: '미국주식', curr: 'USD' },
-      'SOXS': { name: '반도체 인버스 3X', category: '미국주식', curr: 'USD' },
-      'LABU': { name: '바이오 3X', category: '미국주식', curr: 'USD' },
-      'LABD': { name: '바이오 인버스 3X', category: '미국주식', curr: 'USD' },
-      'WEBL': { name: '인터넷 3X', category: '미국주식', curr: 'USD' },
-      'GDXU': { name: '금광 3X', category: '미국주식', curr: 'USD' },
-      'TECL': { name: '테크 3X', category: '미국주식', curr: 'USD' },
-      'FNGU': { name: '빅테크 Top10 3X', category: '미국주식', curr: 'USD' },
-      'UPRO': { name: 'S&P500 3X', category: '미국주식', curr: 'USD' },
-      'SPXU': { name: 'S&P500 인버스 3X', category: '미국주식', curr: 'USD' },
-      'FAS': { name: '금융 3X', category: '미국주식', curr: 'USD' },
-      'FAZ': { name: '금융 인버스 3X', category: '미국주식', curr: 'USD' },
-      'TNA': { name: '소형주 러셀 3X', category: '미국주식', curr: 'USD' },
-      'TZA': { name: '소형주 러셀 인버스 3X', category: '미국주식', curr: 'USD' },
-      'BITX': { name: '비트코인 2X', category: '가상자산', curr: 'USD' },
-      'SCHD': { name: '미국 배당 다우존스', category: '미국주식', curr: 'USD' },
-      'JEPI': { name: 'JP모건 프리미엄 고배당', category: '미국주식', curr: 'USD' },
-      'JEPQ': { name: 'JP모건 나스닥 고배당', category: '미국주식', curr: 'USD' },
-      'O': { name: '리얼티인컴 (월배당)', category: '미국주식', curr: 'USD' },
-      'QQQ': { name: '나스닥 100', category: '미국주식', curr: 'USD' },
-      'SPY': { name: 'S&P 500', category: '미국주식', curr: 'USD' },
-      'NVDA': { name: '엔비디아', category: '미국주식', curr: 'USD' },
-      'TSLA': { name: '테슬라', category: '미국주식', curr: 'USD' },
-      'AAPL': { name: '애플', category: '미국주식', curr: 'USD' },
-      'BTC': { name: '비트코인', category: '가상자산', curr: 'KRW' },
-      'ETH': { name: '이더리움', category: '가상자산', curr: 'KRW' },
-      '005930': { name: '삼성전자', category: '국내주식', curr: 'KRW' },
-      '005930(삼성전자)': { name: '삼성전자', category: '국내주식', curr: 'KRW' },
-      '000660': { name: 'SK하이닉스', category: '국내주식', curr: 'KRW' }
-    };
-
-    function handleTickerAutoFill(val, nameInputId, catSelectId, currencyCallback) {
-      const ticker = val.toUpperCase().trim();
-      const nameInput = document.getElementById(nameInputId);
-      const catSelect = catSelectId ? document.getElementById(catSelectId) : null;
-
-      if (!ticker) {
-        if (nameInput) nameInput.value = '';
-        return;
-      }
-
-      if (TICKER_NAME_MAP[ticker]) {
-        const info = TICKER_NAME_MAP[ticker];
-        if (nameInput) nameInput.value = info.name;
-        if (catSelect) catSelect.value = info.category;
-        if (currencyCallback) currencyCallback(info.curr);
-      } else {
-        if (nameInput) nameInput.value = ticker;
-        if (/^\d{6}$/.test(ticker)) {
-          if (catSelect) catSelect.value = '국내주식';
-          if (currencyCallback) currencyCallback('KRW');
+    // 4자리 채워졌을 때 자동 제출 및 해제
+    function checkPinAutoSubmit() {
+      const enteredPin = Array.from(pinDigits).map(i => i.value).join('');
+      if (enteredPin.length === 4) {
+        if (enteredPin === MASTER_PIN) {
+          unlockDashboard();
         } else {
-          if (catSelect) catSelect.value = '미국주식';
-          if (currencyCallback) currencyCallback('USD');
+          document.getElementById('pinError').classList.remove('hidden');
+          pinDigits.forEach(i => { i.value = ''; i.classList.add('border-rose-500'); });
+          setTimeout(() => pinDigits[0].focus(), 50);
         }
       }
     }
-
-    const MASTER_PIN = "5929";
-
-    let holdings = JSON.parse(localStorage.getItem('alpha_holdings')) || INITIAL_HOLDINGS;
-    let buyList = JSON.parse(localStorage.getItem('alpha_buys')) || INITIAL_BUYS;
-    let realizedList = JSON.parse(localStorage.getItem('alpha_realized')) || INITIAL_REALIZED;
-    
-    let savedDeposits = null;
-    try { savedDeposits = JSON.parse(localStorage.getItem('alpha_deposits')); } catch(e) {}
-    let depositList = (savedDeposits && Array.isArray(savedDeposits) && savedDeposits.length > 0)
-      ? savedDeposits
-      : INITIAL_DEPOSITS;
-
-    let savedDividends = null;
-    try { savedDividends = JSON.parse(localStorage.getItem('alpha_dividends')); } catch(e) {}
-    let dividendList = (savedDividends && Array.isArray(savedDividends)) ? savedDividends : INITIAL_DIVIDENDS;
-
-    let savedTaxes = null;
-    try { savedTaxes = JSON.parse(localStorage.getItem('alpha_taxes')); } catch(e) {}
-    let taxList = (savedTaxes && Array.isArray(savedTaxes)) ? savedTaxes : INITIAL_TAXES;
-    
-    let currentMonthlyYearFilter = 'ALL';
-    let currentAssetTrendView = 'YEARLY';
-    let donutLevel = 1;
-
-    // 13개 고정 페이징
-    const PAGE_SIZE = 13;
-    let currentPageBuys = 1;
-    let currentPageRealized = 1;
-    let currentPageDeposits = 1;
-    let currentPageDividends = 1;
-    let currentPageTaxes = 1;
-
-    let targetDeleteSellIndex = -1;
-    let targetDeleteBuyIndex = -1;
-    let targetDeleteDepositIndex = -1;
-    let targetDeleteDividendIndex = -1;
-    let targetDeleteTaxIndex = -1;
-
-    let donutChartInstance = null;
-    let yearlyChartInstance = null;
-    let monthlyChartInstance = null;
-    let assetTrendChartInstance = null;
-    let tickerProfitChartInstance = null;
-
-    /* 2. 보안 PIN 제어 */
-    const pinDigits = document.querySelectorAll('.pin-digit');
-    pinDigits.forEach((input, index) => {
-      input.addEventListener('input', (e) => {
-        if (e.target.value.length === 1 && index < pinDigits.length - 1) pinDigits[index + 1].focus();
-      });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !e.target.value && index > 0) pinDigits[index - 1].focus();
-        if (e.key === 'Enter') unlockDashboard();
-      });
-    });
 
     function unlockDashboard() {
       const enteredPin = Array.from(pinDigits).map(i => i.value).join('');
       if (enteredPin === MASTER_PIN) {
         document.getElementById('pinLockModal').classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => document.getElementById('pinLockModal').style.display = 'none', 300);
+        setTimeout(() => {
+          document.getElementById('pinLockModal').style.display = 'none';
+          renderAll(); // 해제 후 차트 사이즈 재계산 완벽 보장!
+        }, 300);
       } else {
         document.getElementById('pinError').classList.remove('hidden');
         pinDigits.forEach(i => { i.value = ''; i.classList.add('border-rose-500'); });
@@ -1223,477 +1082,294 @@
       modal.classList.remove('opacity-0', 'pointer-events-none');
       pinDigits.forEach(i => { i.value = ''; i.classList.remove('border-rose-500'); });
       document.getElementById('pinError').classList.add('hidden');
-      pinDigits[0].focus();
+      setTimeout(() => pinDigits[0].focus(), 100);
     }
 
-    /* 3. 환율 연동 */
-    async function fetchLatestExchangeRate() {
-      const rateInput = document.getElementById('usdExchangeRate');
-      const badge = document.getElementById('rateStatusBadge');
-      try {
-        badge.textContent = '조회 중... ⏳';
-        const res = await fetch('https://open.er-api.com/v6/latest/USD');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.rates && data.rates.KRW) {
-            const latestKRW = Math.round(data.rates.KRW);
-            rateInput.value = latestKRW;
-            badge.textContent = '동기화 완료 🟢';
-            const divRateInput = document.getElementById('divRate');
-            if (divRateInput) divRateInput.value = latestKRW;
-            const taxRateInput = document.getElementById('taxRate');
-            if (taxRateInput) taxRateInput.value = latestKRW;
-            renderAll();
-            return;
-          }
-        }
-        throw new Error('API 오류');
-      } catch (err) {
-        badge.textContent = '수동 설정 ⚪';
-      }
-    }
+    /* 2. 모달 제어 */
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    function setBuyCurrency(curr) {
-      document.getElementById('buyCurrency').value = curr;
-      if (curr === 'KRW') {
-        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        document.getElementById('buyPrice').placeholder = "매입 단가 (₩ 원화)";
+    /* 3. 폼 제출 핸들러들 */
+    function handleBuySubmit(e) {
+      e.preventDefault();
+      const curr = document.getElementById('buyCurrency').value;
+      const inputPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+      const shares = parseFloat(document.getElementById('buyShares').value) || 0;
+      const ticker = document.getElementById('buyTicker').value.toUpperCase().trim();
+      const name = document.getElementById('buyName').value.trim() || ticker;
+      const category = document.getElementById('buyCategory').value;
+      const date = document.getElementById('buyDate').value;
+      const note = document.getElementById('buyNote').value.trim() || '신규 편입';
+
+      buyList.push({ date, category, ticker, name, shares, price: inputPrice, currency: curr, note });
+
+      let exist = holdings.find(h => h.ticker === ticker);
+      if (exist) {
+        const totalOldCost = exist.shares * exist.avgPrice;
+        const totalNewCost = shares * inputPrice;
+        exist.shares += shares;
+        exist.avgPrice = (totalOldCost + totalNewCost) / exist.shares;
+        exist.curPrice = inputPrice;
       } else {
-        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        document.getElementById('buyPrice').placeholder = "매입 단가 ($ 달러)";
+        holdings.push({ category, ticker, name, shares, avgPrice: inputPrice, curPrice: inputPrice, currency: curr, target: 0, note });
       }
+
+      closeModal('buyModal');
+      e.target.reset();
+      setBuyCurrency('USD');
+      renderAll();
     }
 
-    function autoSelectCurrencyByCategory(cat, currencyCallback) {
-      if (cat === '국내주식' || cat === '가상자산') currencyCallback('KRW');
-      else currencyCallback('USD');
+    function handleSellSubmit(e) {
+      e.preventDefault();
+      const newSell = {
+        date: document.getElementById('sellDate').value,
+        ticker: document.getElementById('sellTicker').value.toUpperCase().trim(),
+        gross: parseInt(document.getElementById('sellGrossProfit').value) || 0,
+        net: parseInt(document.getElementById('sellNetProfit').value) || 0,
+        note: document.getElementById('sellNote').value.trim() || '수익 실현'
+      };
+
+      realizedList.push(newSell);
+      closeModal('sellModal');
+      e.target.reset();
+      renderAll();
     }
 
-    function setDepositType(type) {
-      document.getElementById('depositType').value = type;
-      const btnDep = document.getElementById('btnTypeDeposit');
-      const btnWith = document.getElementById('btnTypeWithdraw');
-      const submitBtn = document.getElementById('btnDepositSubmit');
-      const label = document.getElementById('depositAmountLabel');
-      const curr = document.getElementById('depositCurrency').value;
-
-      if (type === 'DEPOSIT') {
-        btnDep.className = "py-2.5 rounded-lg font-extrabold border border-emerald-500 bg-emerald-500/20 text-emerald-300 transition shadow";
-        btnWith.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-white transition";
-        submitBtn.className = "w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg";
-        submitBtn.textContent = "입금 장부 반영 & 현금(CASH) 충전 💵";
-        label.textContent = curr === 'KRW' ? "입금 금액 (원화 ₩)" : "입금 금액 (달러 $)";
-      } else {
-        btnWith.className = "py-2.5 rounded-lg font-extrabold border border-rose-500 bg-rose-500/20 text-rose-300 transition shadow";
-        btnDep.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-white transition";
-        submitBtn.className = "w-full py-3 bg-rose-600 text-white font-extrabold rounded-xl hover:bg-rose-500 transition mt-2 shadow-lg";
-        submitBtn.textContent = "출금 장부 반영 & 현금(CASH) 차감 💸";
-        label.textContent = curr === 'KRW' ? "출금 금액 (원화 ₩)" : "출금 금액 (달러 $)";
-      }
-    }
-
-    function setDepositCurrency(curr) {
-      document.getElementById('depositCurrency').value = curr;
+    function handleDepositSubmit(e) {
+      e.preventDefault();
       const type = document.getElementById('depositType').value;
-      const label = document.getElementById('depositAmountLabel');
-      const input = document.getElementById('depositAmount');
-      const actionName = type === 'DEPOSIT' ? '입금' : '출금';
-
-      if (curr === 'KRW') {
-        document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = `${actionName} 금액 (원화 ₩)`;
-        input.placeholder = "예: 1000000";
-      } else {
-        document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = `${actionName} 금액 (달러 $)`;
-        input.placeholder = "예: 1000";
-      }
-    }
-
-    function setDivCurrency(curr) {
-      document.getElementById('divCurrency').value = curr;
-      const label = document.getElementById('divAmountLabel');
-      const amountInput = document.getElementById('divAmount');
-      const taxInput = document.getElementById('divTax');
-
-      if (curr === 'KRW') {
-        document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "세후 입금액 (원화 ₩)";
-        amountInput.placeholder = "예: 50000";
-        taxInput.placeholder = "예: 7500";
-      } else {
-        document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
-        document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "세후 입금액 (외화 $)";
-        amountInput.placeholder = "예: 0.94";
-        taxInput.placeholder = "예: 0.16";
-      }
-    }
-
-    function setTaxCurrency(curr) {
-      document.getElementById('taxCurrency').value = curr;
-      const label = document.getElementById('taxAmountLabel');
-      const amountInput = document.getElementById('taxAmount');
-
-      if (curr === 'KRW') {
-        document.getElementById('btnTaxKRW').className = "py-2 rounded-lg font-bold border border-rose-400 bg-rose-400 text-black transition shadow";
-        document.getElementById('btnTaxUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "출금 세액 (원화 ₩)";
-        amountInput.placeholder = "예: 15000";
-      } else {
-        document.getElementById('btnTaxUSD').className = "py-2 rounded-lg font-bold border border-rose-400 bg-rose-400 text-black transition shadow";
-        document.getElementById('btnTaxKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
-        label.textContent = "외화정산금액 (출금세액 $)";
-        amountInput.placeholder = "예: 5.20";
-      }
-    }
-
-    /* 페이징 UI */
-    function renderPaginationUI(containerId, currentPage, totalPages, onPageClickFnName) {
-      const bar = document.getElementById(containerId);
-      if (!bar) return;
-
-      if (totalPages <= 1) {
-        bar.innerHTML = `<span class="text-zinc-500">1 / 1 페이지 (총 ${PAGE_SIZE}개 이하)</span>`;
-        return;
-      }
-
-      let html = `<div class="flex items-center gap-1.5">
-        <button onclick="${onPageClickFnName}(${Math.max(1, currentPage - 1)})" ${currentPage === 1 ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition"'}>
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>`;
-
-      for (let p = 1; p <= totalPages; p++) {
-        if (p === currentPage) {
-          html += `<button class="px-2.5 py-1 rounded bg-sky-400 text-black font-bold font-num shadow">${p}</button>`;
-        } else {
-          html += `<button onclick="${onPageClickFnName}(${p})" class="px-2.5 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 font-num transition">${p}</button>`;
-        }
-      }
-
-      html += `<button onclick="${onPageClickFnName}(${Math.min(totalPages, currentPage + 1)})" ${currentPage === totalPages ? 'disabled class="px-2 py-1 rounded bg-zinc-900 text-zinc-600 cursor-not-allowed"' : 'class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition"'}>
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
-      <span class="text-zinc-500 font-num">${currentPage} /${totalPages} 페이지</span>`;
-
-      bar.innerHTML = html;
-    }
-
-    function changeBuysPage(p) { currentPageBuys = p; renderAll(); }
-    function changeRealizedPage(p) { currentPageRealized = p; renderAll(); }
-    function changeDepositsPage(p) { currentPageDeposits = p; renderAll(); }
-    function changeDividendsPage(p) { currentPageDividends = p; renderAll(); }
-    function changeTaxesPage(p) { currentPageTaxes = p; renderAll(); }
-
-    /* 4. 전체 데이터 계산 & 렌더링 총괄 (3중 에러 안전망 장착) */
-    function renderAll() {
+      const curr = document.getElementById('depositCurrency').value;
+      const rawAmt = parseFloat(document.getElementById('depositAmount').value) || 0;
+      const amt = (type === 'WITHDRAW') ? -Math.abs(rawAmt) : Math.abs(rawAmt);
+      const date = document.getElementById('depositDate').value;
+      const note = document.getElementById('depositNote').value.trim() || (type === 'DEPOSIT' ? '추가 입금' : '계좌 출금');
       const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
 
-      // 🌟 [안전 날짜 순서 정렬] 날짜 누락 방어 🌟
-      depositList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
-      buyList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
-      realizedList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
-      dividendList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
-      taxList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
+      depositList.push({ date, type, currency: curr, amount: amt, note });
 
-      let totalSeedKRW = 0;
-      depositList.forEach(d => {
-        const valKRW = (d.currency === 'KRW') ? Number(d.amount || 0) : (Number(d.amount || 0) * rate);
-        totalSeedKRW += valKRW;
-      });
-
-      let totalValueKRW = 0;
-      let totalValueUSD = 0;
-      let totalBuyKRW = 0;
-      let cashKRW = 0;
-
-      holdings.forEach(h => {
-        const valUSD = (h.currency === 'USD') ? (h.shares * h.curPrice) : (h.shares * h.curPrice / rate);
-        const valKRW = (h.currency === 'USD') ? (valUSD * rate) : (h.shares * h.curPrice);
-        const buyKRW = (h.currency === 'USD') ? (h.shares * h.avgPrice * rate) : (h.shares * h.avgPrice);
-
-        totalValueUSD += valUSD;
-        totalValueKRW += valKRW;
-        totalBuyKRW += buyKRW;
-
-        if (h.ticker === 'CASH') cashKRW += valKRW;
-      });
-
-      // 1) 매도 실현손익
-      const totalNetRealizedKRW = realizedList.reduce((acc, cur) => acc + Number(cur.net || 0), 0);
-
-      // 2) 배당금 실현손익 (Number 변환으로 문자열 충돌 방어)
-      const totalDividendKRW = dividendList.reduce((acc, cur) => {
-        const amt = Number(cur.amount || 0);
-        const rt = Number(cur.rate || rate);
-        const val = (cur.currency === 'KRW') ? amt : (amt * rt);
-        return acc + val;
-      }, 0);
-
-      // 3) 세금 출금 총액 (Number 변환)
-      const totalTaxKRW = taxList.reduce((acc, cur) => {
-        const amt = Number(cur.amount || 0);
-        const rt = Number(cur.rate || rate);
-        const val = (cur.currency === 'KRW') ? amt : (amt * rt);
-        return acc + val;
-      }, 0);
-
-      // 4) 매수 장부 총 매수금액
-      const totalBuysKRW = buyList.reduce((acc, cur) => {
-        const val = (cur.currency === 'USD') ? (Number(cur.shares || 0) * Number(cur.price || 0) * rate) : (Number(cur.shares || 0) * Number(cur.price || 0));
-        return acc + val;
-      }, 0);
-
-      // 5) 순 실현손익 = 매도 손익 + 배당금 수익 - 세금 출금
-      const overallRealizedKRW = totalNetRealizedKRW + totalDividendKRW - totalTaxKRW;
-      const cumulativeReturnRate = totalSeedKRW > 0 ? ((overallRealizedKRW / totalSeedKRW) * 100).toFixed(2) : 0;
-      const totalToSeedRatio = totalSeedKRW > 0 ? ((totalValueKRW / totalSeedKRW) * 100).toFixed(1) : 0;
-      const unrealizedKRW = totalValueKRW - totalBuyKRW;
-      const unrealizedRate = totalBuyKRW > 0 ? ((unrealizedKRW / totalBuyKRW) * 100).toFixed(2) : 0;
-      const cashRatio = totalValueKRW > 0 ? ((cashKRW / totalValueKRW) * 100).toFixed(1) : 0;
-
-      // KPI UI 업데이트
-      document.getElementById('kpiTotalSeedKRW').textContent = '₩' + Math.round(totalSeedKRW).toLocaleString();
-      document.getElementById('kpiDepositCountText').textContent = `총 ${depositList.length}건 입출금 합산`;
-      
-      document.getElementById('kpiTotalKRW').textContent = '₩' + Math.round(totalValueKRW).toLocaleString();
-      document.getElementById('kpiTotalUSD').textContent = '$' + totalValueUSD.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      
-      const ratioEl = document.getElementById('kpiTotalToSeedRatio');
-      ratioEl.textContent = `${totalToSeedRatio}%`;
-      ratioEl.className = `font-bold font-num ${parseFloat(totalToSeedRatio) >= 100 ? 'text-sky-400' : 'text-zinc-300'}`;
-
-      document.getElementById('kpiCashRatio').textContent = cashRatio + '%';
-      
-      document.getElementById('kpiRealizedKRW').textContent = '+₩' + Math.round(overallRealizedKRW).toLocaleString();
-      document.getElementById('kpiProfitBreakdownText').textContent = `매도: +₩${Math.round(totalNetRealizedKRW/10000)}만 | 배당: +₩${Math.round(totalDividendKRW/10000)}만 \vert{} 세금: -₩${Math.round(totalTaxKRW/10000)}만`;
-      document.getElementById('kpiCumulativeReturn').textContent = `+${cumulativeReturnRate}%`;
-      
-      document.getElementById('kpiUnrealizedKRW').textContent = (unrealizedKRW >= 0 ? '+₩' : '-₩') + Math.abs(Math.round(unrealizedKRW)).toLocaleString();
-      document.getElementById('kpiUnrealizedRate').textContent = (unrealizedRate >= 0 ? '+' : '') + unrealizedRate + '%';
-      document.getElementById('holdingCount').textContent = holdings.length;
-
-      document.getElementById('yearlyTotalBadge').textContent = `누적 +${Math.round(overallRealizedKRW/10000)}만 원`;
-      document.getElementById('rankTotalBadge').textContent = `총 확정 실현손익: +${Math.round(overallRealizedKRW/10000)}만 원`;
-
-      // 6대 장부 헤더 요약 뱃지 동기화
-      const holdingTotalEl = document.getElementById('holdingHeaderTotalKRW');
-      if (holdingTotalEl) holdingTotalEl.textContent = '₩' + Math.round(totalValueKRW).toLocaleString();
-      const hRateEl = document.getElementById('holdingHeaderTotalRate');
-      if (hRateEl) {
-        hRateEl.textContent = `${unrealizedRate >= 0 ? '+' : ''}${unrealizedRate}%`;
-        hRateEl.className = `font-black ${unrealizedRate >= 0 ? 'text-sky-400' : 'text-rose-400'}`;
-      }
-
-      const buysHeaderEl = document.getElementById('buysHeaderTotalKRW');
-      if (buysHeaderEl) buysHeaderEl.textContent = '₩' + Math.round(totalBuysKRW).toLocaleString();
-      
-      const realNetEl = document.getElementById('realizedHeaderNet');
-      if (realNetEl) realNetEl.textContent = '+₩' + Math.round(totalNetRealizedKRW).toLocaleString();
-      const realizedGrossSum = realizedList.reduce((a, b) => a + Number(b.gross || 0), 0);
-      const realGrossEl = document.getElementById('realizedHeaderGross');
-      if (realGrossEl) realGrossEl.textContent = '₩' + Math.round(realizedGrossSum).toLocaleString();
-      
-      const depHeaderEl = document.getElementById('depositHeaderTotalKRW');
-      if (depHeaderEl) depHeaderEl.textContent = '₩' + Math.round(totalSeedKRW).toLocaleString();
-      
-      const divHeaderEl = document.getElementById('dividendHeaderTotalKRW');
-      if (divHeaderEl) divHeaderEl.textContent = '+₩' + Math.round(totalDividendKRW).toLocaleString();
-      
-      const taxHeaderEl = document.getElementById('taxHeaderTotalKRW');
-      if (taxHeaderEl) taxHeaderEl.textContent = '-₩' + Math.round(totalTaxKRW).toLocaleString();
-
-      // UI 렌더링
-      renderRebalanceGuide(totalValueUSD, rate);
-      renderHoldingsUI(rate, totalValueUSD);
-      renderBuysTable(rate);
-      renderRealizedTable();
-      renderDepositsTable(rate);
-      renderDividendsTable();
-      renderTaxesTable();
-      
-      // 차트 렌더링 호출
-      renderAllCharts(totalValueKRW, overallRealizedKRW, totalDividendKRW);
-
-      localStorage.setItem('alpha_holdings', JSON.stringify(holdings));
-      localStorage.setItem('alpha_buys', JSON.stringify(buyList));
-      localStorage.setItem('alpha_realized', JSON.stringify(realizedList));
-      localStorage.setItem('alpha_deposits', JSON.stringify(depositList));
-      localStorage.setItem('alpha_dividends', JSON.stringify(dividendList));
-      localStorage.setItem('alpha_taxes', JSON.stringify(taxList));
-    }
-
-    function renderRebalanceGuide(totalUSD, rate) {
-      const container = document.getElementById('rebalanceGuideContent');
-      if (!container) return;
-      container.innerHTML = '';
-
-      const tqqq = holdings.find(h => h.ticker === 'TQQQ');
-      const soxl = holdings.find(h => h.ticker === 'SOXL');
-      const cash = holdings.find(h => h.ticker === 'CASH');
-
-      const targetCashUSD = totalUSD * 0.30;
-      const targetTqqqUSD = totalUSD * 0.40;
-      const targetSoxlUSD = totalUSD * 0.30;
-
-      const curCashUSD = cash ? (cash.shares * cash.curPrice) : 0;
-      const curTqqqUSD = tqqq ? (tqqq.shares * tqqq.curPrice) : 0;
-      const curSoxlUSD = soxl ? (soxl.shares * soxl.curPrice) : 0;
-
-      const diffCash = targetCashUSD - curCashUSD;
-      const diffTqqqShares = tqqq ? Math.round((targetTqqqUSD - curTqqqUSD) / tqqq.curPrice) : 0;
-      const diffSoxlShares = soxl ? Math.round((targetSoxlUSD - curSoxlUSD) / soxl.curPrice) : 0;
-
-      const guides = [
-        `💵 <strong class="text-white">전략 대기 현금:</strong> 목표 30% ($${Math.round(targetCashUSD).toLocaleString()}) 대비 현재 $${Math.round(curCashUSD).toLocaleString()} 보유 ➜ <span class="text-sky-400 font-bold">$${Math.round(diffCash).toLocaleString()} (약 ${Math.round(diffCash*rate/10000)}만 원) 충전 필요</span>`,
-        `🟢 <strong class="text-white">TQQQ (나스닥 3X):</strong> 목표 40% 대비 현재 ${(curTqqqUSD/totalUSD*100).toFixed(1)}\% ➜ <span class="text-sky-400 font-bold">약 ${diffTqqqShares}주 추가 분할 매수 필요</span> (월 100만 원 4분할 루틴)`,
-        `🟢 <strong class="text-white">SOXL (반도체 3X):</strong> 목표 30% 대비 현재 ${(curSoxlUSD/totalUSD*100).toFixed(1)}\% ➜ <span class="text-sky-400 font-bold">약 ${diffSoxlShares}주 추가 분할 매수 필요</span> (과매도 RSI 35 이하 타점)`,
-        `🚨 <strong class="text-white">LABU / WEBL:</strong> 포트폴리오 비중 과다 (현재 81% 잠식) ➜ <span class="text-rose-400 font-bold">추가 물타기 절대 금지! 단기 반등 시마다 10~20%씩 분할 탈출</span>`
-      ];
-
-      guides.forEach(g => {
-        const p = document.createElement('p');
-        p.innerHTML = g;
-        container.appendChild(p);
-      });
-    }
-
-    function renderHoldingsUI(rate, totalUSD) {
-      const tbody = document.getElementById('holdingsTableBody');
-      const mobileGrid = document.getElementById('holdingsMobileCards');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      if (mobileGrid) mobileGrid.innerHTML = '';
-
-      holdings.forEach((h) => {
-        const valUSD = (h.currency === 'USD') ? (h.shares * h.curPrice) : (h.shares * h.curPrice / rate);
-        const valKRW = (h.currency === 'USD') ? (valUSD * rate) : (h.shares * h.curPrice);
-        const profitRate = h.avgPrice > 0 ? (((h.curPrice - h.avgPrice) / h.avgPrice) * 100).toFixed(2) : 0;
-        const isProfit = profitRate >= 0;
-        const weight = totalUSD > 0 ? ((valUSD / totalUSD) * 100).toFixed(1) : 0;
-
-        const badgeStyle = 'bg-zinc-800 text-zinc-200 border border-zinc-700';
-
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-zinc-800/40 transition border-b border-zinc-800/40";
-        tr.innerHTML = `
-          <td class="py-2.5 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${badgeStyle}">${h.category}</span></td>
-          <td class="py-2.5 px-2"><strong class="text-white text-xs">${h.ticker}</strong> <span class="text-zinc-500 text-[10px]">(${h.name})</span></td>
-          <td class="py-2.5 px-2 text-right font-bold text-zinc-200 font-num">${h.shares.toLocaleString()}</td>
-          <td class="py-2.5 px-2 text-right text-zinc-300 font-num">${h.currency === 'USD' ? '$' + h.avgPrice.toFixed(2) : '₩' + Math.round(h.avgPrice).toLocaleString()}</td>
-          <td class="py-2.5 px-2 text-right font-bold text-white font-num">${h.currency === 'USD' ? '$' + h.curPrice.toFixed(2) : '₩' + Math.round(h.curPrice).toLocaleString()}</td>
-          <td class="py-2.5 px-2 text-right font-num">
-            <div class="text-white font-bold whitespace-nowrap">₩${Math.round(valKRW).toLocaleString()}</div>
-            <div class="text-[10px] text-zinc-400 font-mono">${weight}%</div>
-          </td>
-          <td class="py-2.5 px-2 text-right font-bold font-num ${isProfit ? 'text-sky-400' : 'text-rose-400'}">
-            ${isProfit ? '+' : ''}${profitRate}%
-          </td>
-        `;
-        tbody.appendChild(tr);
-
-        if (mobileGrid) {
-          const card = document.createElement('div');
-          card.className = "custom-card rounded-xl p-4 border border-zinc-800 flex flex-col justify-between";
-          card.innerHTML = `
-            <div class="flex justify-between items-start mb-2">
-              <div>
-                <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${badgeStyle}">${h.category}</span>
-                <h4 class="text-base font-black text-white mt-1">${h.ticker} <span class="text-xs font-normal text-zinc-400">(${h.name})</span></h4>
-              </div>
-              <div class="text-right">
-                <span class="text-xs font-bold font-num ${isProfit ? 'text-sky-400' : 'text-rose-400'}">${isProfit ? '+' : ''}${profitRate}%</span>
-                <div class="text-[11px] text-zinc-400 font-num">${weight}% 비중</div>
-              </div>
-            </div>
-            <div class="grid grid-cols-2 gap-2 text-xs font-num my-2.5 bg-zinc-900/80 p-2.5 rounded-lg border border-zinc-800/80">
-              <div><span class="text-zinc-500">보유량:</span> <strong class="text-zinc-200">${h.shares}</strong></div>
-              <div><span class="text-zinc-500">현재가:</span> <strong class="text-white">${h.currency === 'USD' ? '$' + h.curPrice : '₩' + Math.round(h.curPrice).toLocaleString()}</strong></div>
-              <div class="col-span-2 pt-1 border-t border-zinc-800 flex justify-between">
-                <span class="text-zinc-500">평가액:</span>
-                <strong class="text-white">₩${Math.round(valKRW/10000)}만 ($${Math.round(valUSD)})</strong>
-              </div>
-            </div>
-            <p class="text-[11px] text-zinc-400 line-clamp-1">${h.note || ''}</p>
-          `;
-          mobileGrid.appendChild(card);
+      let cashHolding = holdings.find(h => h.ticker === 'CASH');
+      if (cashHolding) {
+        if (curr === 'USD') {
+          cashHolding.curPrice += amt;
+          cashHolding.avgPrice = cashHolding.curPrice;
+        } else {
+          cashHolding.curPrice += (amt / rate);
+          cashHolding.avgPrice = cashHolding.curPrice;
         }
-      });
-    }
-
-    function renderBuysTable(rate) {
-      const tbody = document.getElementById('buysTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      const totalItems = buyList.length;
-      const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
-      if (currentPageBuys > totalPages) currentPageBuys = totalPages;
-
-      const startIndex = (currentPageBuys - 1) * PAGE_SIZE;
-      const pageItems = buyList.slice(startIndex, startIndex + PAGE_SIZE);
-
-      if (pageItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">등록된 매수 내역이 없습니다 ☕</td></tr>`;
-      } else {
-        pageItems.forEach((b, localIdx) => {
-          const globalIndex = startIndex + localIdx;
-          const totalKRW = (b.currency === 'USD') ? (Number(b.shares) * Number(b.price) * rate) : (Number(b.shares) * Number(b.price));
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-zinc-800/40 transition border-b border-zinc-800/40";
-          tr.innerHTML = `
-            <td class="py-2 px-2 text-zinc-400 font-num whitespace-nowrap">${b.date}</td>
-            <td class="py-2 px-2"><strong class="text-white font-bold">${b.ticker}</strong></td>
-            <td class="py-2 px-2 text-right font-num text-zinc-200 font-bold">${Number(b.shares).toLocaleString()}</td>
-            <td class="py-2 px-2 text-right text-zinc-300 font-num">${b.currency === 'USD' ? '$' + Number(b.price).toFixed(2) : '₩' + Math.round(Number(b.price)).toLocaleString()}</td>
-            <td class="py-2 px-2 text-right font-bold text-white font-num whitespace-nowrap">₩${Math.round(totalKRW).toLocaleString()}</td>
-            <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${b.note || '-'}</td>
-            <td class="py-2 px-2 text-center">
-              <button onclick="event.stopPropagation(); openDeleteBuyModal(${globalIndex})" title="매수 기록 삭제" class="text-zinc-500 hover:text-rose-400 transition p-1">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
       }
 
-      renderPaginationUI('buysPaginationBar', currentPageBuys, totalPages, 'changeBuysPage');
+      closeModal('depositModal');
+      e.target.reset();
+      setDepositType('DEPOSIT');
+      setDepositCurrency('KRW');
+      renderAll();
     }
 
-    function renderRealizedTable() {
-      const tbody = document.getElementById('realizedTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
+    function handleDividendSubmit(e) {
+      e.preventDefault();
+      const date = document.getElementById('divDate').value;
+      const ticker = document.getElementById('divTicker').value.toUpperCase().trim();
+      const name = document.getElementById('divName').value.trim() || ticker;
+      const curr = document.getElementById('divCurrency').value;
+      const amount = parseFloat(document.getElementById('divAmount').value) || 0;
+      const tax = parseFloat(document.getElementById('divTax').value) || 0;
+      const rate = parseFloat(document.getElementById('divRate').value) || 1343;
+      const note = document.getElementById('divNote').value.trim() || '배당금 입금';
 
-      let runTotal = 0;
-      const enrichedRealized = realizedList.map(r => {
-        runTotal += Number(r.net || 0);
-        return { ...r, runningTotal: runTotal };
-      });
+      dividendList.push({ date, ticker, name, currency: curr, amount, tax, rate, note });
 
-      const totalItems = enrichedRealized.length;
-      const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
-      if (currentPageRealized > totalPages) currentPageRealized = totalPages;
+      let cashHolding = holdings.find(h => h.ticker === 'CASH');
+      if (cashHolding) {
+        if (curr === 'USD') {
+          cashHolding.curPrice += amount;
+          cashHolding.avgPrice = cashHolding.curPrice;
+        } else {
+          cashHolding.curPrice += (amount / rate);
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
 
-      const startIndex = (currentPageRealized - 1) * PAGE_SIZE;
-      const pageItems = enrichedRealized.slice(startIndex, startIndex + PAGE_SIZE);
+      closeModal('dividendModal');
+      e.target.reset();
+      setDivCurrency('USD');
+      renderAll();
+    }
 
-      if (pageItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">등록된 매도 손익 내역이 없습니다 ☕</td></tr>`;
-      } else {
-        pageItems.forEach((r, localIdx) => {
-          const globalIndex = startIndex + localIdx;
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-zinc-800/40 transition border-b border-zinc-800/40";
-          tr.innerHTML = `
-            <td class="py-2 px-2 text-zinc-400 font-num whitespace-nowrap">${r.date}</td>
-            <td class="py-2 px-2 font-bold text-white">${r.ticker}</td>
-            <td class="py-2 px-2 text-right text-zinc-300 font-num whitespace-nowrap">₩${Number(r.gross || 0).toLocaleString()}</td>
-            <td class="py저는 그런 것을 하도록 프로그램되지 않았습니다.
+    function handleTaxSubmit(e) {
+      e.preventDefault();
+      const date = document.getElementById('taxDate').value;
+      const ticker = document.getElementById('taxTicker').value.toUpperCase().trim();
+      const name = document.getElementById('taxName').value.trim() || ticker;
+      const curr = document.getElementById('taxCurrency').value;
+      const amount = parseFloat(document.getElementById('taxAmount').value) || 0;
+      const rate = parseFloat(document.getElementById('taxRate').value) || 1343;
+      const note = document.getElementById('taxNote').value.trim() || '외화 세금 출금';
+
+      taxList.push({ date, ticker, name, currency: curr, amount, rate, note });
+
+      let cashHolding = holdings.find(h => h.ticker === 'CASH');
+      if (cashHolding) {
+        if (curr === 'USD') {
+          cashHolding.curPrice -= amount;
+          cashHolding.avgPrice = cashHolding.curPrice;
+        } else {
+          cashHolding.curPrice -= (amount / rate);
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
+
+      closeModal('taxModal');
+      e.target.reset();
+      setTaxCurrency('USD');
+      renderAll();
+    }
+
+    /* 4. 삭제 팝업 모달 제어 */
+    function openDeleteSellModal(index) {
+      targetDeleteSellIndex = index;
+      const item = realizedList[index];
+      if (!item) return;
+
+      document.getElementById('delSellDate').textContent = item.date;
+      document.getElementById('delSellTicker').textContent = item.ticker;
+      document.getElementById('delSellGross').textContent = '₩' + Number(item.gross || 0).toLocaleString();
+      document.getElementById('delSellNet').textContent = '+₩' + Number(item.net || 0).toLocaleString();
+      document.getElementById('delSellNote').textContent = item.note || '-';
+
+      openModal('deleteSellConfirmModal');
+    }
+
+    function confirmExecuteDeleteSell() {
+      if (targetDeleteSellIndex >= 0 && targetDeleteSellIndex < realizedList.length) {
+        realizedList.splice(targetDeleteSellIndex, 1);
+        targetDeleteSellIndex = -1;
+        closeModal('deleteSellConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteBuyModal(index) {
+      targetDeleteBuyIndex = index;
+      const item = buyList[index];
+      if (!item) return;
+
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+      const totalKRW = (item.currency === 'USD') ? (Number(item.shares || 0) * Number(item.price || 0) * rate) : (Number(item.shares || 0) * Number(item.price || 0));
+
+      document.getElementById('delBuyDate').textContent = item.date;
+      document.getElementById('delBuyCategory').textContent = item.category;
+      document.getElementById('delBuyTickerName').textContent = `${item.ticker} (${item.name})`;
+      document.getElementById('delBuyShares').textContent = `${Number(item.shares || 0).toLocaleString()}주`;
+      document.getElementById('delBuyPrice').textContent = item.currency === 'USD' ? '$' + Number(item.price || 0).toFixed(2) : '₩' + Math.round(Number(item.price || 0)).toLocaleString();
+      document.getElementById('delBuyTotal').textContent = '₩' + Math.round(totalKRW).toLocaleString();
+      document.getElementById('delBuyNote').textContent = item.note || '-';
+
+      openModal('deleteBuyConfirmModal');
+    }
+
+    function confirmExecuteDeleteBuy() {
+      if (targetDeleteBuyIndex >= 0 && targetDeleteBuyIndex < buyList.length) {
+        buyList.splice(targetDeleteBuyIndex, 1);
+        targetDeleteBuyIndex = -1;
+        closeModal('deleteBuyConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteDepositModal(index) {
+      targetDeleteDepositIndex = index;
+      const item = depositList[index];
+      if (!item) return;
+
+      const rate = parseFloat(document.getElementById('usdExchangeRate').value) || 1343;
+      const valKRW = (item.currency === 'USD') ? (Number(item.amount || 0) * rate) : Number(item.amount || 0);
+
+      document.getElementById('delDepDate').textContent = item.date;
+      document.getElementById('delDepAmount').textContent = `${item.type === 'WITHDRAW' ? '출금: ' : '입금: '}${item.currency === 'USD' ? '$' + Math.abs(Number(item.amount || 0)).toLocaleString() : '₩' + Math.abs(Number(item.amount || 0)).toLocaleString()}`;
+      document.getElementById('delDepKRW').textContent = `${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}`;
+      document.getElementById('delDepNote').textContent = item.note || '-';
+
+      openModal('deleteDepositConfirmModal');
+    }
+
+    function confirmExecuteDeleteDeposit() {
+      if (targetDeleteDepositIndex >= 0 && targetDeleteDepositIndex < depositList.length) {
+        depositList.splice(targetDeleteDepositIndex, 1);
+        targetDeleteDepositIndex = -1;
+        closeModal('deleteDepositConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteDividendModal(index) {
+      targetDeleteDividendIndex = index;
+      const item = dividendList[index];
+      if (!item) return;
+
+      const valKRW = (item.currency === 'KRW') ? Number(item.amount || 0) : (Number(item.amount || 0) * Number(item.rate || 1343));
+
+      document.getElementById('delDivDate').textContent = item.date;
+      document.getElementById('delDivTicker').textContent = `${item.ticker} (${item.name})`;
+      document.getElementById('delDivAmount').textContent = item.currency === 'USD' ? '$' + Number(item.amount || 0).toFixed(2) : '₩' + Math.round(Number(item.amount || 0)).toLocaleString();
+      document.getElementById('delDivKRW').textContent = '+₩' + Math.round(valKRW).toLocaleString();
+      document.getElementById('delDivNote').textContent = item.note || '-';
+
+      openModal('deleteDividendConfirmModal');
+    }
+
+    function confirmExecuteDeleteDividend() {
+      if (targetDeleteDividendIndex >= 0 && targetDeleteDividendIndex < dividendList.length) {
+        dividendList.splice(targetDeleteDividendIndex, 1);
+        targetDeleteDividendIndex = -1;
+        closeModal('deleteDividendConfirmModal');
+        renderAll();
+      }
+    }
+
+    function openDeleteTaxModal(index) {
+      targetDeleteTaxIndex = index;
+      const item = taxList[index];
+      if (!item) return;
+
+      const valKRW = (item.currency === 'KRW') ? Number(item.amount || 0) : (Number(item.amount || 0) * Number(item.rate || 1343));
+
+      document.getElementById('delTaxDate').textContent = item.date;
+      document.getElementById('delTaxTicker').textContent = `${item.ticker} (${item.name})`;
+      document.getElementById('delTaxAmount').textContent = item.currency === 'USD' ? '$' + Number(item.amount || 0).toFixed(2) : '₩' + Math.round(Number(item.amount || 0)).toLocaleString();
+      document.getElementById('delTaxKRW').textContent = '-₩' + Math.round(valKRW).toLocaleString();
+      document.getElementById('delTaxNote').textContent = item.note || '-';
+
+      openModal('deleteTaxConfirmModal');
+    }
+
+    function confirmExecuteDeleteTax() {
+      if (targetDeleteTaxIndex >= 0 && targetDeleteTaxIndex < taxList.length) {
+        taxList.splice(targetDeleteTaxIndex, 1);
+        targetDeleteTaxIndex = -1;
+        closeModal('deleteTaxConfirmModal');
+        renderAll();
+      }
+    }
+
+    /* 초기 진입 구동 */
+    document.addEventListener('DOMContentLoaded', () => {
+      const today = new Date().toISOString().split('T')[0];
+      const sDate = document.getElementById('sellDate'); if (sDate) sDate.value = today;
+      const bDate = document.getElementById('buyDate'); if (bDate) bDate.value = today;
+      const dDate = document.getElementById('depositDate'); if (dDate) dDate.value = today;
+      const divDate = document.getElementById('divDate'); if (divDate) divDate.value = today;
+      const tDate = document.getElementById('taxDate'); if (tDate) tDate.value = today;
+
+      fetchLatestExchangeRate();
+      renderAll();
+
+      // PIN 첫 번째 칸 자동 포커스
+      setTimeout(() => {
+        const firstDigit = document.querySelector('.pin-digit');
+        if (firstDigit) firstDigit.focus();
+      }, 150);
+    });
+  </script>
+</body>
+</html>
