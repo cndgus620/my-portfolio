@@ -47,9 +47,9 @@
       --bg-card: #141416;
       --bg-card-hover: #1f1f23;
       --border-color: #27272a;
-      --primary-color: #fbbf24;
-      --secondary-color: #d97706;
-      --accent-color: #f59e0b;
+      --primary-color: #38bdf8; /* 다크모드 최적화 스카이 블루 */
+      --secondary-color: #0284c7;
+      --accent-color: #0ea5e9;
     }
     html, body {
       background-color: var(--bg-main, #09090b) !important;
@@ -68,25 +68,25 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black" data-theme="stealth">
+<body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-black" data-theme="stealth">
 
   <!-- ================= 보안 PIN 5929 잠금 모달 ================= -->
   <div id="pinLockModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md transition-opacity duration-300">
     <div class="custom-card p-8 rounded-2xl w-11/12 max-w-md text-center shadow-2xl border border-zinc-800">
-      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 text-2xl border border-amber-500/20">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-400 text-2xl border border-sky-500/20">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
       <h2 class="text-2xl font-black mb-1 tracking-tight text-white">PRIVATE ACCESS LOCK</h2>
       <p class="text-xs text-zinc-400 mb-6 font-medium">인가된 투자자 전용 4자리 보안 PIN을 입력해 주세요</p>
       
       <div class="flex justify-center gap-3 mb-6">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-amber-400 focus:outline-none" autofocus>
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-amber-400 focus:outline-none">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-amber-400 focus:outline-none">
-        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-amber-400 focus:outline-none">
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none" autofocus>
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none">
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none">
+        <input type="password" maxlength="1" class="pin-digit w-12 h-14 text-center text-2xl font-bold rounded-xl bg-zinc-900 border border-zinc-700 text-white focus:border-sky-400 focus:outline-none">
       </div>
       <p id="pinError" class="text-xs text-rose-500 font-semibold mb-4 hidden">🚨 보안 PIN 번호가 올바르지 않습니다</p>
-      <button onclick="unlockDashboard()" class="w-full py-3.5 bg-amber-400 text-black font-extrabold rounded-xl hover:bg-amber-300 transition active:scale-95 shadow-lg">
+      <button onclick="unlockDashboard()" class="w-full py-3.5 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition active:scale-95 shadow-lg">
         인증 및 대시보드 해제 🔓
       </button>
       <p class="text-[11px] text-zinc-500 mt-4 font-mono">Master Pin 5929 Protected</p>
@@ -97,7 +97,7 @@
   <header class="sticky top-0 z-40 custom-card border-b backdrop-blur-lg bg-opacity-90 px-4 lg:px-10 py-3.5">
     <div class="max-w-[1650px] mx-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-amber-400 text-lg font-black shadow-inner">
+        <div class="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-sky-400 text-lg font-black shadow-inner">
           <i class="fa-solid fa-chart-line"></i>
         </div>
         <div>
@@ -109,7 +109,7 @@
       <div class="flex items-center gap-3">
         <div class="flex items-center bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs">
           <span class="text-zinc-400 mr-1.5 font-semibold">USD/KRW:</span>
-          <input type="number" id="usdExchangeRate" value="1343" onchange="renderAll()" class="w-16 bg-transparent text-right font-num font-bold text-amber-400 focus:outline-none">
+          <input type="number" id="usdExchangeRate" value="1343" onchange="renderAll()" class="w-16 bg-transparent text-right font-num font-bold text-sky-400 focus:outline-none">
           <span class="text-zinc-400 ml-1">원</span>
           <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">동기화 완료 🟢</span>
         </div>
@@ -124,13 +124,13 @@
   <!-- ================= 메인 컨테이너 (와이드 1650px) ================= -->
   <main class="flex-1 max-w-[1650px] w-full mx-auto px-4 lg:px-10 py-6 space-y-6">
 
-    <!-- ================= 히어로 섹션 (버튼 4개 1줄 정렬) ================= -->
+    <!-- ================= 히어로 섹션 ================= -->
     <section class="custom-card rounded-2xl p-6 lg:p-8 relative overflow-hidden shadow-xl border">
-      <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-amber-400/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-sky-400/5 rounded-full blur-3xl pointer-events-none"></div>
       <div class="flex flex-col 2xl:flex-row justify-between items-start 2xl:items-center gap-6">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-zinc-800 text-amber-400 border border-zinc-700 mb-3">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-zinc-800 text-sky-400 border border-zinc-700 mb-3">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
             ACTIVE QUANT SYSTEM • 100% PRIVATE
           </div>
           <h1 class="text-2xl lg:text-3xl font-black tracking-tight mb-2 text-white">
@@ -141,15 +141,16 @@
           </p>
         </div>
 
+        <!-- 버튼 4개 1줄 정렬 레이아웃 -->
         <div class="flex flex-wrap lg:flex-nowrap items-center gap-2.5 w-full 2xl:w-auto">
           <button onclick="openModal('buyModal')" class="whitespace-nowrap px-4 py-2.5 bg-white text-black font-extrabold rounded-xl hover:bg-zinc-200 transition active:scale-95 text-xs flex items-center justify-center gap-2 shadow-lg">
             <i class="fa-solid fa-plus"></i> 신규 매수
           </button>
           <button onclick="openModal('sellModal')" class="whitespace-nowrap px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl border border-zinc-700 transition active:scale-95 text-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-receipt text-amber-400"></i> 매도 손익 확정
+            <i class="fa-solid fa-receipt text-sky-400"></i> 매도 손익 확정
           </button>
           <button onclick="openModal('dividendModal')" class="whitespace-nowrap px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl border border-zinc-700 transition active:scale-95 text-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-coins text-amber-400"></i> 배당금 입금
+            <i class="fa-solid fa-coins text-sky-400"></i> 배당금 입금
           </button>
           <button onclick="openModal('depositModal')" class="whitespace-nowrap px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl border border-zinc-700 transition active:scale-95 text-xs flex items-center justify-center gap-2">
             <i class="fa-solid fa-wallet text-emerald-400"></i> 투자현금 입/출금
@@ -159,9 +160,9 @@
     </section>
 
     <!-- ================= AI 리밸런싱 주문 가이드 배너 ================= -->
-    <section class="custom-card rounded-xl p-4 lg:p-5 border-l-4 border-l-amber-400 shadow-md">
+    <section class="custom-card rounded-xl p-4 lg:p-5 border-l-4 border-l-sky-400 shadow-md">
       <div class="flex items-start gap-3.5">
-        <div class="p-2.5 rounded-lg bg-zinc-800 text-amber-400 text-xl mt-0.5 border border-zinc-700">
+        <div class="p-2.5 rounded-lg bg-zinc-800 text-sky-400 text-xl mt-0.5 border border-zinc-700">
           <i class="fa-solid fa-compass"></i>
         </div>
         <div class="flex-1">
@@ -179,7 +180,7 @@
       <div class="custom-card rounded-2xl p-5 relative overflow-hidden">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">총 투자 원금 (순입금 합계)</span>
-          <span class="p-2 rounded-lg bg-zinc-900 text-amber-400 text-xs border border-zinc-800"><i class="fa-solid fa-money-bill-wave"></i></span>
+          <span class="p-2 rounded-lg bg-zinc-900 text-sky-400 text-xs border border-zinc-800"><i class="fa-solid fa-money-bill-wave"></i></span>
         </div>
         <div class="text-2xl font-black font-num tracking-tight text-white" id="kpiTotalSeedKRW">₩0</div>
         <div class="text-xs text-zinc-400 font-num mt-1" id="kpiDepositCountText">총 입출금 이력 합산</div>
@@ -204,14 +205,14 @@
 
       <div class="custom-card rounded-2xl p-5 relative overflow-hidden">
         <div class="flex justify-between items-start mb-2">
-          <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">확정 누적 실현손익 (매도+배당)</span>
-          <span class="p-2 rounded-lg bg-zinc-900 text-amber-400 text-xs border border-zinc-800"><i class="fa-solid fa-sack-dollar"></i></span>
+          <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">확정 누적 실현손익 (매도 + 배당)</span>
+          <span class="p-2 rounded-lg bg-zinc-900 text-sky-400 text-xs border border-zinc-800"><i class="fa-solid fa-sack-dollar"></i></span>
         </div>
-        <div class="text-2xl font-black font-num tracking-tight text-amber-400" id="kpiRealizedKRW">+₩0</div>
+        <div class="text-2xl font-black font-num tracking-tight text-sky-400" id="kpiRealizedKRW">+₩0</div>
         <div class="text-xs text-zinc-400 font-num mt-1 font-medium" id="kpiProfitBreakdownText">매도: +₩0 | 배당: +₩0</div>
         <div class="mt-3 text-[11px] text-zinc-500 flex items-center justify-between border-t border-zinc-800/80 pt-2 font-medium">
           <span>원금 대비 누적 실현수익률</span>
-          <span class="font-bold text-amber-400 font-num" id="kpiCumulativeReturn">+0.00%</span>
+          <span class="font-bold text-sky-400 font-num" id="kpiCumulativeReturn">+0.00%</span>
         </div>
       </div>
 
@@ -234,10 +235,10 @@
       <div class="lg:col-span-5 custom-card rounded-2xl p-5 shadow-lg flex flex-col justify-between">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-amber-400"></i> 포트폴리오 비중 (Donut Chart)
+            <i class="fa-solid fa-chart-pie text-sky-400"></i> 포트폴리오 비중 (Donut Chart)
           </h3>
           <div class="inline-flex rounded-lg bg-zinc-900 p-0.5 border border-zinc-800 text-[11px]">
-            <button id="btnLevel1" onclick="toggleDonutLevel(1)" class="px-2.5 py-1 rounded-md font-bold bg-amber-400 text-black transition">자산군 (L1)</button>
+            <button id="btnLevel1" onclick="toggleDonutLevel(1)" class="px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black transition">자산군 (L1)</button>
             <button id="btnLevel2" onclick="toggleDonutLevel(2)" class="px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition">종목별 (L2)</button>
           </div>
         </div>
@@ -251,12 +252,12 @@
         <div class="flex items-center justify-between mb-3">
           <div>
             <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-              <i class="fa-solid fa-calendar-days text-amber-400"></i> 연도별 총 실현손익 추이 (Annual Overview)
+              <i class="fa-solid fa-calendar-days text-sky-400"></i> 연도별 총 실현손익 추이 (Annual Overview)
             </h3>
             <span class="text-[11px] text-zinc-400">투자 시작 연도부터 올해까지 연도별 손익(막대) & 총 누적 실현손익(선)</span>
           </div>
-          <span class="text-xs font-num font-bold text-amber-400 bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-lg" id="yearlyTotalBadge">
-            누적 +1,102만 원
+          <span class="text-xs font-num font-bold text-sky-400 bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-lg" id="yearlyTotalBadge">
+            누적 +0만 원
           </span>
         </div>
         <div class="relative h-72">
@@ -265,7 +266,7 @@
       </div>
     </section>
 
-    <!-- ================= 2. 총 자산 가치 증감 추이 (배당금 완벽 반영) ================= -->
+    <!-- ================= 2. 총 자산 가치 증감 추이 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         <div>
@@ -275,7 +276,7 @@
           <p class="text-xs text-zinc-400 mt-0.5">투자 원금과 확정 손익 및 배당금 수익이 모두 결합된 전체 순자산의 우상향 성장 궤적입니다 📈</p>
         </div>
         <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold gap-1">
-          <button onclick="switchAssetTrendView('YEARLY')" id="btnAssetYearly" class="px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow">연도별 추이</button>
+          <button onclick="switchAssetTrendView('YEARLY')" id="btnAssetYearly" class="px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold transition shadow">연도별 추이</button>
           <button onclick="switchAssetTrendView('MONTHLY')" id="btnAssetMonthly" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">월별 상세 추이</button>
         </div>
       </div>
@@ -284,17 +285,17 @@
       </div>
     </section>
 
-    <!-- ================= 3. 월간 상세 실현손익 차트 (배당금 완벽 합산) ================= -->
+    <!-- ================= 3. 월간 상세 실현손익 차트 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         <div>
           <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-chart-column text-amber-400"></i> 월간 실현손익 상세 흐름 (매도손익 + 배당수익 합산)
+            <i class="fa-solid fa-chart-column text-sky-400"></i> 월간 실현손익 상세 흐름 (매도손익 + 배당수익 합산)
           </h3>
           <p class="text-xs text-zinc-400 mt-0.5">매도 익절금과 해당 월에 수령한 배당금이 1원 단위까지 실시간 합산되어 막대로 표시됩니다 ✨</p>
         </div>
         <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold gap-1" id="monthlyYearTabGroup">
-          <button onclick="switchMonthlyYear('ALL')" id="tabYearALL" class="px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition">전체 누적</button>
+          <button onclick="switchMonthlyYear('ALL')" id="tabYearALL" class="px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold transition">전체 누적</button>
           <button onclick="switchMonthlyYear('2025')" id="tabYear2025" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">2025년</button>
           <button onclick="switchMonthlyYear('2026')" id="tabYear2026" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">2026년</button>
         </div>
@@ -304,7 +305,7 @@
       </div>
     </section>
 
-    <!-- ================= 4. 종목별 실현손익 기여도 & 랭킹 리스트 (배당 종목 완벽 반영) ================= -->
+    <!-- ================= 4. 종목별 실현손익 기여도 & 랭킹 리스트 ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5 border-b border-zinc-800 pb-4">
         <div>
@@ -313,7 +314,7 @@
           </h3>
           <p class="text-xs text-zinc-400 mt-0.5">매도 익절 및 배당금을 지급한 모든 종목의 실제 순익과 전체 기여율(%)을 분석합니다 🏆</p>
         </div>
-        <span class="text-xs font-num font-bold text-amber-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl" id="rankTotalBadge">
+        <span class="text-xs font-num font-bold text-sky-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl" id="rankTotalBadge">
           총 확정 실현손익: +0만 원
         </span>
       </div>
@@ -324,7 +325,7 @@
             <canvas id="tickerProfitChart"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
               <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">TOTAL PROFIT</span>
-              <span class="text-base font-black font-num text-amber-400 mt-0.5" id="donutCenterTotalProfit">+₩0만</span>
+              <span class="text-base font-black font-num text-sky-400 mt-0.5" id="donutCenterTotalProfit">+₩0만</span>
             </div>
           </div>
           <p class="text-[11px] text-zinc-400 mt-2 text-center">각 종목별 수익 기여 비중 (%)</p>
@@ -334,14 +335,19 @@
       </div>
     </section>
 
-    <!-- ================= 5. 현재 보유 자산 잔고 ================= -->
+    <!-- ================= 5. 현재 보유 자산 잔고 (헤더 요약 배지 추가) ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-        <div>
+        <div class="flex flex-wrap items-center gap-2.5">
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-layer-group text-amber-400"></i> 현재 보유 자산 잔고 (Active Holdings)
+            <i class="fa-solid fa-layer-group text-sky-400"></i> 현재 보유 자산 잔고 (Active Holdings)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">현재 계좌에 실시간으로 살아있는 포트폴리오 잔고 현황입니다 💾</p>
+          <!-- 🌟 TITLE 우측 요약 배지 (총 평가금액 / 총 평가수익률 BLUE) 🌟 -->
+          <span class="text-xs font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-xl flex items-center gap-1.5">
+            <span>총 평가금액: <strong id="holdingHeaderTotalKRW" class="text-white font-black">₩0</strong></span>
+            <span class="text-zinc-500">|</span>
+            <span>수익률: <strong id="holdingHeaderTotalRate" class="text-sky-400 font-black">+0.00%</strong></span>
+          </span>
         </div>
         <span class="text-xs font-num text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl">
           보유 종목: <span id="holdingCount" class="font-bold text-white">6</span>개
@@ -369,14 +375,17 @@
       <div id="holdingsMobileCards" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 lg:hidden"></div>
     </section>
 
-    <!-- ================= 6. 매수 거래 장부 ================= -->
+    <!-- ================= 6. 매수 거래 장부 (헤더 요약 배지 추가) ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
-        <div>
+        <div class="flex flex-wrap items-center gap-2.5">
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-cart-shopping text-zinc-300"></i> 매수 거래 장부 (Buy Transactions)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">과거 및 신규 매수한 모든 자산 내역을 건별로 안전하게 보관합니다 📝</p>
+          <!-- 🌟 TITLE 우측 요약 배지 (총 매수금액) 🌟 -->
+          <span class="text-xs font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-xl">
+            총 매수금액: <strong id="buysHeaderTotalKRW" class="text-white font-black">₩0</strong>
+          </span>
         </div>
         <button onclick="openModal('buyModal')" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
           + 매수 기록 추가
@@ -402,14 +411,19 @@
       </div>
     </section>
 
-    <!-- ================= 7. 실현손익 확정 거래 장부 ================= -->
+    <!-- ================= 7. 실현손익 확정 거래 장부 (헤더 요약 배지 추가) ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
-        <div>
+        <div class="flex flex-wrap items-center gap-2.5">
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-book-bookmark text-amber-400"></i> 실현손익 확정 거래 장부 (나무증권 MTS 규격 일치)
+            <i class="fa-solid fa-book-bookmark text-sky-400"></i> 실현손익 확정 거래 장부 (나무증권 MTS 규격 일치)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">과거 스윙 익절 기록이 오염 없이 보존되어 있습니다 💸</p>
+          <!-- 🌟 TITLE 우측 요약 배지 (총 확정 실현손익 BLUE / 총 누적 손익 합계) 🌟 -->
+          <span class="text-xs font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-xl flex items-center gap-1.5">
+            <span>총 확정 실현손익: <strong id="realizedHeaderNet" class="text-sky-400 font-black">+₩0</strong></span>
+            <span class="text-zinc-500">|</span>
+            <span>누적 합계: <strong id="realizedHeaderGross" class="text-zinc-200 font-bold">₩0</strong></span>
+          </span>
         </div>
         <button onclick="openModal('sellModal')" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
           + 매도 기록 추가
@@ -434,14 +448,17 @@
       </div>
     </section>
 
-    <!-- ================= 8. 투자 현금 입/출금 이력 장부 ================= -->
+    <!-- ================= 8. 투자 현금 입/출금 이력 장부 (헤더 요약 배지 추가) ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
-        <div>
+        <div class="flex flex-wrap items-center gap-2.5">
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-money-bill-transfer text-emerald-400"></i> 투자 현금 입출금 이력 장부 (Cash Ledger)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">2021년부터 기록된 22건의 입출금 내역 및 추가 투자금이 모두 보존되어 있습니다 🏦</p>
+          <!-- 🌟 TITLE 우측 요약 배지 (총 누적 투자원금확정 합계 BLUE) 🌟 -->
+          <span class="text-xs font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-xl">
+            총 누적 투자원금: <strong id="depositHeaderTotalKRW" class="text-sky-400 font-black">₩0</strong>
+          </span>
         </div>
         <button onclick="openModal('depositModal')" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
           + 입/출금 기록 추가
@@ -466,14 +483,17 @@
       </div>
     </section>
 
-    <!-- ================= 9. 배당금 입금 이력 장부 (티타늄 버튼) ================= -->
+    <!-- ================= 9. 배당금 입금 이력 장부 (헤더 요약 배지 추가) ================= -->
     <section class="custom-card rounded-2xl p-5 lg:p-6 shadow-lg">
       <div class="flex justify-between items-center mb-4">
-        <div>
+        <div class="flex flex-wrap items-center gap-2.5">
           <h3 class="text-base font-extrabold text-white flex items-center gap-2">
-            <i class="fa-solid fa-coins text-amber-400"></i> 배당금 입금 이력 장부 (Dividend Ledger)
+            <i class="fa-solid fa-coins text-sky-400"></i> 배당금 입금 이력 장부 (Dividend Ledger)
           </h3>
-          <p class="text-xs text-zinc-400 mt-0.5">나무증권 해외/국내 주식 배당금 입금 내역을 건별로 관리하며 모든 차트 및 실현손익에 자동 합산됩니다 💸</p>
+          <!-- 🌟 TITLE 우측 요약 배지 (총 환산 입금액 합계 BLUE) 🌟 -->
+          <span class="text-xs font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-xl">
+            총 환산 입금액: <strong id="dividendHeaderTotalKRW" class="text-sky-400 font-black">+₩0</strong>
+          </span>
         </div>
         <button onclick="openModal('dividendModal')" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
           + 배당금 기록 추가
@@ -501,34 +521,34 @@
 
   </main>
 
-  <!-- ================= 모달 1. 신규 매수 모달 ================= -->
+  <!-- ================= 모달 1. 신규 매수 ================= -->
   <div id="buyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-cart-shopping text-amber-400"></i> 신규 매수 자산 기록</h3>
+        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-cart-shopping text-sky-400"></i> 신규 매수 자산 기록</h3>
         <button onclick="closeModal('buyModal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <form onsubmit="handleBuySubmit(event)" class="space-y-3.5 text-xs font-medium">
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매수 일자</label>
-          <input type="date" id="buyDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="date" id="buyDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold flex items-center justify-between">
               <span>Ticker (심볼)</span>
-              <span class="text-[10px] text-amber-400 font-normal">자동완성 ⚡</span>
+              <span class="text-[10px] text-sky-400 font-normal">자동완성 ⚡</span>
             </label>
-            <input type="text" id="buyTicker" oninput="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" placeholder="예: TQQQ, ERX, SOXL" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-amber-400">
+            <input type="text" id="buyTicker" oninput="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" placeholder="예: TQQQ, ERX, SOXL" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-sky-400">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목 설명 (자동입력)</label>
-            <input type="text" id="buyName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+            <input type="text" id="buyName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
           </div>
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">자산 구분</label>
-          <select id="buyCategory" onchange="autoSelectCurrencyByCategory(this.value, setBuyCurrency)" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-medium focus:outline-none focus:border-amber-400 cursor-pointer">
+          <select id="buyCategory" onchange="autoSelectCurrencyByCategory(this.value, setBuyCurrency)" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-medium focus:outline-none focus:border-sky-400 cursor-pointer">
             <option value="미국주식">미국 주식 (USD)</option>
             <option value="국내주식">국내 주식 (KRW)</option>
             <option value="가상자산">가상자산 / 비트코인</option>
@@ -537,7 +557,7 @@
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매수 수량</label>
-          <input type="number" step="any" id="buyShares" placeholder="예: 10 또는 0.05" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="number" step="any" id="buyShares" placeholder="예: 10 또는 0.05" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매입 평단가 통화 선택</label>
@@ -545,89 +565,89 @@
             <button type="button" id="btnCurrKRW" onclick="setBuyCurrency('KRW')" class="py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition">
               🇰🇷 원화 (KRW ₩)
             </button>
-            <button type="button" id="btnCurrUSD" onclick="setBuyCurrency('USD')" class="py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow">
+            <button type="button" id="btnCurrUSD" onclick="setBuyCurrency('USD')" class="py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow">
               🇺🇸 미국달러 (USD $)
             </button>
           </div>
           <input type="hidden" id="buyCurrency" value="USD">
-          <input type="number" step="any" id="buyPrice" placeholder="매입 단가 입력" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="number" step="any" id="buyPrice" placeholder="매입 단가 입력" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매매 전략 / 비고</label>
-          <input type="text" id="buyNote" placeholder="예: 분할 적립식 매수 / 20일선 돌파" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+          <input type="text" id="buyNote" placeholder="예: 분할 적립식 매수 / 20일선 돌파" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
         </div>
-        <button type="submit" class="w-full py-3 bg-amber-400 text-black font-extrabold rounded-xl hover:bg-amber-300 transition mt-2 shadow-lg">
+        <button type="submit" class="w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg">
           매수 장부 & 포트폴리오에 반영하기 💾
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ================= 모달 2. 매도 손익 확정 모달 ================= -->
+  <!-- ================= 모달 2. 매도 손익 확정 ================= -->
   <div id="sellModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-receipt text-amber-400"></i> 매도 실현손익 확정</h3>
+        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-receipt text-sky-400"></i> 매도 실현손익 확정</h3>
         <button onclick="closeModal('sellModal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <form onsubmit="handleSellSubmit(event)" class="space-y-3.5 text-xs font-medium">
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">매도 일자</label>
-            <input type="date" id="sellDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+            <input type="date" id="sellDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목 (Ticker)</label>
-            <input type="text" id="sellTicker" placeholder="예: TQQQ, ERX" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-amber-400">
+            <input type="text" id="sellTicker" placeholder="예: TQQQ, ERX" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-sky-400">
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">총 매매손익 (원화 ₩)</label>
-            <input type="number" id="sellGrossProfit" placeholder="1200000" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+            <input type="number" id="sellGrossProfit" placeholder="1200000" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">최종 실현손익 (원화 ₩)</label>
-            <input type="number" id="sellNetProfit" placeholder="1190000" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+            <input type="number" id="sellNetProfit" placeholder="1190000" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
           </div>
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매도 사유 / 코멘트</label>
-          <input type="text" id="sellNote" placeholder="예: 🎯 +15% 목표 도달 기계적 익절" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+          <input type="text" id="sellNote" placeholder="예: 🎯 +15% 목표 도달 기계적 익절" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
         </div>
-        <button type="submit" class="w-full py-3 bg-amber-400 text-black font-extrabold rounded-xl hover:bg-amber-300 transition mt-2 shadow-lg">
+        <button type="submit" class="w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg">
           실현손익 장부에 저장하기 💰
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ================= 모달 3. 배당금 입금 모달 (스마트 자동완성 & 제출 보강) ================= -->
+  <!-- ================= 모달 3. 배당금 입금 ================= -->
   <div id="dividendModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-coins text-amber-400"></i> 배당금 입금 내역 기록</h3>
+        <h3 class="text-base font-black flex items-center gap-2 text-white"><i class="fa-solid fa-coins text-sky-400"></i> 배당금 입금 내역 기록</h3>
         <button onclick="closeModal('dividendModal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <form onsubmit="handleDividendSubmit(event)" class="space-y-3 text-xs font-medium">
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">배당금 입금일자</label>
-          <input type="date" id="divDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="date" id="divDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">Ticker (심볼)</label>
-            <input type="text" id="divTicker" oninput="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" placeholder="예: ERX, TQQQ" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-amber-400">
+            <input type="text" id="divTicker" oninput="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" placeholder="예: ERX, TQQQ" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-sky-400">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목명 (자동입력)</label>
-            <input type="text" id="divName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+            <input type="text" id="divName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
           </div>
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">배당 통화 선택</label>
           <div class="grid grid-cols-2 gap-2">
-            <button type="button" id="btnDivUSD" onclick="setDivCurrency('USD')" class="py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow">
+            <button type="button" id="btnDivUSD" onclick="setDivCurrency('USD')" class="py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow">
               🇺🇸 미국달러 ($)
             </button>
             <button type="button" id="btnDivKRW" onclick="setDivCurrency('KRW')" class="py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition">
@@ -639,29 +659,29 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold" id="divAmountLabel">세후 입금액 (정산금액)</label>
-            <input type="number" step="any" id="divAmount" placeholder="예: 0.94" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+            <input type="number" step="any" id="divAmount" placeholder="예: 0.94" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">원천징수 세금 (세금합)</label>
-            <input type="number" step="any" id="divTax" placeholder="예: 0.16" value="0" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+            <input type="number" step="any" id="divTax" placeholder="예: 0.16" value="0" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
           </div>
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">당시 환율 (원/달러)</label>
-          <input type="number" step="any" id="divRate" placeholder="1343" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="number" step="any" id="divRate" placeholder="1343" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">배당 비고</label>
-          <input type="text" id="divNote" placeholder="예: 디렉시온 에너지 대형주 2배 ETF 배당금 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+          <input type="text" id="divNote" placeholder="예: 디렉시온 에너지 대형주 2배 ETF 배당금 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
         </div>
-        <button type="submit" class="w-full py-3 bg-amber-400 text-black font-extrabold rounded-xl hover:bg-amber-300 transition mt-2 shadow-lg">
+        <button type="submit" class="w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg">
           배당금 장부 반영 & 현금(CASH) 충전 💵
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ================= 모달 4. 투자 현금 입/출금 모달 ================= -->
+  <!-- ================= 모달 4. 투자 현금 입/출금 ================= -->
   <div id="depositModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
     <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-zinc-700 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -684,13 +704,13 @@
 
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">거래 일자</label>
-          <input type="date" id="depositDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="date" id="depositDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
 
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">거래 통화 선택</label>
           <div class="grid grid-cols-2 gap-2 mb-2">
-            <button type="button" id="btnDepKRW" onclick="setDepositCurrency('KRW')" class="py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow">
+            <button type="button" id="btnDepKRW" onclick="setDepositCurrency('KRW')" class="py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow">
               🇰🇷 원화 (KRW ₩)
             </button>
             <button type="button" id="btnDepUSD" onclick="setDepositCurrency('USD')" class="py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition">
@@ -702,15 +722,15 @@
 
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold" id="depositAmountLabel">입금 금액 (원화 ₩)</label>
-          <input type="number" id="depositAmount" placeholder="예: 1000000" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-amber-400">
+          <input type="number" id="depositAmount" placeholder="예: 1000000" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-sky-400">
         </div>
 
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">거래처 및 사유</label>
-          <input type="text" id="depositNote" placeholder="예: 증권계좌 투자금 추가 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+          <input type="text" id="depositNote" placeholder="예: 증권계좌 투자금 추가 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-400">
         </div>
 
-        <button type="submit" id="btnDepositSubmit" class="w-full py-3 bg-amber-400 text-black font-extrabold rounded-xl hover:bg-amber-300 transition mt-2 shadow-lg">
+        <button type="submit" id="btnDepositSubmit" class="w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg">
           입금 장부 반영 & 현금(CASH) 충전 💵
         </button>
       </form>
@@ -731,7 +751,7 @@
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">매도 일자</span><strong class="text-white" id="delSellDate">-</strong></div>
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">종목 (Ticker)</span><strong class="text-white text-sm" id="delSellTicker">-</strong></div>
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">총 매매손익 (KRW)</span><span class="text-zinc-300 font-bold" id="delSellGross">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">확정 실현손익 (KRW)</span><span class="text-amber-400 font-bold text-sm" id="delSellNet">-</span></div>
+        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">확정 실현손익 (KRW)</span><span class="text-sky-400 font-bold text-sm" id="delSellNet">-</span></div>
         <div class="flex justify-between pt-0.5"><span class="text-zinc-500">매매 비고</span><span class="text-zinc-300 truncate max-w-[200px]" id="delSellNote">-</span></div>
       </div>
       <div class="grid grid-cols-2 gap-3">
@@ -780,7 +800,7 @@
       <div class="bg-zinc-900/90 rounded-xl p-3.5 border border-zinc-800 text-xs font-num space-y-2 mb-5">
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">거래 일자</span><strong class="text-white" id="delDepDate">-</strong></div>
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">거래 구분 / 금액</span><span class="text-white font-bold" id="delDepAmount">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="text-amber-400 font-bold" id="delDepKRW">-</span></div>
+        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">환산 원화 금액</span><span class="text-sky-400 font-bold" id="delDepKRW">-</span></div>
         <div class="flex justify-between pt-0.5"><span class="text-zinc-500">거래처 및 사유</span><span class="text-zinc-300 truncate max-w-[200px]" id="delDepNote">-</span></div>
       </div>
       <div class="grid grid-cols-2 gap-3">
@@ -804,7 +824,7 @@
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">입금 일자</span><strong class="text-white" id="delDivDate">-</strong></div>
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">배당 종목</span><strong class="text-white text-sm" id="delDivTicker">-</strong></div>
         <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">세후 실수령액</span><span class="text-white font-bold" id="delDivAmount">-</span></div>
-        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">원화 환산액</span><span class="text-amber-400 font-bold" id="delDivKRW">-</span></div>
+        <div class="flex justify-between border-b border-zinc-800/80 pb-1.5"><span class="text-zinc-500">원화 환산액</span><span class="text-sky-400 font-bold" id="delDivKRW">-</span></div>
         <div class="flex justify-between pt-0.5"><span class="text-zinc-500">배당 비고</span><span class="text-zinc-300 truncate max-w-[200px]" id="delDivNote">-</span></div>
       </div>
       <div class="grid grid-cols-2 gap-3">
@@ -1037,11 +1057,11 @@
     function setBuyCurrency(curr) {
       document.getElementById('buyCurrency').value = curr;
       if (curr === 'KRW') {
-        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow";
+        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         document.getElementById('buyPrice').placeholder = "매입 단가 (₩ 원화)";
       } else {
-        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow";
+        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         document.getElementById('buyPrice').placeholder = "매입 단가 ($ 달러)";
       }
@@ -1063,7 +1083,7 @@
       if (type === 'DEPOSIT') {
         btnDep.className = "py-2.5 rounded-lg font-extrabold border border-emerald-500 bg-emerald-500/20 text-emerald-300 transition shadow";
         btnWith.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-white transition";
-        submitBtn.className = "w-full py-3 bg-amber-400 text-black font-extrabold rounded-xl hover:bg-amber-300 transition mt-2 shadow-lg";
+        submitBtn.className = "w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg";
         submitBtn.textContent = "입금 장부 반영 & 현금(CASH) 충전 💵";
         label.textContent = curr === 'KRW' ? "입금 금액 (원화 ₩)" : "입금 금액 (달러 $)";
       } else {
@@ -1083,12 +1103,12 @@
       const actionName = type === 'DEPOSIT' ? '입금' : '출금';
 
       if (curr === 'KRW') {
-        document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow";
+        document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         label.textContent = `${actionName} 금액 (원화 ₩)`;
         input.placeholder = "예: 1000000";
       } else {
-        document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow";
+        document.getElementById('btnDepUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnDepKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         label.textContent = `${actionName} 금액 (달러 $)`;
         input.placeholder = "예: 1000";
@@ -1102,13 +1122,13 @@
       const taxInput = document.getElementById('divTax');
 
       if (curr === 'KRW') {
-        document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow";
+        document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         label.textContent = "세후 입금액 (원화 ₩)";
         amountInput.placeholder = "예: 50000";
         taxInput.placeholder = "예: 7500";
       } else {
-        document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black transition shadow";
+        document.getElementById('btnDivUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black transition shadow";
         document.getElementById('btnDivKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300 hover:text-white transition";
         label.textContent = "세후 입금액 (외화 $)";
         amountInput.placeholder = "예: 0.94";
@@ -1152,7 +1172,13 @@
         return acc + val;
       }, 0);
 
-      // 3) 총 확정 실현손익 = 매도 손익 + 배당금 수익
+      // 3) 매수 장부 총 매수금액
+      const totalBuysKRW = buyList.reduce((acc, cur) => {
+        const val = (cur.currency === 'USD') ? (cur.shares * cur.price * rate) : (cur.shares * cur.price);
+        return acc + val;
+      }, 0);
+
+      // 4) 총 확정 실현손익 = 매도 손익 + 배당금 수익
       const overallRealizedKRW = totalNetRealizedKRW + totalDividendKRW;
       const cumulativeReturnRate = totalSeedKRW > 0 ? ((overallRealizedKRW / totalSeedKRW) * 100).toFixed(2) : 0;
       const totalToSeedRatio = totalSeedKRW > 0 ? ((totalValueKRW / totalSeedKRW) * 100).toFixed(1) : 0;
@@ -1160,7 +1186,7 @@
       const unrealizedRate = totalBuyKRW > 0 ? ((unrealizedKRW / totalBuyKRW) * 100).toFixed(2) : 0;
       const cashRatio = totalValueKRW > 0 ? ((cashKRW / totalValueKRW) * 100).toFixed(1) : 0;
 
-      // KPI UI 업데이트
+      // 🌟 KPI UI 업데이트 (BLUE/WHITE 테마) 🌟
       document.getElementById('kpiTotalSeedKRW').textContent = '₩' + Math.round(totalSeedKRW).toLocaleString();
       document.getElementById('kpiDepositCountText').textContent = `총 ${depositList.length}건 입출금 합산`;
       
@@ -1169,11 +1195,10 @@
       
       const ratioEl = document.getElementById('kpiTotalToSeedRatio');
       ratioEl.textContent = `${totalToSeedRatio}%`;
-      ratioEl.className = `font-bold font-num ${parseFloat(totalToSeedRatio) >= 100 ? 'text-amber-400' : 'text-zinc-300'}`;
+      ratioEl.className = `font-bold font-num ${parseFloat(totalToSeedRatio) >= 100 ? 'text-sky-400' : 'text-zinc-300'}`;
 
       document.getElementById('kpiCashRatio').textContent = cashRatio + '%';
       
-      // 확정 누적 실현손익
       document.getElementById('kpiRealizedKRW').textContent = '+₩' + Math.round(overallRealizedKRW).toLocaleString();
       document.getElementById('kpiProfitBreakdownText').textContent = `매도: +₩${Math.round(totalNetRealizedKRW/10000)}만 | 배당: +₩${Math.round(totalDividendKRW/10000)}만`;
       document.getElementById('kpiCumulativeReturn').textContent = `+${cumulativeReturnRate}%`;
@@ -1185,14 +1210,33 @@
       document.getElementById('yearlyTotalBadge').textContent = `누적 +${Math.round(overallRealizedKRW/10000)}만 원`;
       document.getElementById('rankTotalBadge').textContent = `총 확정 실현손익: +${Math.round(overallRealizedKRW/10000)}만 원`;
 
+      // 🌟 5대 장부 TITLE 우측 요약 배지 업데이트! 🌟
+      // 1) 보유 잔고 배지
+      document.getElementById('holdingHeaderTotalKRW').textContent = '₩' + Math.round(totalValueKRW).toLocaleString();
+      const hRateEl = document.getElementById('holdingHeaderTotalRate');
+      hRateEl.textContent = `${unrealizedRate >= 0 ? '+' : ''}${unrealizedRate}%`;
+      hRateEl.className = `font-black ${unrealizedRate >= 0 ? 'text-sky-400' : 'text-rose-400'}`;
+
+      // 2) 매수 장부 배지
+      document.getElementById('buysHeaderTotalKRW').textContent = '₩' + Math.round(totalBuysKRW).toLocaleString();
+
+      // 3) 매도 실현손익 배지
+      document.getElementById('realizedHeaderNet').textContent = '+₩' + Math.round(totalNetRealizedKRW).toLocaleString();
+      const realizedGrossSum = realizedList.reduce((a, b) => a + b.gross, 0);
+      document.getElementById('realizedHeaderGross').textContent = '₩' + Math.round(realizedGrossSum).toLocaleString();
+
+      // 4) 투자원금 입출금 배지
+      document.getElementById('depositHeaderTotalKRW').textContent = '₩' + Math.round(totalSeedKRW).toLocaleString();
+
+      // 5) 배당금 입금 배지
+      document.getElementById('dividendHeaderTotalKRW').textContent = '+₩' + Math.round(totalDividendKRW).toLocaleString();
+
       renderRebalanceGuide(totalValueUSD, rate);
       renderHoldingsUI(rate, totalValueUSD);
       renderBuysTable(rate);
       renderRealizedTable();
       renderDepositsTable(rate);
       renderDividendsTable();
-      
-      // 🌟 모든 차트에 배당금이 포함된 총 실현손익과 배당금 리스트를 전달하여 렌더링! 🌟
       renderAllCharts(totalValueKRW, overallRealizedKRW, totalDividendKRW);
 
       localStorage.setItem('alpha_holdings', JSON.stringify(holdings));
@@ -1223,9 +1267,9 @@
       const diffSoxlShares = soxl ? Math.round((targetSoxlUSD - curSoxlUSD) / soxl.curPrice) : 0;
 
       const guides = [
-        `💵 <strong class="text-white">전략 대기 현금:</strong> 목표 30% ($${Math.round(targetCashUSD).toLocaleString()}) 대비 현재 $${Math.round(curCashUSD).toLocaleString()} 보유 ➜ <span class="text-amber-400 font-bold">$${Math.round(diffCash).toLocaleString()} (약 ${Math.round(diffCash*rate/10000)}만 원) 충전 필요</span>`,
-        `🟢 <strong class="text-white">TQQQ (나스닥 3X):</strong> 목표 40% 대비 현재 ${(curTqqqUSD/totalUSD*100).toFixed(1)}% ➜ <span class="text-amber-400 font-bold">약 ${diffTqqqShares}주 추가 분할 매수 필요</span> (월 100만 원 4분할 루틴)`,
-        `🟢 <strong class="text-white">SOXL (반도체 3X):</strong> 목표 30% 대비 현재 ${(curSoxlUSD/totalUSD*100).toFixed(1)}% ➜ <span class="text-amber-400 font-bold">약 ${diffSoxlShares}주 추가 분할 매수 필요</span> (과매도 RSI 35 이하 타점)`,
+        `💵 <strong class="text-white">전략 대기 현금:</strong> 목표 30% ($${Math.round(targetCashUSD).toLocaleString()}) 대비 현재 $${Math.round(curCashUSD).toLocaleString()} 보유 ➜ <span class="text-sky-400 font-bold">$${Math.round(diffCash).toLocaleString()} (약 ${Math.round(diffCash*rate/10000)}만 원) 충전 필요</span>`,
+        `🟢 <strong class="text-white">TQQQ (나스닥 3X):</strong> 목표 40% 대비 현재 ${(curTqqqUSD/totalUSD*100).toFixed(1)}% ➜ <span class="text-sky-400 font-bold">약 ${diffTqqqShares}주 추가 분할 매수 필요</span> (월 100만 원 4분할 루틴)`,
+        `🟢 <strong class="text-white">SOXL (반도체 3X):</strong> 목표 30% 대비 현재 ${(curSoxlUSD/totalUSD*100).toFixed(1)}% ➜ <span class="text-sky-400 font-bold">약 ${diffSoxlShares}주 추가 분할 매수 필요</span> (과매도 RSI 35 이하 타점)`,
         `🚨 <strong class="text-white">LABU / WEBL:</strong> 포트폴리오 비중 과다 (현재 81% 잠식) ➜ <span class="text-rose-400 font-bold">추가 물타기 절대 금지! 단기 반등 시마다 10~20%씩 분할 탈출</span>`
       ];
 
@@ -1236,6 +1280,7 @@
       });
     }
 
+    /* 🌟 현재 보유 잔고: 현금 뱃지 미국주식과 동일 스타일 적용 & BLUE 수익률 적용 🌟 */
     function renderHoldingsUI(rate, totalUSD) {
       const tbody = document.getElementById('holdingsTableBody');
       const mobileGrid = document.getElementById('holdingsMobileCards');
@@ -1249,10 +1294,13 @@
         const isProfit = profitRate >= 0;
         const weight = totalUSD > 0 ? ((valUSD / totalUSD) * 100).toFixed(1) : 0;
 
+        // 현금 뱃지 색상을 미국주식과 동일하게 zinc 계열로 통일!
+        const badgeStyle = 'bg-zinc-800 text-zinc-200 border border-zinc-700';
+
         const tr = document.createElement('tr');
         tr.className = "hover:bg-zinc-800/40 transition border-b border-zinc-800/40";
         tr.innerHTML = `
-          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${h.category === '미국주식' ? 'bg-zinc-800 text-zinc-200 border border-zinc-700' : h.category === '현금' ? 'bg-amber-950/60 text-amber-300 border border-amber-800/50' : 'bg-zinc-800 text-zinc-300 border border-zinc-700'}">${h.category}</span></td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeStyle}">${h.category}</span></td>
           <td class="py-3 px-3"><strong class="text-white text-sm">${h.ticker}</strong> <span class="text-zinc-400 text-xs">(${h.name})</span></td>
           <td class="py-3 px-3 text-right font-bold text-zinc-200 font-num">${h.shares.toLocaleString()}</td>
           <td class="py-3 px-3 text-right text-zinc-300 font-num">${h.currency === 'USD' ? '$' + h.avgPrice.toFixed(2) : '₩' + Math.round(h.avgPrice).toLocaleString()}</td>
@@ -1261,7 +1309,7 @@
             <div class="text-white font-bold">₩${Math.round(valKRW).toLocaleString()}</div>
             <div class="text-[11px] text-zinc-400">$${valUSD.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${weight}%)</div>
           </td>
-          <td class="py-3 px-3 text-right font-bold font-num ${isProfit ? 'text-amber-400' : 'text-rose-400'}">
+          <td class="py-3 px-3 text-right font-bold font-num ${isProfit ? 'text-sky-400' : 'text-rose-400'}">
             ${isProfit ? '+' : ''}${profitRate}%
           </td>
           <td class="py-3 px-3 text-zinc-300 text-xs">${h.note || '-'}</td>
@@ -1273,11 +1321,11 @@
         card.innerHTML = `
           <div class="flex justify-between items-start mb-2">
             <div>
-              <span class="text-[10px] px-1.5 py-0.5 rounded font-bold bg-zinc-900 border border-zinc-800 text-zinc-300">${h.category}</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${badgeStyle}">${h.category}</span>
               <h4 class="text-base font-black text-white mt-1">${h.ticker} <span class="text-xs font-normal text-zinc-400">(${h.name})</span></h4>
             </div>
             <div class="text-right">
-              <span class="text-xs font-bold font-num ${isProfit ? 'text-amber-400' : 'text-rose-400'}">${isProfit ? '+' : ''}${profitRate}%</span>
+              <span class="text-xs font-bold font-num ${isProfit ? 'text-sky-400' : 'text-rose-400'}">${isProfit ? '+' : ''}${profitRate}%</span>
               <div class="text-[11px] text-zinc-400 font-num">${weight}% 비중</div>
             </div>
           </div>
@@ -1321,6 +1369,7 @@
       });
     }
 
+    /* 🌟 실현손익 확정 장부: + 수익 BLUE 컬러 적용 🌟 */
     function renderRealizedTable() {
       const tbody = document.getElementById('realizedTableBody');
       tbody.innerHTML = '';
@@ -1334,7 +1383,7 @@
           <td class="py-2.5 px-3 text-zinc-400 font-num">${r.date}</td>
           <td class="py-2.5 px-3 font-bold text-white">${r.ticker}</td>
           <td class="py-2.5 px-3 text-right text-zinc-300 font-num">₩${r.gross.toLocaleString()}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-amber-400 font-num">+₩${r.net.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right font-bold text-sky-400 font-num">+₩${r.net.toLocaleString()}</td>
           <td class="py-2.5 px-3 text-right font-num text-zinc-400">₩${runningTotal.toLocaleString()}</td>
           <td class="py-2.5 px-3 text-zinc-300 text-xs">${r.note}</td>
           <td class="py-2.5 px-3 text-center">
@@ -1347,6 +1396,7 @@
       });
     }
 
+    /* 🌟 입출금 장부: + 입금 BLUE 컬러 적용 🌟 */
     function renderDepositsTable(rate) {
       const tbody = document.getElementById('depositsTableBody');
       tbody.innerHTML = '';
@@ -1361,9 +1411,9 @@
         tr.className = "hover:bg-zinc-800/40 transition border-b border-zinc-800/40 text-xs";
         tr.innerHTML = `
           <td class="py-2.5 px-3 text-zinc-400 font-num">${d.date}</td>
-          <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${isWithdraw ? 'bg-rose-950/60 text-rose-300 border border-rose-800/50' : 'bg-emerald-950/60 text-emerald-300 border border-emerald-800/50'}">${isWithdraw ? '출금' : '입금'}</span></td>
+          <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${isWithdraw ? 'bg-rose-950/60 text-rose-300 border border-rose-800/50' : 'bg-zinc-800 text-zinc-200 border border-zinc-700'}">${isWithdraw ? '출금' : '입금'}</span></td>
           <td class="py-2.5 px-3 text-right font-bold text-white font-num">${d.currency === 'USD' ? '$' + Math.abs(d.amount).toLocaleString() : '₩' + Math.abs(d.amount).toLocaleString()}</td>
-          <td class="py-2.5 px-3 text-right font-bold font-num ${isWithdraw ? 'text-rose-400' : 'text-amber-400'}">${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right font-bold font-num ${isWithdraw ? 'text-rose-400' : 'text-sky-400'}">${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}</td>
           <td class="py-2.5 px-3 text-right font-num text-zinc-300 font-bold">₩${Math.round(runningDepositTotal).toLocaleString()}</td>
           <td class="py-2.5 px-3 text-zinc-300 text-xs">${d.note || '-'}</td>
           <td class="py-2.5 px-3 text-center">
@@ -1376,6 +1426,7 @@
       });
     }
 
+    /* 🌟 배당금 장부: + 입금 BLUE 컬러 적용 🌟 */
     function renderDividendsTable() {
       const tbody = document.getElementById('dividendsTableBody');
       tbody.innerHTML = '';
@@ -1395,7 +1446,7 @@
           <td class="py-2.5 px-3 text-right font-bold text-white font-num">${div.currency === 'USD' ? '$' + div.amount.toFixed(2) : '₩' + Math.round(div.amount).toLocaleString()}</td>
           <td class="py-2.5 px-3 text-right text-zinc-400 font-num">${div.tax ? (div.currency === 'USD' ? '$' + div.tax.toFixed(2) : '₩' + Math.round(div.tax).toLocaleString()) : '-'}</td>
           <td class="py-2.5 px-3 text-right text-zinc-400 font-num">${div.currency === 'USD' ? div.rate.toLocaleString() + '원' : '-'}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-amber-400 font-num">+₩${Math.round(valKRW).toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right font-bold text-sky-400 font-num">+₩${Math.round(valKRW).toLocaleString()}</td>
           <td class="py-2.5 px-3 text-zinc-300 text-xs">${div.note || '-'}</td>
           <td class="py-2.5 px-3 text-center">
             <button onclick="openDeleteDividendModal(${index})" title="배당금 기록 삭제" class="text-zinc-500 hover:text-rose-400 transition p-1.5 rounded hover:bg-zinc-800">
@@ -1407,7 +1458,6 @@
       });
     }
 
-    /* 6. 차트 렌더링 (배당금 100% 완전 연동) */
     function renderAllCharts(currentTotalAssetKRW, overallRealizedKRW, totalDividendKRW) {
       renderDonutChart();
       renderYearlyOverviewChart();
@@ -1476,7 +1526,6 @@
       });
     }
 
-    /* 🌟 연도별 총 실현손익 차트: 배당금 연도별 완벽 합산! 🌟 */
     function renderYearlyOverviewChart() {
       if (yearlyChartInstance) yearlyChartInstance.destroy();
 
@@ -1506,20 +1555,20 @@
               type: 'line',
               label: '누적 성장 곡선 (만 원)',
               data: yearlyLineData.length > 0 ? yearlyLineData : [0],
-              borderColor: '#fbbf24',
-              backgroundColor: '#fbbf24',
+              borderColor: '#38bdf8', // 청량한 스카이 블루 라인
+              backgroundColor: '#38bdf8',
               borderWidth: 2.5,
               tension: 0.3,
               fill: false,
-              pointBackgroundColor: '#fbbf24',
+              pointBackgroundColor: '#38bdf8',
               yAxisID: 'y'
             },
             {
               type: 'bar',
               label: '연간 실현손익 (매도+배당, 만 원)',
               data: yearlyBarData.length > 0 ? yearlyBarData : [0],
-              backgroundColor: 'rgba(59, 130, 246, 0.75)',
-              hoverBackgroundColor: '#60a5fa',
+              backgroundColor: 'rgba(56, 189, 248, 0.45)', // 블루 반투명 바
+              hoverBackgroundColor: '#38bdf8',
               borderRadius: 8,
               yAxisID: 'y'
             }
@@ -1539,7 +1588,6 @@
       });
     }
 
-    /* 🌟 총 자산 가치 증감 추이: 배당금 누적 증액 완전 반영 🌟 */
     function renderTotalAssetTrendChart(currentTotalAssetKRW, totalDividendKRW) {
       if (assetTrendChartInstance) assetTrendChartInstance.destroy();
       const ctx = document.getElementById('totalAssetTrendChart').getContext('2d');
@@ -1550,7 +1598,6 @@
 
       if (currentAssetTrendView === 'YEARLY') {
         labels = ['2021년', '2022년', '2024년', '2025년', '2026년 (현재)'];
-        // 배당금 수익이 더해진 실제 총 자산 가치 궤적
         assetData = [2561, 3310, 3336, 4432 + divMan, Math.round(currentTotalAssetKRW / 10000)];
 
         assetTrendChartInstance = new Chart(ctx, {
@@ -1562,8 +1609,8 @@
                 type: 'line',
                 label: '총 자산 가치 성장 궤적 (만 원)',
                 data: assetData,
-                borderColor: '#10b981',
-                backgroundColor: '#10b981',
+                borderColor: '#38bdf8', // 스카이 블루 궤적
+                backgroundColor: '#38bdf8',
                 borderWidth: 3,
                 tension: 0.35,
                 fill: false,
@@ -1628,13 +1675,10 @@
       }
     }
 
-    /* 🌟 월간 상세 실현손익 차트: 배당금이 입금된 해당 월에 100% 자동 합산! 🌟 */
     function renderMonthlyDetailChart() {
       if (monthlyChartInstance) monthlyChartInstance.destroy();
 
       const monthMap = {};
-      
-      // 1) 매도 손익 합산
       realizedList.forEach(r => {
         const parts = r.date.split('-');
         const year = parts[0];
@@ -1644,8 +1688,6 @@
           monthMap[label] = (monthMap[label] || 0) + r.net;
         }
       });
-      
-      // 2) 배당금 수익 합산 (배당 입금일 기준 해당 월에 완벽 반영!)
       dividendList.forEach(div => {
         const parts = div.date.split('-');
         const year = parts[0];
@@ -1668,8 +1710,8 @@
           datasets: [{
             label: '월간 실현손익 (매도손익 + 배당수익, 만 원)',
             data: monthData.length > 0 ? monthData : [0],
-            backgroundColor: 'rgba(16, 185, 129, 0.8)',
-            hoverBackgroundColor: '#34d399',
+            backgroundColor: 'rgba(56, 189, 248, 0.75)', // 블루 바
+            hoverBackgroundColor: '#38bdf8',
             borderRadius: 6
           }]
         },
@@ -1687,13 +1729,10 @@
       });
     }
 
-    /* 🌟 종목별 누적 실현손익 기여도 & 랭킹: 배당 종목 100% 완전 반영! 🌟 */
     function renderTickerProfitChart(overallRealizedKRW) {
       if (tickerProfitChartInstance) tickerProfitChartInstance.destroy();
 
       const tickerMap = {};
-
-      // 1) 매도 익절 손익 집계
       realizedList.forEach(r => {
         const rawTicker = r.ticker;
         let displayName = rawTicker;
@@ -1705,7 +1744,6 @@
         tickerMap[displayName].count += 1;
       });
 
-      // 2) 배당금 입금 내역 집계 (ERX 등 모든 배당 종목 완벽 포착!)
       dividendList.forEach(div => {
         const rawTicker = div.ticker;
         let baseName = rawTicker;
@@ -1722,17 +1760,7 @@
       const labels = sortedTickers.map(t => t.displayName);
       const dataValues = sortedTickers.map(t => t.totalNet);
 
-      const rankPalette = [
-        '#06b6d4', // 일렉트릭 시안
-        '#f59e0b', // 앰버 골드
-        '#a855f7', // 로얄 바이올렛
-        '#3b82f6', // 코발트 블루
-        '#10b981', // 에메랄드 그린
-        '#f43f5e', // 코랄 로즈
-        '#eab308', // 샴페인 골드
-        '#ec4899', // 비비드 핑크
-        '#14b8a6'  // 틸 그린
-      ];
+      const rankPalette = ['#38bdf8', '#06b6d4', '#10b981', '#a855f7', '#3b82f6', '#f59e0b', '#f43f5e', '#ec4899', '#14b8a6'];
 
       document.getElementById('donutCenterTotalProfit').textContent = `+₩${Math.round(overallRealizedKRW / 10000)}만`;
 
@@ -1809,10 +1837,10 @@
     function switchAssetTrendView(view) {
       currentAssetTrendView = view;
       document.getElementById('btnAssetYearly').className = (view === 'YEARLY')
-        ? "px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow"
+        ? "px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold transition shadow"
         : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition";
       document.getElementById('btnAssetMonthly').className = (view === 'MONTHLY')
-        ? "px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow"
+        ? "px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold transition shadow"
         : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition";
       renderAll();
     }
@@ -1823,7 +1851,7 @@
         const btn = document.getElementById('tabYear' + y);
         if (btn) {
           btn.className = (y === year)
-            ? "px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow"
+            ? "px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold transition shadow"
             : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition";
         }
       });
@@ -1833,10 +1861,10 @@
     function toggleDonutLevel(level) {
       donutLevel = level;
       document.getElementById('btnLevel1').className = level === 1 
-        ? "px-2.5 py-1 rounded-md font-bold bg-amber-400 text-black transition" 
+        ? "px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black transition" 
         : "px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition";
       document.getElementById('btnLevel2').className = level === 2 
-        ? "px-2.5 py-1 rounded-md font-bold bg-amber-400 text-black transition" 
+        ? "px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black transition" 
         : "px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition";
       renderDonutChart();
     }
