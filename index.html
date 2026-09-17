@@ -36,7 +36,7 @@
 </head>
 <body class="antialiased selection:bg-amber-400 selection:text-black">
 
-  <!-- ================= 🌟 럭셔리 GOLD 에디션 보안 PIN 모달 🌟 ================= -->
+  <!-- ================= 보안 PIN 모달 ================= -->
   <div id="pinLockModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md">
     <div class="custom-card p-8 rounded-2xl w-11/12 max-w-md text-center shadow-2xl border border-amber-500/30">
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 text-2xl border border-amber-500/30 shadow-lg shadow-amber-500/10">
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <!-- ================= 상단 헤더 (골드 로고 심볼) ================= -->
+  <!-- ================= 상단 헤더 ================= -->
   <header class="sticky top-0 z-40 custom-card border-b backdrop-blur-lg bg-opacity-90 px-4 lg:px-10 py-3.5">
     <div class="max-w-[1650px] mx-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -92,7 +92,7 @@
   <!-- ================= 메인 컨테이너 ================= -->
   <main class="flex-1 max-w-[1650px] w-full mx-auto px-4 lg:px-10 py-6 space-y-6">
 
-    <!-- 히어로 섹션 (골드 뱃지 & 통일된 다크 버튼군) -->
+    <!-- 히어로 섹션 -->
     <section class="custom-card rounded-2xl p-6 lg:p-8 relative overflow-hidden shadow-xl border">
       <div class="flex flex-col 2xl:flex-row justify-between items-start 2xl:items-center gap-6">
         <div>
@@ -104,10 +104,11 @@
             자산 포트폴리오 통합 관리 🚀✨
           </h1>
           <p class="text-xs lg:text-sm text-zinc-400 max-w-3xl leading-relaxed font-medium">
-            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 모든 장부는 최신순으로 정렬되어 최근 내역을 먼저 확인하실 수 있어요 😇💖
+            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 장부 카드를 클릭하면 전체 이력 팝업이 크게 열립니다 😇💖
           </p>
         </div>
 
+        <!-- 상단 기능 버튼 그룹 -->
         <div class="flex flex-wrap lg:flex-nowrap items-center gap-2.5 w-full 2xl:w-auto">
           <button onclick="openBuyModal()" class="whitespace-nowrap px-3.5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl border border-zinc-700 text-xs flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
             <i class="fa-solid fa-plus text-sky-400"></i> 신규 매수
@@ -128,7 +129,7 @@
       </div>
     </section>
 
-    <!-- AI 리밸런싱 주문 가이드 -->
+    <!-- AI 리밸런싱 가이드 -->
     <section class="custom-card rounded-xl p-4 lg:p-5 border-l-4 border-l-amber-400 shadow-md">
       <div class="flex items-start gap-3.5">
         <div class="p-2.5 rounded-lg bg-amber-500/10 text-amber-400 text-xl mt-0.5 border border-amber-500/30">
@@ -144,7 +145,7 @@
       </div>
     </section>
 
-    <!-- 핵심 KPI 요약 카드 (+숫자 푸른색 유지) -->
+    <!-- KPI 요약 카드 (+숫자 푸른색 유지) -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="custom-card rounded-2xl p-5">
         <span class="text-xs font-bold text-zinc-400 uppercase">총 투자 원금 (순입금 합계)</span>
@@ -171,16 +172,17 @@
       </div>
     </section>
 
-    <!-- 차트 1 & 2 (골드 꺾은선/막대) -->
+    <!-- 차트 1 & 2 (골드 탭 버튼 적용) -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <div class="lg:col-span-5 custom-card rounded-2xl p-5 flex flex-col justify-between">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-chart-pie text-sky-400"></i> 포트폴리오 비중 (Donut Chart)
           </h3>
+          <!-- 🌟 자산군 / 종목별 탭 버튼 골드 테마 🌟 -->
           <div class="inline-flex rounded-lg bg-zinc-900 p-0.5 border border-zinc-800 text-[11px]">
-            <button id="btnLevel1" onclick="toggleDonutLevel(1)" class="px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black">자산군 (L1)</button>
-            <button id="btnLevel2" onclick="toggleDonutLevel(2)" class="px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white">종목별 (L2)</button>
+            <button id="btnLevel1" onclick="toggleDonutLevel(1)" class="px-2.5 py-1 rounded-md font-bold bg-amber-400 text-black transition">자산군 (L1)</button>
+            <button id="btnLevel2" onclick="toggleDonutLevel(2)" class="px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition">종목별 (L2)</button>
           </div>
         </div>
         <div class="relative h-64 flex items-center justify-center">
@@ -204,15 +206,16 @@
       </div>
     </section>
 
-    <!-- 차트 3: 총 자산 가치 증감 추이 -->
+    <!-- 차트 3: 총 자산 가치 증감 추이 (골드 탭 버튼 적용!) -->
     <section class="custom-card rounded-2xl p-5 lg:p-6">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
           <i class="fa-solid fa-arrow-trend-up text-amber-400"></i> 총 자산 가치(현금 + 주식자산) 증감 추이 (Net Worth Trend)
         </h3>
+        <!-- 🌟 연도별 추이 / 월별 상세 추이 골드 탭 버튼 🌟 -->
         <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold gap-1">
-          <button onclick="switchAssetTrendView('YEARLY')" id="btnAssetYearly" class="px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold">연도별 추이</button>
-          <button onclick="switchAssetTrendView('MONTHLY')" id="btnAssetMonthly" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white">월별 상세 추이</button>
+          <button onclick="switchAssetTrendView('YEARLY')" id="btnAssetYearly" class="px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow-sm">연도별 추이</button>
+          <button onclick="switchAssetTrendView('MONTHLY')" id="btnAssetMonthly" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">월별 상세 추이</button>
         </div>
       </div>
       <div class="relative h-72 w-full">
@@ -220,16 +223,17 @@
       </div>
     </section>
 
-    <!-- 차트 4: 월간 실현손익 상세 흐름 -->
+    <!-- 차트 4: 월간 실현손익 상세 흐름 (골드 탭 버튼 적용!) -->
     <section class="custom-card rounded-2xl p-5 lg:p-6">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
           <i class="fa-solid fa-chart-column text-amber-400"></i> 월간 실현손익 상세 흐름 (매도손익 + 배당수익 합산)
         </h3>
+        <!-- 🌟 전체 누적 / 2025년 / 2026년 골드 탭 버튼 🌟 -->
         <div class="inline-flex rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold gap-1" id="monthlyYearTabGroup">
-          <button onclick="switchMonthlyYear('ALL')" id="tabYearALL" class="px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold">전체 누적</button>
-          <button onclick="switchMonthlyYear('2025')" id="tabYear2025" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white">2025년</button>
-          <button onclick="switchMonthlyYear('2026')" id="tabYear2026" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white">2026년</button>
+          <button onclick="switchMonthlyYear('ALL')" id="tabYearALL" class="px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow-sm">전체 누적</button>
+          <button onclick="switchMonthlyYear('2025')" id="tabYear2025" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">2025년</button>
+          <button onclick="switchMonthlyYear('2026')" id="tabYear2026" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition">2026년</button>
         </div>
       </div>
       <div class="relative h-64 w-full">
@@ -262,7 +266,7 @@
       </div>
     </section>
 
-    <!-- ================= 🌟 6대 장부 (버튼 스타일 통일 & +숫자 푸른색 복구) 🌟 ================= -->
+    <!-- ================= 6대 장부 2단 대칭 그리드 ================= -->
 
     <!-- ROW 1: [현재 보유 자산 잔고] ↔ [투자현금 입/출금 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
@@ -320,6 +324,7 @@
             </table>
           </div>
         </div>
+
         <div onclick="event.stopPropagation()" class="pt-4 border-t border-zinc-800 mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400" id="depositsPaginationBar"></div>
       </section>
     </div>
@@ -422,7 +427,7 @@
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
-                  <th class="py-2.5 px-2">출금일</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">외화정산금액</th>
+                  <th class="py-2.5 px-2">출금일</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">외화출금세액</th>
                   <th class="py-2.5 px-2 text-right">환율</th><th class="py-2.5 px-2 text-right">환산출금액</th><th class="py-2.5 px-2">사유</th><th class="py-2.5 px-2 text-center">삭제</th>
                 </tr>
               </thead>
@@ -436,8 +441,8 @@
 
   </main>
 
-  <!-- ================= 전체보기 상세 팝업 모달 ================= -->
-  <div id="fullHistoryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md hidden p-4">
+  <!-- ================= 🌟 장부 전체보기 상세 팝업 모달 (오버레이 보강) 🌟 ================= -->
+  <div id="fullHistoryModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-md hidden p-4">
     <div class="custom-card p-6 rounded-2xl w-full max-w-5xl border border-zinc-700 shadow-2xl flex flex-col max-h-[85vh]">
       <div class="flex justify-between items-center pb-4 border-b border-zinc-800">
         <div>
@@ -846,7 +851,43 @@
       });
     }
 
-    /* 3. 데이터 사전 정의 및 색상 분리 */
+    /* 3. 모달 제어 및 기본값 자동 세팅 (전체보기 팝업 버그 완벽 수정) */
+    function openModal(id) { 
+      const m = document.getElementById(id); 
+      if (m) m.classList.remove('hidden'); 
+      const today = new Date().toISOString().split('T')[0];
+      if (id === 'buyModal') {
+        const b = document.getElementById('buyDate'); if (b && !b.value) b.value = today;
+        const bNote = document.getElementById('buyNote'); if (bNote && !bNote.value) bNote.value = '분할매수';
+        const rateInput = document.getElementById('buyRate');
+        const topRate = document.getElementById('usdExchangeRate');
+        if (rateInput && topRate && !rateInput.value) rateInput.value = topRate.value || 1343;
+      } else if (id === 'sellModal') {
+        const s = document.getElementById('sellDate'); if (s && !s.value) s.value = today;
+        const sNote = document.getElementById('sellNote'); if (sNote && !sNote.value) sNote.value = '수익실현';
+      } else if (id === 'dividendModal') {
+        const d = document.getElementById('divDate'); if (d && !d.value) d.value = today;
+      } else if (id === 'taxModal') {
+        const t = document.getElementById('taxDate'); if (t && !t.value) t.value = today;
+      } else if (id === 'depositModal') {
+        const dp = document.getElementById('depositDate'); if (dp && !dp.value) dp.value = today;
+      }
+    }
+    
+    function closeModal(id) { 
+      const m = document.getElementById(id); 
+      if (m) m.classList.add('hidden'); 
+    }
+
+    function openBuyModal() {
+      openModal('buyModal');
+      const today = new Date().toISOString().split('T')[0];
+      const b = document.getElementById('buyDate'); if (b) b.value = today;
+      const bNote = document.getElementById('buyNote'); if (bNote && !bNote.value) bNote.value = '분할매수';
+      setTimeout(() => { const t = document.getElementById('buyTicker'); if (t) t.focus(); }, 100);
+    }
+
+    /* 4. 초기 데이터 및 색상/이름 사전 */
     const INITIAL_HOLDINGS = [
       { category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, avgPrice: 477.84, curPrice: 261.30, currency: 'USD', target: 0, note: '과비중 탈출 관리' },
       { category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, avgPrice: 33.79, curPrice: 28.72, currency: 'USD', target: 0, note: '빅테크 분할 매수' },
@@ -1014,13 +1055,13 @@
       const topRate = document.getElementById('usdExchangeRate');
 
       if (curr === 'KRW') {
-        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black";
+        document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black";
         document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
         document.getElementById('buyPrice').placeholder = "매입 단가 (₩ 원화)";
         if (rateWrapper) rateWrapper.style.display = 'none';
         if (rateInput) rateInput.removeAttribute('required');
       } else {
-        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-sky-400 bg-sky-400 text-black";
+        document.getElementById('btnCurrUSD').className = "py-2 rounded-lg font-bold border border-amber-400 bg-amber-400 text-black";
         document.getElementById('btnCurrKRW').className = "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
         document.getElementById('buyPrice').placeholder = "매입 단가 ($ 달러)";
         if (rateWrapper) rateWrapper.style.display = 'block';
@@ -1047,7 +1088,7 @@
       if (type === 'DEPOSIT') {
         btnDep.className = "py-2.5 rounded-lg font-extrabold border border-emerald-500 bg-emerald-500/20 text-emerald-300";
         btnWith.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400";
-        submitBtn.className = "w-full py-3 bg-sky-400 text-black font-extrabold rounded-xl hover:bg-sky-300 transition mt-2 shadow-lg";
+        submitBtn.className = "w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-extrabold rounded-xl border border-zinc-700 transition mt-2 shadow-lg";
         submitBtn.textContent = "입금 장부 반영 & 현금(CASH) 충전 💵";
         label.textContent = curr === 'KRW' ? "입금 금액 (원화 ₩)" : "입금 금액 (달러 $)";
       } else {
@@ -1079,7 +1120,6 @@
       document.getElementById('taxAmountLabel').textContent = `외화정산금액 (${curr === 'KRW' ? '원화 ₩' : '출금세액 $'})`;
     }
 
-    /* 🌟 10단위 청크 스마트 윈도우 페이징 UI 🌟 */
     function renderPaginationUI(containerId, currentPage, totalPages, onPageClickFnName) {
       const bar = document.getElementById(containerId);
       if (!bar) return;
@@ -1149,7 +1189,7 @@
       renderAll();
     }
 
-    /* 🌟 핵심 렌더링 총괄 (모든 장부 최신순 내림차순 정렬 & +숫자 푸른색 복구) 🌟 */
+    /* 🌟 핵심 렌더링 총괄 (모든 장부 최신순 내림차순 정렬) 🌟 */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
       const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
@@ -1198,7 +1238,6 @@
       setText('kpiTotalKRW', '₩' + Math.round(totalValueKRW).toLocaleString());
       setText('kpiTotalUSD', '$' + totalValueUSD.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}));
       
-      /* 🌟 KPI +숫자 푸른색 복구 🌟 */
       setText('kpiRealizedKRW', (overallRealizedKRW >= 0 ? '+₩' : '-₩') + Math.abs(Math.round(overallRealizedKRW)).toLocaleString());
       const kpiRealEl = document.getElementById('kpiRealizedKRW');
       if (kpiRealEl) kpiRealEl.className = `text-2xl font-black font-num mt-2 ${overallRealizedKRW >= 0 ? 'text-sky-400' : 'text-rose-400'}`;
@@ -1207,7 +1246,6 @@
       setText('kpiUnrealizedKRW', (unrealizedKRW >= 0 ? '+₩' : '-₩') + Math.abs(Math.round(unrealizedKRW)).toLocaleString());
       setText('kpiUnrealizedRate', (unrealizedRate >= 0 ? '+' : '') + unrealizedRate + '%');
       
-      /* 🌟 뱃지 +숫자 푸른색 복구 🌟 */
       setText('yearlyTotalBadge', `누적 +${Math.round(overallRealizedKRW/10000)}만 원`);
       setText('rankTotalBadge', `총 확정 실현손익: +${Math.round(overallRealizedKRW/10000)}만 원`);
       setText('holdingHeaderTotalKRW', '₩' + Math.round(totalValueKRW).toLocaleString());
@@ -1250,7 +1288,6 @@
       `;
     }
 
-    /* 🌟 현재 보유 잔고 (수익률 푸른색 복구) 🌟 */
     function renderHoldingsUI(rate, totalUSD) {
       const tbody = document.getElementById('holdingsTableBody');
       if (!tbody) return;
@@ -1305,7 +1342,6 @@
       renderPaginationUI('buysPaginationBar', currentPageBuys, totalPages, 'changeBuysPage');
     }
 
-    /* 🌟 실현손익 확정 장부 (+손익 푸른색 복구) 🌟 */
     function renderRealizedTable() {
       const tbody = document.getElementById('realizedTableBody');
       if (!tbody) return;
@@ -1339,7 +1375,6 @@
       renderPaginationUI('realizedPaginationBar', currentPageRealized, totalPages, 'changeRealizedPage');
     }
 
-    /* 🌟 투자현금 입출금 장부 (+입금 푸른색 복구) 🌟 */
     function renderDepositsTable(rate) {
       const tbody = document.getElementById('depositsTableBody');
       if (!tbody) return;
@@ -1375,7 +1410,6 @@
       renderPaginationUI('depositsPaginationBar', currentPageDeposits, totalPages, 'changeDepositsPage');
     }
 
-    /* 🌟 배당금 장부 (+배당금 푸른색 복구) 🌟 */
     function renderDividendsTable() {
       const tbody = document.getElementById('dividendsTableBody');
       if (!tbody) return;
@@ -1436,7 +1470,6 @@
       renderPaginationUI('taxesPaginationBar', currentPageTaxes, totalPages, 'changeTaxesPage');
     }
 
-    /* 🌟 전체보기 상세 모달 (+숫자 푸른색 복구) 🌟 */
     function openFullHistoryModal(type) {
       const modal = document.getElementById('fullHistoryModal');
       const title = document.getElementById('fullModalTitle');
@@ -1505,7 +1538,7 @@
         html += `</tbody></table>`;
       }
       content.innerHTML = html;
-      openModal('fullHistoryModal');
+      modal.classList.remove('hidden');
     }
 
     /* 10. 차트 렌더링 총괄 (골드 테마 적용) */
@@ -1575,39 +1608,11 @@
         data: {
           labels: yearLabels.length ? yearLabels : ['데이터 없음'],
           datasets: [
-            { 
-              type: 'line', 
-              label: '누적 성장 곡선 (만 원)', 
-              data: yearlyLineData.length ? yearlyLineData : [0], 
-              borderColor: '#fbbf24', 
-              backgroundColor: '#fbbf24', 
-              borderWidth: 2.5, 
-              tension: 0.3, 
-              fill: false, 
-              pointBackgroundColor: '#f59e0b', 
-              pointRadius: 4, 
-              yAxisID: 'y' 
-            },
-            { 
-              type: 'bar', 
-              label: '연간 실현손익 (매도+배당, 만 원)', 
-              data: yearlyBarData.length ? yearlyBarData : [0], 
-              backgroundColor: 'rgba(251, 191, 36, 0.45)', 
-              hoverBackgroundColor: '#f59e0b', 
-              borderRadius: 8, 
-              yAxisID: 'y' 
-            }
+            { type: 'line', label: '누적 성장 곡선 (만 원)', data: yearlyLineData.length ? yearlyLineData : [0], borderColor: '#fbbf24', backgroundColor: '#fbbf24', borderWidth: 2.5, tension: 0.3, fill: false, pointBackgroundColor: '#f59e0b', pointRadius: 4, yAxisID: 'y' },
+            { type: 'bar', label: '연간 실현손익 (매도+배당, 만 원)', data: yearlyBarData.length ? yearlyBarData : [0], backgroundColor: 'rgba(251, 191, 36, 0.45)', hoverBackgroundColor: '#f59e0b', borderRadius: 8, yAxisID: 'y' }
           ]
         },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false, 
-          scales: { 
-            x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, 
-            y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } 
-          }, 
-          plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } 
-        }
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } }, plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } }
       });
     }
 
@@ -1626,68 +1631,19 @@
           data: {
             labels: labels,
             datasets: [
-              { 
-                type: 'line', 
-                label: '총 자산 가치 성장 궤적 (만 원)', 
-                data: assetData, 
-                borderColor: '#fbbf24', 
-                backgroundColor: '#fbbf24', 
-                borderWidth: 3, 
-                tension: 0.35, 
-                fill: false, 
-                pointBackgroundColor: '#ffffff', 
-                pointRadius: 4, 
-                yAxisID: 'y' 
-              },
-              { 
-                type: 'bar', 
-                label: '연도별 총 자산 규모 (만 원)', 
-                data: assetData, 
-                backgroundColor: 'rgba(245, 158, 11, 0.25)', 
-                hoverBackgroundColor: '#fbbf24', 
-                borderRadius: 8, 
-                yAxisID: 'y' 
-              }
+              { type: 'line', label: '총 자산 가치 성장 궤적 (만 원)', data: assetData, borderColor: '#fbbf24', backgroundColor: '#fbbf24', borderWidth: 3, tension: 0.35, fill: false, pointBackgroundColor: '#ffffff', pointRadius: 4, yAxisID: 'y' },
+              { type: 'bar', label: '연도별 총 자산 규모 (만 원)', data: assetData, backgroundColor: 'rgba(245, 158, 11, 0.25)', hoverBackgroundColor: '#fbbf24', borderRadius: 8, yAxisID: 'y' }
             ]
           },
-          options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            scales: { 
-              x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, 
-              y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } 
-            }, 
-            plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } 
-          }
+          options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } }, plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } }
         });
       } else {
         const labels = ['25년 07월', '25년 08월', '25년 09월', '25년 10월', '25년 11월', '25년 12월', '26년 01월', '26년 04월', '26년 05월', '현재 잔고'];
         const assetData = [3536, 3553, 3981, 4112, 4152, 4432 + divMan, 3620 + divMan, 3736 + divMan, 3835 + divMan, Math.round(currentTotalAssetKRW / 10000)];
         assetTrendChartInstance = new Chart(ctx, {
           type: 'line',
-          data: { 
-            labels: labels, 
-            datasets: [{ 
-              label: '월별 총 자산 평가액 (만 원)', 
-              data: assetData, 
-              borderColor: '#fbbf24', 
-              backgroundColor: 'rgba(251, 191, 36, 0.12)', 
-              borderWidth: 2.5, 
-              tension: 0.3, 
-              fill: true, 
-              pointRadius: 4, 
-              pointBackgroundColor: '#fbbf24' 
-            }] 
-          },
-          options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            scales: { 
-              x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, 
-              y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } 
-            }, 
-            plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } 
-          }
+          data: { labels: labels, datasets: [{ label: '월별 총 자산 평가액 (만 원)', data: assetData, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.12)', borderWidth: 2.5, tension: 0.3, fill: true, pointRadius: 4, pointBackgroundColor: '#fbbf24' }] },
+          options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } }, plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } }
         });
       }
     }
@@ -1707,29 +1663,11 @@
       const ctx = canvas.getContext('2d');
       monthlyChartInstance = new Chart(ctx, {
         type: 'bar',
-        data: { 
-          labels: monthLabels.length ? monthLabels : ['데이터 없음'], 
-          datasets: [{ 
-            label: '월간 순실현손익 (만 원)', 
-            data: monthData.length ? monthData : [0], 
-            backgroundColor: 'rgba(251, 191, 36, 0.75)', 
-            hoverBackgroundColor: '#f59e0b', 
-            borderRadius: 6 
-          }] 
-        },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false, 
-          scales: { 
-            x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, 
-            y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } 
-          }, 
-          plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } 
-        }
+        data: { labels: monthLabels.length ? monthLabels : ['데이터 없음'], datasets: [{ label: '월간 순실현손익 (만 원)', data: monthData.length ? monthData : [0], backgroundColor: 'rgba(251, 191, 36, 0.75)', hoverBackgroundColor: '#f59e0b', borderRadius: 6 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa', callback: v => v + '만' } } }, plugins: { legend: { labels: { color: '#fbbf24', font: { weight: 'bold' } } } } }
       });
     }
 
-    /* 🌟 종목별 기여도 랭킹 (+기여금액 푸른색 복구) 🌟 */
     function renderTickerProfitChart(overallRealizedKRW) {
       const canvas = document.getElementById('tickerProfitChart');
       if (!canvas) return;
@@ -1761,9 +1699,7 @@
       const rankColors = sorted.map((item, idx) => TICKER_COLOR_MAP[item.ticker] || backupPalette[idx % backupPalette.length]);
 
       const totalProfitEl = document.getElementById('donutCenterTotalProfit');
-      if (totalProfitEl) {
-        totalProfitEl.textContent = (overallRealizedKRW >= 0 ? '+₩' : '-₩') + Math.abs(Math.round(overallRealizedKRW / 10000)) + '만';
-      }
+      if (totalProfitEl) totalProfitEl.textContent = (overallRealizedKRW >= 0 ? '+₩' : '-₩') + Math.abs(Math.round(overallRealizedKRW / 10000)) + '만';
 
       const ctx = canvas.getContext('2d');
       tickerProfitChartInstance = new Chart(ctx, {
@@ -1797,11 +1733,12 @@
       }
     }
 
+    /* 🌟 탭 버튼 골드 테마 적용 함수들 🌟 */
     function switchAssetTrendView(view) {
       currentAssetTrendView = view;
       const bY = document.getElementById('btnAssetYearly'), bM = document.getElementById('btnAssetMonthly');
-      if (bY) bY.className = view === 'YEARLY' ? "px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold" : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white";
-      if (bM) bM.className = view === 'MONTHLY' ? "px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold" : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white";
+      if (bY) bY.className = view === 'YEARLY' ? "px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow-sm" : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition";
+      if (bM) bM.className = view === 'MONTHLY' ? "px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow-sm" : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition";
       renderAll();
     }
 
@@ -1809,7 +1746,7 @@
       currentMonthlyYearFilter = year;
       ['ALL', '2025', '2026'].forEach(y => {
         const btn = document.getElementById('tabYear' + y);
-        if (btn) btn.className = y === year ? "px-3 py-1.5 rounded-lg bg-sky-400 text-black font-bold" : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white";
+        if (btn) btn.className = y === year ? "px-3 py-1.5 rounded-lg bg-amber-400 text-black font-bold transition shadow-sm" : "px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition";
       });
       renderMonthlyDetailChart();
     }
@@ -1817,8 +1754,8 @@
     function toggleDonutLevel(level) {
       donutLevel = level;
       const b1 = document.getElementById('btnLevel1'), b2 = document.getElementById('btnLevel2');
-      if (b1) b1.className = level === 1 ? "px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black" : "px-2.5 py-1 rounded-md text-zinc-400";
-      if (b2) b2.className = level === 2 ? "px-2.5 py-1 rounded-md font-bold bg-sky-400 text-black" : "px-2.5 py-1 rounded-md text-zinc-400";
+      if (b1) b1.className = level === 1 ? "px-2.5 py-1 rounded-md font-bold bg-amber-400 text-black transition" : "px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition";
+      if (b2) b2.className = level === 2 ? "px-2.5 py-1 rounded-md font-bold bg-amber-400 text-black transition" : "px-2.5 py-1 rounded-md font-medium text-zinc-400 hover:text-white transition";
       renderDonutChart();
     }
 
@@ -1870,7 +1807,6 @@
 
       realizedList.push({ date, ticker, shares: sellShares, gross, net, note });
 
-      // 보유 잔고 수량 자동 차감
       let exist = holdings.find(h => h.ticker === ticker);
       if (exist && sellShares > 0) {
         exist.shares = Math.max(0, toNum(exist.shares) - sellShares);
