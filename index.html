@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <!-- ================= 상단 헤더 (샤이닝 실버 로고 심볼) ================= -->
+  <!-- ================= 상단 헤더 (데이터 백업/복원 버튼 탑재!) ================= -->
   <header class="sticky top-0 z-40 custom-card border-b backdrop-blur-lg bg-opacity-90 px-4 lg:px-10 py-3.5">
     <div class="max-w-[1650px] mx-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -74,13 +74,22 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex flex-wrap items-center gap-2.5">
         <div class="flex items-center bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1 text-xs">
           <span class="text-zinc-400 mr-1.5 font-semibold">USD/KRW:</span>
           <input type="number" id="usdExchangeRate" value="1343" onchange="renderAll()" class="w-16 bg-transparent text-right font-num font-bold text-sky-400 focus:outline-none">
           <span class="text-zinc-400 ml-1">원</span>
           <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">동기화 완료 🟢</span>
         </div>
+
+        <!-- 🌟 [신설] 데이터 백업 & 복원 버튼 🌟 -->
+        <button onclick="exportPortfolioData()" title="전체 장부 데이터를 파일로 저장합니다" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black font-extrabold text-xs hover:from-white hover:to-slate-200 transition active:scale-95 flex items-center gap-1.5 shadow-sm shadow-white/10">
+          <i class="fa-solid fa-download"></i> 데이터 백업
+        </button>
+        <button onclick="document.getElementById('importFileInput').click()" title="백업된 파일에서 장부 데이터를 복원합니다" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-slate-200 hover:text-white border border-slate-400/30 font-bold text-xs transition active:scale-95 flex items-center gap-1.5">
+          <i class="fa-solid fa-upload text-sky-400"></i> 백업 복원
+        </button>
+        <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importPortfolioData(event)">
 
         <button onclick="lockDashboard()" title="화면 즉시 잠금" class="p-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-slate-200 hover:text-white border border-zinc-800 transition">
           <i class="fa-solid fa-lock"></i>
@@ -104,7 +113,7 @@
             자산 포트폴리오 통합 관리 🚀✨
           </h1>
           <p class="text-xs lg:text-sm text-zinc-400 max-w-3xl leading-relaxed font-medium">
-            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 장부 카드를 클릭하면 전체 이력 팝업이 크게 열립니다 😇💖
+            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 상단의 [데이터 백업/복원] 버튼으로 언제든 안전하게 장부를 보관하세요 😇💖
           </p>
         </div>
 
@@ -727,7 +736,21 @@
       </div>
     </div>
   </div>
-  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (SHINING SILVER & WANT 탑재) 🌟 ================= -->
+
+  <!-- 🌟 백업 및 복원 완료 안내 모달 🌟 -->
+  <div id="backupStatusModal" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 backdrop-blur-sm hidden">
+    <div class="custom-card p-6 rounded-2xl w-11/12 max-w-md border border-slate-300/40 shadow-2xl text-center">
+      <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-slate-200/10 border border-slate-300/40 flex items-center justify-center text-slate-100 text-2xl shadow-inner shadow-white/10">
+        <i id="backupStatusIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+      </div>
+      <h3 class="text-base font-black text-white" id="backupStatusTitle">데이터 처리 완료</h3>
+      <p class="text-xs text-zinc-300 mt-2 leading-relaxed" id="backupStatusMessage">장부 데이터가 안전하게 처리되었습니다.</p>
+      <button onclick="closeModal('backupStatusModal')" class="w-full py-2.5 mt-5 bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black font-extrabold rounded-xl text-xs shadow-md">
+        확인 ✨
+      </button>
+    </div>
+  </div>
+  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (백업/복원 & SHINING SILVER 탑재) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
@@ -949,7 +972,6 @@
       'DFEN': '#64748b', 'HIBL': '#f59e0b', 'DRN': '#10b981', 'BULZ': '#f97316', 'BITX': '#eab308', 'BTC': '#eab308', 'CASH': '#94a3b8'
     };
 
-    /* 🌟 WANT(임의소비재 3X) 및 주요 3배 레버리지 ETF 완벽 등록 🌟 */
     const TICKER_NAME_MAP = {
       'WANT': { name: '임의소비재 3X', category: '미국주식', curr: 'USD' },
       'FNGU': { name: '빅테크 Top10 3X', category: '미국주식', curr: 'USD' },
@@ -1054,6 +1076,104 @@
     let assetTrendChartInstance = null;
     let tickerProfitChartInstance = null;
 
+    /* 5. 🌟 [신설] 전체 장부 JSON 백업 다운로드 & 파일 복원 엔진 🌟 */
+    function showBackupNotice(title, msg, isSuccess = true) {
+      const icon = document.getElementById('backupStatusIcon');
+      const titleEl = document.getElementById('backupStatusTitle');
+      const msgEl = document.getElementById('backupStatusMessage');
+      if (icon) {
+        icon.className = isSuccess
+          ? "fa-solid fa-circle-check text-emerald-400"
+          : "fa-solid fa-triangle-exclamation text-rose-400";
+      }
+      if (titleEl) titleEl.textContent = title;
+      if (msgEl) msgEl.innerHTML = msg;
+      openModal('backupStatusModal');
+    }
+
+    function exportPortfolioData() {
+      try {
+        const rateInput = document.getElementById('usdExchangeRate');
+        const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
+        const backupPayload = {
+          version: "2.0",
+          exportedAt: new Date().toISOString(),
+          exchangeRate: currentRate,
+          holdings: holdings || [],
+          buys: buyList || [],
+          realized: realizedList || [],
+          deposits: depositList || [],
+          dividends: dividendList || [],
+          taxes: taxList || []
+        };
+        const jsonStr = JSON.stringify(backupPayload, null, 2);
+        const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const today = new Date().toISOString().split('T')[0];
+        a.href = url;
+        a.download = `alpha_portfolio_backup_${today}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        const totalRecords = (holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length);
+        showBackupNotice(
+          "데이터 백업 완료 💾",
+          `총 <strong class="text-white">${totalRecords}건</strong>의 6대 장부 데이터가<br><span class="text-sky-400 font-mono">alpha_portfolio_backup_${today}.json</span> 파일로 안전하게 다운로드되었습니다 ✨`,
+          true
+        );
+      } catch (err) {
+        showBackupNotice("백업 오류 🚨", "파일 생성 중 문제가 발생했습니다.", false);
+      }
+    }
+
+    function importPortfolioData(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (!data || (!Array.isArray(data.holdings) && !Array.isArray(data.buys))) {
+            throw new Error("올바른 백업 파일 형식이 아닙니다.");
+          }
+          if (Array.isArray(data.holdings)) holdings = data.holdings;
+          if (Array.isArray(data.buys)) buyList = data.buys;
+          if (Array.isArray(data.realized)) realizedList = data.realized;
+          if (Array.isArray(data.deposits)) depositList = data.deposits;
+          if (Array.isArray(data.dividends)) dividendList = data.dividends;
+          if (Array.isArray(data.taxes)) taxList = data.taxes;
+          if (data.exchangeRate) {
+            const rateInput = document.getElementById('usdExchangeRate');
+            if (rateInput) rateInput.value = data.exchangeRate;
+          }
+
+          currentPageBuys = 1;
+          currentPageRealized = 1;
+          currentPageDeposits = 1;
+          currentPageDividends = 1;
+          currentPageTaxes = 1;
+
+          renderAll();
+
+          const totalRestored = (holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length);
+          showBackupNotice(
+            "백업 데이터 복원 성공 🥳",
+            `백업 파일로부터 총 <strong class="text-sky-400">${totalRestored}건</strong>의 포트폴리오 및 6대 장부 기록이 완벽하게 복원되었습니다! 💖`,
+            true
+          );
+        } catch (err) {
+          showBackupNotice("복원 실패 🚨", "유효하지 않은 백업 파일입니다. JSON 백업 파일을 다시 확인해 주세요.", false);
+        } finally {
+          event.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /* 6. 통화 및 입력폼 버튼 제어 */
     function setBuyCurrency(curr) {
       const buyCurrEl = document.getElementById('buyCurrency');
       if (buyCurrEl) buyCurrEl.value = curr;
@@ -1131,7 +1251,7 @@
       document.getElementById('taxAmountLabel').textContent = `외화정산금액 (${curr === 'KRW' ? '원화 ₩' : '출금세액 $'})`;
     }
 
-    /* 🌟 10단위 청크 페이징 (샤이닝 실버 활성 버튼) 🌟 */
+    /* 7. 10단위 청크 페이징 (샤이닝 실버 활성 버튼) */
     function renderPaginationUI(containerId, currentPage, totalPages, onPageClickFnName) {
       const bar = document.getElementById(containerId);
       if (!bar) return;
@@ -1201,7 +1321,7 @@
       renderAll();
     }
 
-    /* 🌟 핵심 렌더링 총괄 (모든 장부 최신순 내림차순 정렬) 🌟 */
+    /* 8. 🌟 핵심 렌더링 총괄 (모든 장부 최신순 내림차순 정렬) 🌟 */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
       const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
@@ -1259,6 +1379,11 @@
       setText('yearlyTotalBadge', `누적 +${Math.round(overallRealizedKRW/10000)}만 원`);
       setText('rankTotalBadge', `총 확정 실현손익: +${Math.round(overallRealizedKRW/10000)}만 원`);
       setText('holdingHeaderTotalKRW', '₩' + Math.round(totalValueKRW).toLocaleString());
+      const hRateEl = document.getElementById('holdingHeaderTotalRate');
+      if (hRateEl) {
+        hRateEl.textContent = `${unrealizedRate >= 0 ? '+' : ''}${unrealizedRate}%`;
+        hRateEl.className = `font-bold ${unrealizedRate >= 0 ? 'text-sky-400' : 'text-rose-400'}`;
+      }
 
       try { renderRebalanceGuide(totalValueUSD, currentRate); } catch(e) {}
       try { renderHoldingsUI(currentRate, totalValueUSD); } catch(e) {}
@@ -1292,8 +1417,8 @@
 
       container.innerHTML = `
         <p>💵 <strong>대기 현금:</strong> 목표 30% 대비 현재 $${Math.round(curCashUSD).toLocaleString()} 보유 ➜ <span class="text-sky-400 font-bold">$${Math.round(diffCash).toLocaleString()} (약 ${Math.round(diffCash*rate/10000)}만 원) 충전 필요</span></p>
-        <p>🟢 <strong>TQQQ:</strong> 목표 40% 대비 현재 ${(curTqqqUSD/totalUSD*100).toFixed(1)}% ➜ <span class="text-sky-400 font-bold">약 ${diffTqqq}주 추가 분할 매수 필요</span></p>
-        <p>🟢 <strong>SOXL:</strong> 목표 30% 대비 현재 ${(curSoxlUSD/totalUSD*100).toFixed(1)}% ➜ <span class="text-sky-400 font-bold">약 ${diffSoxl}주 추가 분할 매수 필요</span></p>
+        <p>🟢 <strong>TQQQ:</strong> 목표 40% 대비 현재 ${totalUSD > 0 ? (curTqqqUSD/totalUSD*100).toFixed(1) : 0}% ➜ <span class="text-sky-400 font-bold">약 ${diffTqqq}주 추가 분할 매수 필요</span></p>
+        <p>🟢 <strong>SOXL:</strong> 목표 30% 대비 현재 ${totalUSD > 0 ? (curSoxlUSD/totalUSD*100).toFixed(1) : 0}% ➜ <span class="text-sky-400 font-bold">약 ${diffSoxl}주 추가 분할 매수 필요</span></p>
         <p>🚨 <strong>과비중 관리:</strong> LABU, WEBL 등은 추가 매수 금지 및 반등 시 분할 탈출 권장</p>
       `;
     }
@@ -1554,7 +1679,7 @@
       modal.classList.remove('hidden');
     }
 
-    /* 10. 🌟 차트 렌더링 총괄 (샤이닝 실버 테마 완벽 적용) 🌟 */
+    /* 10. 차트 렌더링 총괄 (샤이닝 실버 테마 완벽 적용) */
     function renderAllCharts(currentTotalAssetKRW, overallRealizedKRW, totalDividendKRW) {
       renderDonutChart();
       renderYearlyOverviewChart();
@@ -1746,7 +1871,6 @@
       }
     }
 
-    /* 🌟 탭 버튼 샤이닝 실버 테마 적용 함수들 🌟 */
     function switchAssetTrendView(view) {
       currentAssetTrendView = view;
       const bY = document.getElementById('btnAssetYearly'), bM = document.getElementById('btnAssetMonthly');
