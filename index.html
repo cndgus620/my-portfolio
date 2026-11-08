@@ -9,7 +9,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * { font-family: "Pretendard Variable", Pretendard, sans-serif !important; letter-spacing: -0.015em; }
+    /* 🌟 아이콘 폰트(FontAwesome)가 깨지지 않도록 보호하면서 프리텐다드 적용 🌟 */
+    *:not(.fa-solid):not(.fas):not(.fa-regular):not(.far):not(.fa-brands):not(.fab):not(.fa) {
+      font-family: "Pretendard Variable", Pretendard, sans-serif !important;
+      letter-spacing: -0.015em;
+    }
     .font-num { font-variant-numeric: tabular-nums; }
     body { background-color: #09090b !important; color: #f3f4f6 !important; min-height: 100vh; }
     
@@ -31,6 +35,46 @@
       border-color: #f8fafc !important;
       box-shadow: 0 0 28px -1px rgba(248, 250, 252, 0.45), 0 0 12px rgba(203, 213, 225, 0.35) !important;
       transform: translateY(-2px);
+    }
+
+    /* 🌟 직관적인 수정(연필) & 삭제(휴지통) 미니 캡슐 버튼 스타일 🌟 */
+    .btn-row-edit {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #cbd5e1;
+      background-color: #27272a;
+      border: 1px solid #3f3f46;
+      transition: all 0.15s ease;
+    }
+    .btn-row-edit:hover {
+      color: #000000;
+      background-color: #38bdf8;
+      border-color: #7dd3fc;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+    .btn-row-del {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fda4af;
+      background-color: rgba(136, 19, 55, 0.25);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      transition: all 0.15s ease;
+    }
+    .btn-row-del:hover {
+      color: #ffffff;
+      background-color: #e11d48;
+      border-color: #fb7185;
+      box-shadow: 0 0 10px rgba(225, 29, 72, 0.45);
     }
   </style>
 </head>
@@ -112,7 +156,7 @@
             자산 포트폴리오 통합 관리 🚀✨
           </h1>
           <p class="text-xs lg:text-sm text-zinc-400 max-w-3xl leading-relaxed font-medium">
-            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 각 장부의 [✏️ 수정] 버튼으로 언제든 기록을 손쉽게 편집하고 [데이터 백업]으로 안전하게 보관하세요 😇💖
+            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 각 장부의 직관적인 [✏️ 수정] / [🗑️ 삭제] 버튼으로 언제든 기록을 편리하게 관리하세요 😇💖
           </p>
         </div>
 
@@ -271,7 +315,7 @@
       </div>
     </section>
 
-    <!-- ================= 🌟 6대 장부 2단 대칭 그리드 (수정/삭제 버튼 탑재) 🌟 ================= -->
+    <!-- ================= 🌟 6대 장부 2단 대칭 그리드 🌟 ================= -->
 
     <!-- ROW 1: [현재 보유 자산 잔고] ↔ [투자현금 입/출금 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
@@ -322,7 +366,7 @@
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
                   <th class="py-2.5 px-2">거래일</th><th class="py-2.5 px-2">구분</th><th class="py-2.5 px-2 text-right">거래금액</th>
-                  <th class="py-2.5 px-2 text-right">환산원화</th><th class="py-2.5 px-2 text-right">누적원금</th><th class="py-2.5 px-2">사유</th><th class="py-2.5 px-2 text-center">수정/삭제</th>
+                  <th class="py-2.5 px-2 text-right">환산원화</th><th class="py-2.5 px-2 text-right">누적원금</th><th class="py-2.5 px-2">사유</th><th class="py-2.5 px-2 text-center">수정 / 삭제</th>
                 </tr>
               </thead>
               <tbody id="depositsTableBody" class="divide-y divide-zinc-800/60 font-num text-[11px]"></tbody>
@@ -352,7 +396,7 @@
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
                   <th class="py-2.5 px-2">일자</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">수량</th>
-                  <th class="py-2.5 px-2 text-right">매입단가</th><th class="py-2.5 px-2 text-right">매입금액</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정/삭제</th>
+                  <th class="py-2.5 px-2 text-right">매입단가</th><th class="py-2.5 px-2 text-right">매입금액</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정 / 삭제</th>
                 </tr>
               </thead>
               <tbody id="buysTableBody" class="divide-y divide-zinc-800/60 font-num text-[11px]"></tbody>
@@ -378,7 +422,7 @@
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
                   <th class="py-2.5 px-2">매도일자</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">매매손익</th>
-                  <th class="py-2.5 px-2 text-right">확정손익</th><th class="py-2.5 px-2 text-right">누적손익</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정/삭제</th>
+                  <th class="py-2.5 px-2 text-right">확정손익</th><th class="py-2.5 px-2 text-right">누적손익</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정 / 삭제</th>
                 </tr>
               </thead>
               <tbody id="realizedTableBody" class="divide-y divide-zinc-800/60 font-num text-[11px]"></tbody>
@@ -407,7 +451,7 @@
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
                   <th class="py-2.5 px-2">입금일</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">실수령액</th>
-                  <th class="py-2.5 px-2 text-right">세금</th><th class="py-2.5 px-2 text-right">환산금액</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정/삭제</th>
+                  <th class="py-2.5 px-2 text-right">세금</th><th class="py-2.5 px-2 text-right">환산금액</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정 / 삭제</th>
                 </tr>
               </thead>
               <tbody id="dividendsTableBody" class="divide-y divide-zinc-800/60 font-num text-[11px]"></tbody>
@@ -433,7 +477,7 @@
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
                   <th class="py-2.5 px-2">출금일</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">외화출금세액</th>
-                  <th class="py-2.5 px-2 text-right">환율</th><th class="py-2.5 px-2 text-right">환산출금액</th><th class="py-2.5 px-2">사유</th><th class="py-2.5 px-2 text-center">수정/삭제</th>
+                  <th class="py-2.5 px-2 text-right">환율</th><th class="py-2.5 px-2 text-right">환산출금액</th><th class="py-2.5 px-2">사유</th><th class="py-2.5 px-2 text-center">수정 / 삭제</th>
                 </tr>
               </thead>
               <tbody id="taxesTableBody" class="divide-y divide-zinc-800/60 font-num text-[11px]"></tbody>
@@ -452,7 +496,7 @@
       <div class="flex justify-between items-center pb-4 border-b border-zinc-800">
         <div>
           <h3 id="fullModalTitle" class="text-base font-black text-white">전체 거래 이력</h3>
-          <p class="text-xs text-zinc-400 mt-0.5">최신순으로 정렬된 전체 기록입니다 ([✏️] 버튼으로 바로 수정 가능)</p>
+          <p class="text-xs text-zinc-400 mt-0.5">최신순으로 정렬된 전체 기록입니다 ([✏️ 수정] 버튼으로 바로 편집 가능)</p>
         </div>
         <button onclick="closeModal('fullHistoryModal')" class="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition">
           <i class="fa-solid fa-xmark text-lg"></i>
@@ -749,13 +793,30 @@
       </button>
     </div>
   </div>
-<!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (수정/삭제 & 백업/복원 & SHINING SILVER 탑재) 🌟 ================= -->
+  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (직관적 SVG 수정/삭제 & 백업/복원 탑재) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
     /* 수정 상태 추적 및 전체보기 모달 연동 변수 */
     let editState = { type: null, index: null };
     let activeFullModalType = null;
+
+    /* 🌟 깨지지 않는 선명한 SVG 연필(수정) & 휴지통(삭제) 캡슐 버튼 생성기 🌟 */
+    function getActionButtonsHTML(type, index, stopProp = true) {
+      const sp = stopProp ? 'event.stopPropagation(); ' : '';
+      return `
+        <div class="inline-flex items-center justify-center gap-1">
+          <button type="button" onclick="${sp}triggerEdit('${type}', ${index})" title="내역 수정" class="btn-row-edit">
+            <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+            <span>수정</span>
+          </button>
+          <button type="button" onclick="${sp}triggerDelete('${type}', ${index})" title="내역 삭제" class="btn-row-del">
+            <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            <span>삭제</span>
+          </button>
+        </div>
+      `;
+    }
 
     /* 0. 숫자 변환 및 3자리 쉼표 포맷 헬퍼 */
     function toNum(val, fallback = 0) {
@@ -778,7 +839,7 @@
       return parts.join('.');
     }
 
-    /* 1. 🌟 싱글 마스터 인풋 PIN 엔진 (샤이닝 실버 스타일 & 4자리 즉시 자동 해제) 🌟 */
+    /* 1. 싱글 마스터 인풋 PIN 엔진 (샤이닝 실버 스타일 & 4자리 즉시 자동 해제) */
     function focusPinMaster() {
       const inp = document.getElementById('masterPinInput');
       if (inp) inp.focus();
@@ -862,7 +923,7 @@
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleMasterPinSubmit(); });
     }
 
-    /* 2. 🌟 3자리 쉼표 자동 서식 리스너 🌟 */
+    /* 2. 3자리 쉼표 자동 서식 리스너 */
     function setupCommaInputs() {
       document.querySelectorAll('.comma-number-input').forEach(input => {
         input.addEventListener('input', (e) => {
@@ -972,7 +1033,7 @@
       openModal('depositModal');
     }
 
-    /* 🌟 [핵심 신설] 각 장부 '수정(✏️)' 버튼 클릭 시 기존 데이터 불러오기 🌟 */
+    /* 각 장부 '수정(✏️)' 버튼 클릭 시 기존 데이터 불러오기 */
     function triggerEdit(type, index) {
       editState = { type, index };
       const topRate = document.getElementById('usdExchangeRate')?.value || 1343;
@@ -1230,7 +1291,7 @@
         const rateInput = document.getElementById('usdExchangeRate');
         const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
         const backupPayload = {
-          version: "2.1",
+          version: "2.2",
           exportedAt: new Date().toISOString(),
           exchangeRate: currentRate,
           holdings: holdings || [],
@@ -1497,7 +1558,7 @@
       if (activeFullModalType) openFullHistoryModal(activeFullModalType);
     }
 
-    /* 8. 🌟 핵심 렌더링 총괄 🌟 */
+    /* 8. 핵심 렌더링 총괄 */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
       const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
@@ -1623,7 +1684,7 @@
       });
     }
 
-    /* 🌟 5대 거래 장부 렌더링 (삭제 버튼 좌측에 수정[✏️] 버튼 나란히 배치) 🌟 */
+    /* 🌟 5대 거래 장부 렌더링 (직관적인 SVG 연필/휴지통 버튼 적용) 🌟 */
     function renderBuysTable(rate) {
       const tbody = document.getElementById('buysTableBody');
       if (!tbody) return;
@@ -1647,10 +1708,7 @@
               <td class="py-2 px-2 text-right text-zinc-300 font-num">${b.currency === 'USD' ? '$' + toNum(b.price).toFixed(2) : '₩' + Math.round(toNum(b.price)).toLocaleString()}</td>
               <td class="py-2 px-2 text-right font-bold text-white font-num whitespace-nowrap">₩${Math.round(totalKRW).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${b.note || '-'}</td>
-              <td class="py-2 px-2 text-center whitespace-nowrap">
-                <button onclick="event.stopPropagation(); triggerEdit('buy', ${b.originalIndex})" title="매수 기록 수정" class="text-zinc-400 hover:text-sky-400 p-1 mr-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button onclick="event.stopPropagation(); triggerDelete('buy', ${b.originalIndex})" title="매수 기록 삭제" class="text-zinc-500 hover:text-rose-400 p-1 transition"><i class="fa-solid fa-trash-can"></i></button>
-              </td>
+              <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('buy', b.originalIndex)}</td>
             </tr>
           `;
         });
@@ -1683,10 +1741,7 @@
               <td class="py-2 px-2 text-right font-bold text-sky-400 font-num whitespace-nowrap">+₩${toNum(r.net).toLocaleString()}</td>
               <td class="py-2 px-2 text-right font-num text-zinc-400 whitespace-nowrap">₩${toNum(r.runningTotal).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${r.note || '-'}</td>
-              <td class="py-2 px-2 text-center whitespace-nowrap">
-                <button onclick="event.stopPropagation(); triggerEdit('sell', ${r.originalIndex})" title="매도 손익 수정" class="text-zinc-400 hover:text-sky-400 p-1 mr-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button onclick="event.stopPropagation(); triggerDelete('sell', ${r.originalIndex})" title="매도 손익 삭제" class="text-zinc-500 hover:text-rose-400 p-1 transition"><i class="fa-solid fa-trash-can"></i></button>
-              </td>
+              <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('sell', r.originalIndex)}</td>
             </tr>
           `;
         });
@@ -1721,10 +1776,7 @@
               <td class="py-2 px-2 text-right font-bold font-num whitespace-nowrap ${isWithdraw ? 'text-rose-400' : 'text-sky-400'}">${d.valKRW >= 0 ? '+' : ''}₩${Math.round(d.valKRW).toLocaleString()}</td>
               <td class="py-2 px-2 text-right font-num text-zinc-300 font-bold whitespace-nowrap">₩${Math.round(d.runningTotal).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${d.note || '-'}</td>
-              <td class="py-2 px-2 text-center whitespace-nowrap">
-                <button onclick="event.stopPropagation(); triggerEdit('deposit', ${d.originalIndex})" title="입출금 내역 수정" class="text-zinc-400 hover:text-sky-400 p-1 mr-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button onclick="event.stopPropagation(); triggerDelete('deposit', ${d.originalIndex})" title="입출금 내역 삭제" class="text-zinc-500 hover:text-rose-400 p-1 transition"><i class="fa-solid fa-trash-can"></i></button>
-              </td>
+              <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('deposit', d.originalIndex)}</td>
             </tr>
           `;
         });
@@ -1754,10 +1806,7 @@
               <td class="py-2 px-2 text-right text-zinc-400 font-num whitespace-nowrap">${div.tax ? '$' + toNum(div.tax).toFixed(2) : '-'}</td>
               <td class="py-2 px-2 text-right font-bold text-sky-400 font-num whitespace-nowrap">+₩${Math.round(valKRW).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${div.note || '-'}</td>
-              <td class="py-2 px-2 text-center whitespace-nowrap">
-                <button onclick="event.stopPropagation(); triggerEdit('dividend', ${div.originalIndex})" title="배당금 기록 수정" class="text-zinc-400 hover:text-sky-400 p-1 mr-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button onclick="event.stopPropagation(); triggerDelete('dividend', ${div.originalIndex})" title="배당금 기록 삭제" class="text-zinc-500 hover:text-rose-400 p-1 transition"><i class="fa-solid fa-trash-can"></i></button>
-              </td>
+              <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('dividend', div.originalIndex)}</td>
             </tr>
           `;
         });
@@ -1787,10 +1836,7 @@
               <td class="py-2 px-2 text-right text-zinc-400 font-num whitespace-nowrap">${toNum(t.rate, 1343).toLocaleString()}원</td>
               <td class="py-2 px-2 text-right font-bold text-rose-400 font-num whitespace-nowrap">-₩${Math.round(valKRW).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${t.note || '-'}</td>
-              <td class="py-2 px-2 text-center whitespace-nowrap">
-                <button onclick="event.stopPropagation(); triggerEdit('tax', ${t.originalIndex})" title="세금 기록 수정" class="text-zinc-400 hover:text-sky-400 p-1 mr-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button onclick="event.stopPropagation(); triggerDelete('tax', ${t.originalIndex})" title="세금 기록 삭제" class="text-zinc-500 hover:text-rose-400 p-1 transition"><i class="fa-solid fa-trash-can"></i></button>
-              </td>
+              <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('tax', t.originalIndex)}</td>
             </tr>
           `;
         });
@@ -1798,7 +1844,6 @@
       renderPaginationUI('taxesPaginationBar', currentPageTaxes, totalPages, 'changeTaxesPage');
     }
 
-    /* 🌟 전체보기 팝업 모달 내부에도 수정[✏️]/삭제[🗑️] 버튼 지원 🌟 */
     function openFullHistoryModal(type) {
       activeFullModalType = type;
       const modal = document.getElementById('fullHistoryModal');
@@ -1826,7 +1871,7 @@
         sorted.forEach(b => {
           const valKRW = b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price) * toNum(b.rate, rate)) : (toNum(b.shares) * toNum(b.price));
           const desc = b.name || (TICKER_NAME_MAP[b.ticker] ? TICKER_NAME_MAP[b.ticker].name : b.ticker);
-          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${b.date}</td><td class="py-2.5 px-3 font-bold text-white">${b.ticker} (${desc})</td><td class="py-2.5 px-3 text-right font-num">${toNum(b.shares)}주</td><td class="py-2.5 px-3 text-right text-white font-bold font-num">₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${b.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap"><button onclick="triggerEdit('buy', ${b.originalIndex})" class="text-zinc-400 hover:text-sky-400 p-1 mr-1"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="triggerDelete('buy', ${b.originalIndex})" class="text-zinc-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;
+          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${b.date}</td><td class="py-2.5 px-3 font-bold text-white">${b.ticker} (${desc})</td><td class="py-2.5 px-3 text-right font-num">${toNum(b.shares)}주</td><td class="py-2.5 px-3 text-right text-white font-bold font-num">₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${b.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('buy', b.originalIndex, false)}</td></tr>`;
         });
         html += `</tbody></table>`;
       } else if (type === 'realized') {
@@ -1835,7 +1880,7 @@
         const sorted = realizedList.map((r, originalIndex) => ({ ...r, originalIndex })).sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
         html = `<table class="w-full text-left text-xs"><tbody class="divide-y divide-zinc-800">`;
         sorted.forEach(r => {
-          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${r.date}</td><td class="py-2.5 px-3 font-bold text-white">${r.ticker} ${r.shares ? `(${r.shares}주)` : ''}</td><td class="py-2.5 px-3 text-right text-sky-400 font-bold font-num">+₩${toNum(r.net).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${r.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap"><button onclick="triggerEdit('sell', ${r.originalIndex})" class="text-zinc-400 hover:text-sky-400 p-1 mr-1"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="triggerDelete('sell', ${r.originalIndex})" class="text-zinc-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;
+          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${r.date}</td><td class="py-2.5 px-3 font-bold text-white">${r.ticker} ${r.shares ? `(${r.shares}주)` : ''}</td><td class="py-2.5 px-3 text-right text-sky-400 font-bold font-num">+₩${toNum(r.net).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${r.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('sell', r.originalIndex, false)}</td></tr>`;
         });
         html += `</tbody></table>`;
       } else if (type === 'deposits') {
@@ -1845,7 +1890,7 @@
         html = `<table class="w-full text-left text-xs"><tbody class="divide-y divide-zinc-800">`;
         sorted.forEach(d => {
           const valKRW = d.currency === 'KRW' ? toNum(d.amount) : (toNum(d.amount) * rate);
-          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${d.date}</td><td class="py-2.5 px-3">${d.type === 'WITHDRAW' ? '출금' : '입금'}</td><td class="py-2.5 px-3 text-right ${valKRW >= 0 ? 'text-sky-400' : 'text-rose-400'} font-bold font-num">${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${d.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap"><button onclick="triggerEdit('deposit', ${d.originalIndex})" class="text-zinc-400 hover:text-sky-400 p-1 mr-1"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="triggerDelete('deposit', ${d.originalIndex})" class="text-zinc-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;
+          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${d.date}</td><td class="py-2.5 px-3">${d.type === 'WITHDRAW' ? '출금' : '입금'}</td><td class="py-2.5 px-3 text-right ${valKRW >= 0 ? 'text-sky-400' : 'text-rose-400'} font-bold font-num">${valKRW >= 0 ? '+' : ''}₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${d.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('deposit', d.originalIndex, false)}</td></tr>`;
         });
         html += `</tbody></table>`;
       } else if (type === 'dividends') {
@@ -1855,7 +1900,7 @@
         html = `<table class="w-full text-left text-xs"><tbody class="divide-y divide-zinc-800">`;
         sorted.forEach(div => {
           const valKRW = div.currency === 'KRW' ? toNum(div.amount) : (toNum(div.amount) * toNum(div.rate, rate));
-          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${div.date}</td><td class="py-2.5 px-3 font-bold text-white">${div.ticker}</td><td class="py-2.5 px-3 text-right text-sky-400 font-bold font-num">+₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${div.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap"><button onclick="triggerEdit('dividend', ${div.originalIndex})" class="text-zinc-400 hover:text-sky-400 p-1 mr-1"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="triggerDelete('dividend', ${div.originalIndex})" class="text-zinc-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;
+          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${div.date}</td><td class="py-2.5 px-3 font-bold text-white">${div.ticker}</td><td class="py-2.5 px-3 text-right text-sky-400 font-bold font-num">+₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${div.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('dividend', div.originalIndex, false)}</td></tr>`;
         });
         html += `</tbody></table>`;
       } else if (type === 'taxes') {
@@ -1865,7 +1910,7 @@
         html = `<table class="w-full text-left text-xs"><tbody class="divide-y divide-zinc-800">`;
         sorted.forEach(t => {
           const valKRW = t.currency === 'KRW' ? toNum(t.amount) : (toNum(t.amount) * toNum(t.rate, rate));
-          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${t.date}</td><td class="py-2.5 px-3 font-bold text-white">${t.ticker}</td><td class="py-2.5 px-3 text-right text-rose-400 font-bold font-num">-₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${t.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap"><button onclick="triggerEdit('tax', ${t.originalIndex})" class="text-zinc-400 hover:text-sky-400 p-1 mr-1"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="triggerDelete('tax', ${t.originalIndex})" class="text-zinc-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;
+          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${t.date}</td><td class="py-2.5 px-3 font-bold text-white">${t.ticker}</td><td class="py-2.5 px-3 text-right text-rose-400 font-bold font-num">-₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${t.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('tax', t.originalIndex, false)}</td></tr>`;
         });
         html += `</tbody></table>`;
       }
@@ -2090,7 +2135,7 @@
       renderDonutChart();
     }
 
-    /* 11. 🌟 폼 제출 처리 (신규 추가 & 수정 모드 완벽 분기 및 잔고 재계산) 🌟 */
+    /* 11. 폼 제출 처리 (신규 추가 & 수정 모드 완벽 분기 및 잔고 재계산) */
     function handleBuySubmit(e) {
       e.preventDefault();
       const curr = document.getElementById('buyCurrency').value;
@@ -2329,4 +2374,3 @@
   </script>
 </body>
 </html>
-  
