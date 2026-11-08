@@ -9,7 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* 🌟 아이콘 폰트(FontAwesome)가 깨지지 않도록 보호하면서 프리텐다드 적용 🌟 */
     *:not(.fa-solid):not(.fas):not(.fa-regular):not(.far):not(.fa-brands):not(.fab):not(.fa) {
       font-family: "Pretendard Variable", Pretendard, sans-serif !important;
       letter-spacing: -0.015em;
@@ -37,15 +36,14 @@
       transform: translateY(-2px);
     }
 
-    /* 🌟 직관적인 수정(연필) & 삭제(휴지통) 미니 캡슐 버튼 스타일 🌟 */
+    /* 🌟 수정(연필) & 삭제(휴지통) 아이콘 전용 샤이닝 실버 미니 캡슐 버튼 🌟 */
     .btn-row-edit {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      padding: 3px 7px;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
       border-radius: 6px;
-      font-size: 10px;
-      font-weight: 700;
       color: #cbd5e1;
       background-color: #27272a;
       border: 1px solid #3f3f46;
@@ -53,18 +51,17 @@
     }
     .btn-row-edit:hover {
       color: #000000;
-      background-color: #38bdf8;
-      border-color: #7dd3fc;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+      background: linear-gradient(135deg, #e2e8f0, #ffffff, #cbd5e1);
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
     }
     .btn-row-del {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      padding: 3px 7px;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
       border-radius: 6px;
-      font-size: 10px;
-      font-weight: 700;
       color: #fda4af;
       background-color: rgba(136, 19, 55, 0.25);
       border: 1px solid rgba(244, 63, 94, 0.3);
@@ -105,7 +102,7 @@
     </div>
   </div>
 
-  <!-- ================= 상단 헤더 (데이터 백업/복원 버튼 탑재!) ================= -->
+  <!-- ================= 상단 헤더 ================= -->
   <header class="sticky top-0 z-40 custom-card border-b backdrop-blur-lg bg-opacity-90 px-4 lg:px-10 py-3.5">
     <div class="max-w-[1650px] mx-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -156,11 +153,10 @@
             자산 포트폴리오 통합 관리 🚀✨
           </h1>
           <p class="text-xs lg:text-sm text-zinc-400 max-w-3xl leading-relaxed font-medium">
-            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 각 장부의 직관적인 [✏️ 수정] / [🗑️ 삭제] 버튼으로 언제든 기록을 편리하게 관리하세요 😇💖
+            스윙 전략, 배당금 및 세금 출금을 통합 관리합니다. 장부별 종목 필터 및 검색 기능으로 원하는 내역을 빠르게 찾아보세요 😇💖
           </p>
         </div>
 
-        <!-- 상단 기능 버튼 그룹 -->
         <div class="flex flex-wrap lg:flex-nowrap items-center gap-2.5 w-full 2xl:w-auto">
           <button onclick="openBuyModal()" class="whitespace-nowrap px-3.5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl border border-zinc-700 text-xs flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
             <i class="fa-solid fa-plus text-sky-400"></i> 신규 매수
@@ -315,7 +311,7 @@
       </div>
     </section>
 
-    <!-- ================= 🌟 6대 장부 2단 대칭 그리드 🌟 ================= -->
+    <!-- ================= 🌟 6대 장부 2단 대칭 그리드 (종목 검색/필터 바 탑재) 🌟 ================= -->
 
     <!-- ROW 1: [현재 보유 자산 잔고] ↔ [투자현금 입/출금 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
@@ -330,6 +326,12 @@
               <span class="text-zinc-600">|</span>
               <span id="holdingHeaderTotalRate" class="text-sky-400 font-bold">+0.00%</span>
             </span>
+          </div>
+
+          <!-- 보유잔고 검색 필터 -->
+          <div onclick="event.stopPropagation()" class="flex items-center gap-2 mb-3 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800 text-xs">
+            <i class="fa-solid fa-magnifying-glass text-slate-400 ml-1"></i>
+            <input type="text" id="holdingsSearchInput" oninput="renderAll()" placeholder="보유 종목 검색 (예: TQQQ, 반도체)" class="w-full bg-transparent text-white focus:outline-none font-medium">
           </div>
 
           <div class="overflow-x-auto">
@@ -359,6 +361,12 @@
             <button onclick="event.stopPropagation(); openDepositModal()" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
               + 입/출금 추가
             </button>
+          </div>
+
+          <!-- 입출금 검색 필터 -->
+          <div onclick="event.stopPropagation()" class="flex items-center gap-2 mb-3 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800 text-xs">
+            <i class="fa-solid fa-magnifying-glass text-slate-400 ml-1"></i>
+            <input type="text" id="depositsSearchInput" oninput="renderAll()" placeholder="입출금 사유 검색 (예: 추가 입금)" class="w-full bg-transparent text-white focus:outline-none font-medium">
           </div>
 
           <div class="overflow-x-auto">
@@ -391,6 +399,18 @@
             </button>
           </div>
 
+          <!-- 매수 장부 검색/필터 바 -->
+          <div onclick="event.stopPropagation()" class="flex flex-wrap items-center gap-2 mb-3 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800 text-xs">
+            <select id="buysTickerFilter" onchange="renderAll()" class="bg-zinc-800 text-slate-200 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs focus:outline-none cursor-pointer">
+              <option value="ALL">🔍 모든 종목 보기</option>
+            </select>
+            <div class="flex-1 flex items-center gap-1.5 bg-zinc-800/60 px-2.5 py-1.5 rounded-lg border border-zinc-700">
+              <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+              <input type="text" id="buysSearchInput" oninput="renderAll()" placeholder="비고/티커 검색" class="w-full bg-transparent text-white focus:outline-none">
+            </div>
+            <span id="buysFilterResultBadge" class="text-[11px] text-sky-400 font-num font-bold px-1"></span>
+          </div>
+
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
@@ -415,6 +435,18 @@
             <button onclick="event.stopPropagation(); openSellModal()" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
               + 매도 추가
             </button>
+          </div>
+
+          <!-- 실현손익 장부 검색/필터 바 -->
+          <div onclick="event.stopPropagation()" class="flex flex-wrap items-center gap-2 mb-3 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800 text-xs">
+            <select id="realizedTickerFilter" onchange="renderAll()" class="bg-zinc-800 text-slate-200 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs focus:outline-none cursor-pointer">
+              <option value="ALL">🔍 모든 종목 보기</option>
+            </select>
+            <div class="flex-1 flex items-center gap-1.5 bg-zinc-800/60 px-2.5 py-1.5 rounded-lg border border-zinc-700">
+              <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+              <input type="text" id="realizedSearchInput" oninput="renderAll()" placeholder="비고/티커 검색" class="w-full bg-transparent text-white focus:outline-none">
+            </div>
+            <span id="realizedFilterResultBadge" class="text-[11px] text-sky-400 font-num font-bold px-1"></span>
           </div>
 
           <div class="overflow-x-auto">
@@ -446,6 +478,17 @@
             </button>
           </div>
 
+          <!-- 배당금 장부 검색/필터 바 -->
+          <div onclick="event.stopPropagation()" class="flex flex-wrap items-center gap-2 mb-3 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800 text-xs">
+            <select id="dividendsTickerFilter" onchange="renderAll()" class="bg-zinc-800 text-slate-200 border border-zinc-700 rounded-lg px-2 py-1.5 text-xs focus:outline-none cursor-pointer">
+              <option value="ALL">🔍 모든 종목 보기</option>
+            </select>
+            <div class="flex-1 flex items-center gap-1.5 bg-zinc-800/60 px-2.5 py-1.5 rounded-lg border border-zinc-700">
+              <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+              <input type="text" id="dividendsSearchInput" oninput="renderAll()" placeholder="비고/티커 검색" class="w-full bg-transparent text-white focus:outline-none">
+            </div>
+          </div>
+
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
@@ -470,6 +513,12 @@
             <button onclick="event.stopPropagation(); openTaxModal()" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg text-xs font-bold transition">
               + 세금 출금 추가
             </button>
+          </div>
+
+          <!-- 세금 장부 검색 필터 -->
+          <div onclick="event.stopPropagation()" class="flex items-center gap-2 mb-3 bg-zinc-900/90 p-2 rounded-xl border border-zinc-800 text-xs">
+            <i class="fa-solid fa-magnifying-glass text-slate-400 ml-1"></i>
+            <input type="text" id="taxesSearchInput" oninput="renderAll()" placeholder="세금 출금 사유 검색" class="w-full bg-transparent text-white focus:outline-none font-medium">
           </div>
 
           <div class="overflow-x-auto">
@@ -793,26 +842,26 @@
       </button>
     </div>
   </div>
-  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (직관적 SVG 수정/삭제 & 백업/복원 탑재) 🌟 ================= -->
+  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (아이콘 버튼 & 종목 검색/필터 탑재) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
     /* 수정 상태 추적 및 전체보기 모달 연동 변수 */
     let editState = { type: null, index: null };
     let activeFullModalType = null;
+    let fullModalSearchQuery = "";
+    let fullModalTickerFilter = "ALL";
 
-    /* 🌟 깨지지 않는 선명한 SVG 연필(수정) & 휴지통(삭제) 캡슐 버튼 생성기 🌟 */
+    /* 🌟 한글 없이 선명한 SVG 연필(수정) & 휴지통(삭제) 아이콘만 표시하는 버튼 생성기 🌟 */
     function getActionButtonsHTML(type, index, stopProp = true) {
       const sp = stopProp ? 'event.stopPropagation(); ' : '';
       return `
-        <div class="inline-flex items-center justify-center gap-1">
+        <div class="inline-flex items-center justify-center gap-1.5">
           <button type="button" onclick="${sp}triggerEdit('${type}', ${index})" title="내역 수정" class="btn-row-edit">
-            <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
-            <span>수정</span>
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
           </button>
           <button type="button" onclick="${sp}triggerDelete('${type}', ${index})" title="내역 삭제" class="btn-row-del">
-            <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-            <span>삭제</span>
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
           </button>
         </div>
       `;
@@ -952,7 +1001,11 @@
     function closeModal(id) { 
       const m = document.getElementById(id); 
       if (m) m.classList.add('hidden'); 
-      if (id === 'fullHistoryModal') activeFullModalType = null;
+      if (id === 'fullHistoryModal') {
+        activeFullModalType = null;
+        fullModalSearchQuery = "";
+        fullModalTickerFilter = "ALL";
+      }
     }
 
     function openBuyModal() {
@@ -1040,7 +1093,7 @@
 
       if (type === 'buy' && buyList[index]) {
         const item = buyList[index];
-        document.getElementById('buyModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-sky-400"></i> 매수 거래 내역 수정`;
+        document.getElementById('buyModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-slate-200"></i> 매수 거래 내역 수정`;
         document.getElementById('buySubmitBtn').textContent = `수정 내용 저장 및 잔고 업데이트 ✨`;
         document.getElementById('buyDate').value = item.date || '';
         document.getElementById('buyTicker').value = item.ticker || '';
@@ -1054,7 +1107,7 @@
         openModal('buyModal');
       } else if (type === 'sell' && realizedList[index]) {
         const item = realizedList[index];
-        document.getElementById('sellModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-sky-400"></i> 매도 실현손익 내역 수정`;
+        document.getElementById('sellModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-slate-200"></i> 매도 실현손익 내역 수정`;
         document.getElementById('sellSubmitBtn').textContent = `수정 내용 저장하기 ✨`;
         document.getElementById('sellDate').value = item.date || '';
         document.getElementById('sellTicker').value = item.ticker || '';
@@ -1066,7 +1119,7 @@
       } else if (type === 'deposit' && depositList[index]) {
         const item = depositList[index];
         const isWithdraw = item.type === 'WITHDRAW' || toNum(item.amount) < 0;
-        document.getElementById('depModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-sky-400"></i> 투자현금 입/출금 내역 수정`;
+        document.getElementById('depModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-slate-200"></i> 투자현금 입/출금 내역 수정`;
         setDepositType(isWithdraw ? 'WITHDRAW' : 'DEPOSIT');
         setDepositCurrency(item.currency || 'KRW');
         document.getElementById('depositDate').value = item.date || '';
@@ -1076,7 +1129,7 @@
         openModal('depositModal');
       } else if (type === 'dividend' && dividendList[index]) {
         const item = dividendList[index];
-        document.getElementById('divModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-sky-400"></i> 배당금 입금 내역 수정`;
+        document.getElementById('divModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-slate-200"></i> 배당금 입금 내역 수정`;
         document.getElementById('divSubmitBtn').textContent = `수정 내용 저장하기 ✨`;
         document.getElementById('divDate').value = item.date || '';
         document.getElementById('divTicker').value = item.ticker || '';
@@ -1271,6 +1324,22 @@
     let assetTrendChartInstance = null;
     let tickerProfitChartInstance = null;
 
+    /* 🌟 장부별 종목 선택 드롭다운 자동 동기화 헬퍼 🌟 */
+    function syncTickerDropdown(selectId, list) {
+      const sel = document.getElementById(selectId);
+      if (!sel) return;
+      const prevVal = sel.value || 'ALL';
+      const tickers = [...new Set((list || []).map(item => (item.ticker || '').toUpperCase().trim()).filter(Boolean))].sort();
+      let html = `<option value="ALL">🔍 모든 종목 보기 (${list.length})</option>`;
+      tickers.forEach(t => {
+        const count = list.filter(item => (item.ticker || '').toUpperCase().trim() === t).length;
+        const desc = TICKER_NAME_MAP[t] ? ` · ${TICKER_NAME_MAP[t].name}` : '';
+        html += `<option value="${t}">${t}${desc} (${count}건)</option>`;
+      });
+      sel.innerHTML = html;
+      sel.value = tickers.includes(prevVal) ? prevVal : 'ALL';
+    }
+
     /* 5. 전체 장부 JSON 백업 다운로드 & 파일 복원 엔진 */
     function showBackupNotice(title, msg, isSuccess = true) {
       const icon = document.getElementById('backupStatusIcon');
@@ -1291,7 +1360,7 @@
         const rateInput = document.getElementById('usdExchangeRate');
         const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
         const backupPayload = {
-          version: "2.2",
+          version: "2.3",
           exportedAt: new Date().toISOString(),
           exchangeRate: currentRate,
           holdings: holdings || [],
@@ -1575,6 +1644,11 @@
       dividendList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
       taxList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
 
+      /* 종목 드롭다운 옵션 동기화 */
+      syncTickerDropdown('buysTickerFilter', buyList);
+      syncTickerDropdown('realizedTickerFilter', realizedList);
+      syncTickerDropdown('dividendsTickerFilter', dividendList);
+
       let totalSeedKRW = 0;
       depositList.forEach(d => {
         totalSeedKRW += (d.currency === 'KRW' ? toNum(d.amount) : (toNum(d.amount) * currentRate));
@@ -1660,11 +1734,28 @@
       `;
     }
 
+    /* 🌟 6대 장부 렌더링 (종목 필터 + 키워드 검색 + 요약 배지 연동) 🌟 */
     function renderHoldingsUI(rate, totalUSD) {
       const tbody = document.getElementById('holdingsTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
-      holdings.forEach(h => {
+      const q = (document.getElementById('holdingsSearchInput')?.value || '').toLowerCase().trim();
+
+      const filtered = holdings.filter(h => {
+        if (!q) return true;
+        const desc = h.name || (TICKER_NAME_MAP[h.ticker] ? TICKER_NAME_MAP[h.ticker].name : '');
+        return (h.ticker || '').toLowerCase().includes(q) ||
+               desc.toLowerCase().includes(q) ||
+               (h.category || '').toLowerCase().includes(q) ||
+               (h.note || '').toLowerCase().includes(q);
+      });
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">검색 조건에 맞는 보유 종목이 없습니다 🔍</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(h => {
         const valUSD = h.currency === 'USD' ? (toNum(h.shares) * toNum(h.curPrice)) : (toNum(h.shares) * toNum(h.curPrice) / rate);
         const valKRW = h.currency === 'USD' ? (valUSD * rate) : (toNum(h.shares) * toNum(h.curPrice));
         const profitRate = toNum(h.avgPrice) > 0 ? (((toNum(h.curPrice) - toNum(h.avgPrice)) / toNum(h.avgPrice)) * 100).toFixed(2) : 0;
@@ -1684,19 +1775,48 @@
       });
     }
 
-    /* 🌟 5대 거래 장부 렌더링 (직관적인 SVG 연필/휴지통 버튼 적용) 🌟 */
     function renderBuysTable(rate) {
       const tbody = document.getElementById('buysTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      const tickerFilter = document.getElementById('buysTickerFilter')?.value || 'ALL';
+      const q = (document.getElementById('buysSearchInput')?.value || '').toLowerCase().trim();
+      const badgeEl = document.getElementById('buysFilterResultBadge');
+
       const indexed = buyList.map((b, originalIndex) => ({ ...b, originalIndex }));
       indexed.sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
-      const totalPages = Math.ceil(indexed.length / PAGE_SIZE) || 1;
-      if (currentPageBuys > totalPages) currentPageBuys = totalPages;
-      const pageItems = indexed.slice((currentPageBuys - 1) * PAGE_SIZE, currentPageBuys * PAGE_SIZE);
 
-      if (!pageItems.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">매수 내역이 없습니다 ☕</td></tr>`; }
-      else {
+      const filtered = indexed.filter(b => {
+        const t = (b.ticker || '').toUpperCase().trim();
+        if (tickerFilter !== 'ALL' && t !== tickerFilter) return false;
+        if (!q) return true;
+        const desc = b.name || (TICKER_NAME_MAP[t] ? TICKER_NAME_MAP[t].name : '');
+        return t.toLowerCase().includes(q) ||
+               desc.toLowerCase().includes(q) ||
+               (b.note || '').toLowerCase().includes(q) ||
+               (b.date || '').includes(q);
+      });
+
+      if (badgeEl) {
+        if (tickerFilter !== 'ALL' || q !== '') {
+          const sumKRW = filtered.reduce((acc, b) => {
+            const bRate = b.currency === 'USD' ? toNum(b.rate, rate) : 1;
+            return acc + (b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price) * bRate) : (toNum(b.shares) * toNum(b.price)));
+          }, 0);
+          badgeEl.textContent = `${filtered.length}건 · ₩${Math.round(sumKRW).toLocaleString()}`;
+        } else {
+          badgeEl.textContent = '';
+        }
+      }
+
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+      if (currentPageBuys > totalPages) currentPageBuys = 1;
+      const pageItems = filtered.slice((currentPageBuys - 1) * PAGE_SIZE, currentPageBuys * PAGE_SIZE);
+
+      if (!pageItems.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">조건에 맞는 매수 내역이 없습니다 ☕</td></tr>`;
+      } else {
         pageItems.forEach(b => {
           const buyRate = b.currency === 'USD' ? toNum(b.rate, rate) : 1;
           const totalKRW = b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price) * buyRate) : (toNum(b.shares) * toNum(b.price));
@@ -1720,18 +1840,45 @@
       const tbody = document.getElementById('realizedTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      const tickerFilter = document.getElementById('realizedTickerFilter')?.value || 'ALL';
+      const q = (document.getElementById('realizedSearchInput')?.value || '').toLowerCase().trim();
+      const badgeEl = document.getElementById('realizedFilterResultBadge');
+
       let runTotal = 0;
       const enriched = realizedList.map((r, originalIndex) => {
         runTotal += toNum(r.net);
         return { ...r, runningTotal: runTotal, originalIndex };
       });
       enriched.sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
-      const totalPages = Math.ceil(enriched.length / PAGE_SIZE) || 1;
-      if (currentPageRealized > totalPages) currentPageRealized = totalPages;
-      const pageItems = enriched.slice((currentPageRealized - 1) * PAGE_SIZE, currentPageRealized * PAGE_SIZE);
 
-      if (!pageItems.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">매도 손익 내역이 없습니다 ☕</td></tr>`; }
-      else {
+      const filtered = enriched.filter(r => {
+        const t = (r.ticker || '').toUpperCase().trim();
+        if (tickerFilter !== 'ALL' && t !== tickerFilter) return false;
+        if (!q) return true;
+        const desc = TICKER_NAME_MAP[t] ? TICKER_NAME_MAP[t].name : '';
+        return t.toLowerCase().includes(q) ||
+               desc.toLowerCase().includes(q) ||
+               (r.note || '').toLowerCase().includes(q) ||
+               (r.date || '').includes(q);
+      });
+
+      if (badgeEl) {
+        if (tickerFilter !== 'ALL' || q !== '') {
+          const sumNet = filtered.reduce((acc, r) => acc + toNum(r.net), 0);
+          badgeEl.textContent = `${filtered.length}건 · +₩${Math.round(sumNet).toLocaleString()}`;
+        } else {
+          badgeEl.textContent = '';
+        }
+      }
+
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+      if (currentPageRealized > totalPages) currentPageRealized = 1;
+      const pageItems = filtered.slice((currentPageRealized - 1) * PAGE_SIZE, currentPageRealized * PAGE_SIZE);
+
+      if (!pageItems.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">조건에 맞는 매도 손익 내역이 없습니다 ☕</td></tr>`;
+      } else {
         pageItems.forEach(r => {
           tbody.innerHTML += `
             <tr class="hover:bg-zinc-800/40 border-b border-zinc-800/40">
@@ -1753,6 +1900,9 @@
       const tbody = document.getElementById('depositsTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      const q = (document.getElementById('depositsSearchInput')?.value || '').toLowerCase().trim();
+
       let runDeposit = 0;
       const enriched = depositList.map((d, originalIndex) => {
         const valKRW = d.currency === 'KRW' ? toNum(d.amount) : (toNum(d.amount) * rate);
@@ -1760,12 +1910,22 @@
         return { ...d, valKRW, runningTotal: runDeposit, originalIndex };
       });
       enriched.sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
-      const totalPages = Math.ceil(enriched.length / PAGE_SIZE) || 1;
-      if (currentPageDeposits > totalPages) currentPageDeposits = totalPages;
-      const pageItems = enriched.slice((currentPageDeposits - 1) * PAGE_SIZE, currentPageDeposits * PAGE_SIZE);
 
-      if (!pageItems.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">입출금 내역이 없습니다 ☕</td></tr>`; }
-      else {
+      const filtered = enriched.filter(d => {
+        if (!q) return true;
+        const typeKor = d.valKRW < 0 ? '출금' : '입금';
+        return (d.note || '').toLowerCase().includes(q) ||
+               (d.date || '').includes(q) ||
+               typeKor.includes(q);
+      });
+
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+      if (currentPageDeposits > totalPages) currentPageDeposits = 1;
+      const pageItems = filtered.slice((currentPageDeposits - 1) * PAGE_SIZE, currentPageDeposits * PAGE_SIZE);
+
+      if (!pageItems.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">조건에 맞는 입출금 내역이 없습니다 ☕</td></tr>`;
+      } else {
         pageItems.forEach(d => {
           const isWithdraw = d.valKRW < 0;
           tbody.innerHTML += `
@@ -1788,14 +1948,30 @@
       const tbody = document.getElementById('dividendsTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      const tickerFilter = document.getElementById('dividendsTickerFilter')?.value || 'ALL';
+      const q = (document.getElementById('dividendsSearchInput')?.value || '').toLowerCase().trim();
+
       const indexed = dividendList.map((div, originalIndex) => ({ ...div, originalIndex }));
       indexed.sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
-      const totalPages = Math.ceil(indexed.length / PAGE_SIZE) || 1;
-      if (currentPageDividends > totalPages) currentPageDividends = totalPages;
-      const pageItems = indexed.slice((currentPageDividends - 1) * PAGE_SIZE, currentPageDividends * PAGE_SIZE);
 
-      if (!pageItems.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">배당금 내역이 없습니다 ☕</td></tr>`; }
-      else {
+      const filtered = indexed.filter(div => {
+        const t = (div.ticker || '').toUpperCase().trim();
+        if (tickerFilter !== 'ALL' && t !== tickerFilter) return false;
+        if (!q) return true;
+        return t.toLowerCase().includes(q) ||
+               (div.name || '').toLowerCase().includes(q) ||
+               (div.note || '').toLowerCase().includes(q) ||
+               (div.date || '').includes(q);
+      });
+
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+      if (currentPageDividends > totalPages) currentPageDividends = 1;
+      const pageItems = filtered.slice((currentPageDividends - 1) * PAGE_SIZE, currentPageDividends * PAGE_SIZE);
+
+      if (!pageItems.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">배당금 내역이 없습니다 ☕</td></tr>`;
+      } else {
         pageItems.forEach(div => {
           const valKRW = div.currency === 'KRW' ? toNum(div.amount) : (toNum(div.amount) * toNum(div.rate, 1343));
           tbody.innerHTML += `
@@ -1818,14 +1994,27 @@
       const tbody = document.getElementById('taxesTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      const q = (document.getElementById('taxesSearchInput')?.value || '').toLowerCase().trim();
+
       const indexed = taxList.map((t, originalIndex) => ({ ...t, originalIndex }));
       indexed.sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
-      const totalPages = Math.ceil(indexed.length / PAGE_SIZE) || 1;
-      if (currentPageTaxes > totalPages) currentPageTaxes = totalPages;
-      const pageItems = indexed.slice((currentPageTaxes - 1) * PAGE_SIZE, currentPageTaxes * PAGE_SIZE);
 
-      if (!pageItems.length) { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">세금 출금 내역이 없습니다 ☕</td></tr>`; }
-      else {
+      const filtered = indexed.filter(t => {
+        if (!q) return true;
+        return (t.ticker || '').toLowerCase().includes(q) ||
+               (t.name || '').toLowerCase().includes(q) ||
+               (t.note || '').toLowerCase().includes(q) ||
+               (t.date || '').includes(q);
+      });
+
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+      if (currentPageTaxes > totalPages) currentPageTaxes = 1;
+      const pageItems = filtered.slice((currentPageTaxes - 1) * PAGE_SIZE, currentPageTaxes * PAGE_SIZE);
+
+      if (!pageItems.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">세금 출금 내역이 없습니다 ☕</td></tr>`;
+      } else {
         pageItems.forEach(t => {
           const valKRW = t.currency === 'KRW' ? toNum(t.amount) : (toNum(t.amount) * toNum(t.rate, 1343));
           tbody.innerHTML += `
