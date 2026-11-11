@@ -123,7 +123,7 @@
           <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">동기화 완료 🟢</span>
         </div>
 
-        <!-- 🌟 [신설] GitHub 실시간 클라우드 동기화 상태 배지 & 설정 버튼 🌟 -->
+        <!-- GitHub 실시간 클라우드 동기화 상태 배지 & 설정 버튼 -->
         <button onclick="openCloudModal()" id="cloudSyncBtn" title="GitHub 실시간 클라우드 자동 저장 설정" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black font-extrabold text-xs hover:from-white hover:to-slate-200 transition active:scale-95 flex items-center gap-1.5 shadow-sm shadow-white/15">
           <i class="fa-solid fa-cloud"></i>
           <span id="cloudSyncBadge">클라우드 설정 ⚪</span>
@@ -199,7 +199,7 @@
       </div>
     </section>
 
-    <!-- KPI 요약 카드 -->
+    <!-- KPI 요약 카드 (미실현 보유 평가손익 플러스/마이너스 자동 색상 연동!) -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="custom-card rounded-2xl p-5">
         <span class="text-xs font-bold text-zinc-400 uppercase">총 투자 원금 (순입금 합계)</span>
@@ -221,8 +221,8 @@
 
       <div class="custom-card rounded-2xl p-5">
         <span class="text-xs font-bold text-zinc-400 uppercase">미실현 보유 평가손익</span>
-        <div class="text-2xl font-black font-num text-rose-400 mt-2" id="kpiUnrealizedKRW">-₩0</div>
-        <div class="text-xs text-rose-400 font-num mt-1" id="kpiUnrealizedRate">-0.00%</div>
+        <div class="text-2xl font-black font-num text-sky-400 mt-2" id="kpiUnrealizedKRW">+₩0</div>
+        <div class="text-xs font-bold text-sky-400 font-num mt-1" id="kpiUnrealizedRate">+0.00%</div>
       </div>
     </section>
 
@@ -843,7 +843,7 @@
     </div>
   </div>
 
-  <!-- ================= 🌟 [신설] GitHub 실시간 클라우드 연동 설정 모달 🌟 ================= -->
+  <!-- ================= GitHub 실시간 클라우드 연동 설정 모달 ================= -->
   <div id="cloudSyncModal" class="fixed inset-0 z-[68] flex items-center justify-center bg-black/85 backdrop-blur-md hidden p-4">
     <div class="custom-card p-6 rounded-2xl w-full max-w-lg border border-slate-300/40 shadow-2xl">
       <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
@@ -891,8 +891,8 @@
         </div>
 
         <div class="bg-zinc-900/90 border border-zinc-800 rounded-xl p-3 text-[11px] text-zinc-400 space-y-1 leading-relaxed">
-          <div class="text-slate-200 font-bold mb-1">💡 최초 1회 연동 가이드</div>
-          <p>1️⃣ <strong>기존 데이터가 있는 원래 브라우저</strong>: 위 정보 입력 후 <strong>[📤 현재 브라우저 장부를 클라우드로 업로드]</strong> 버튼을 눌러 41페이지 데이터를 서버에 올립니다.</p>
+          <div class="text-slate-200 font-bold mb-1">💡 클라우드 동기화 안내</div>
+          <p>1️⃣ <strong>기존 데이터가 있는 브라우저</strong>: 위 정보 입력 후 <strong>[📤 현재 장부 클라우드로 업로드]</strong> 버튼을 누르면 서버에 전체 데이터가 저장됩니다.</p>
           <p>2️⃣ <strong>새로운 브라우저 / 스마트폰</strong>: 위 정보 입력 후 <strong>[📥 클라우드에서 장부 불러오기]</strong>를 누르면 1초 만에 똑같이 동기화됩니다!</p>
         </div>
 
@@ -912,7 +912,7 @@
       </div>
     </div>
   </div>
-  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (실시간 GitHub 클라우드 동기화 탑재) 🌟 ================= -->
+  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (미실현수익 푸른색 자동전환 & 실시간 클라우드 탑재) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
@@ -1405,7 +1405,7 @@
       sel.value = tickers.includes(prevVal) ? prevVal : 'ALL';
     }
 
-    /* 5. 🌟 [핵심 신설] GitHub 실시간 클라우드 자동 동기화 엔진 🌟 */
+    /* 5. GitHub 실시간 클라우드 자동 동기화 엔진 */
     function getAutoDetectedGitHubInfo() {
       let defaultOwner = '';
       let defaultRepo = '';
@@ -1479,7 +1479,7 @@
         const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
 
         const payloadObj = {
-          version: "3.0-cloud",
+          version: "3.1-cloud",
           updatedAt: new Date().toISOString(),
           exchangeRate: currentRate,
           holdings: holdings || [],
@@ -1497,7 +1497,6 @@
           'Content-Type': 'application/json'
         };
 
-        /* 기존 파일 SHA 조회 */
         let existingSha = null;
         const getRes = await fetch(`${apiUrl}?ref=${encodeURIComponent(cfg.branch)}`, {
           method: 'GET',
@@ -1664,7 +1663,7 @@
         const rateInput = document.getElementById('usdExchangeRate');
         const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
         const backupPayload = {
-          version: "3.0-cloud",
+          version: "3.1-cloud",
           exportedAt: new Date().toISOString(),
           exchangeRate: currentRate,
           holdings: holdings || [],
@@ -1933,7 +1932,7 @@
       if (activeFullModalType) openFullHistoryModal(activeFullModalType);
     }
 
-    /* 9. 핵심 렌더링 총괄 */
+    /* 9. 🌟 핵심 렌더링 총괄 (미실현 평가손익 +일 때 푸른색 text-sky-400 자동 전환!) 🌟 */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
       const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
@@ -1989,16 +1988,28 @@
       if (kpiRealEl) kpiRealEl.className = `text-2xl font-black font-num mt-2 ${overallRealizedKRW >= 0 ? 'text-sky-400' : 'text-rose-400'}`;
       
       setText('kpiProfitBreakdownText', `매도: +₩${Math.round(totalNetRealizedKRW/10000)}만 | 배당: +₩${Math.round(totalDividendKRW/10000)}만 | 세금: -₩${Math.round(totalTaxKRW/10000)}만`);
-      setText('kpiUnrealizedKRW', (unrealizedKRW >= 0 ? '+₩' : '-₩') + Math.abs(Math.round(unrealizedKRW)).toLocaleString());
-      setText('kpiUnrealizedRate', (unrealizedRate >= 0 ? '+' : '') + unrealizedRate + '%');
+
+      /* 🌟 미실현 보유 평가손익 플러스(+)일 때 푸른색(text-sky-400), 마이너스(-)일 때 붉은색(text-rose-400) 자동 적용 🌟 */
+      const isUnrealizedPlus = unrealizedKRW >= 0;
+      setText('kpiUnrealizedKRW', (isUnrealizedPlus ? '+₩' : '-₩') + Math.abs(Math.round(unrealizedKRW)).toLocaleString());
+      const kpiUnKRWEl = document.getElementById('kpiUnrealizedKRW');
+      if (kpiUnKRWEl) {
+        kpiUnKRWEl.className = `text-2xl font-black font-num mt-2 ${isUnrealizedPlus ? 'text-sky-400' : 'text-rose-400'}`;
+      }
+
+      setText('kpiUnrealizedRate', (Number(unrealizedRate) >= 0 ? '+' : '') + unrealizedRate + '%');
+      const kpiUnRateEl = document.getElementById('kpiUnrealizedRate');
+      if (kpiUnRateEl) {
+        kpiUnRateEl.className = `text-xs font-bold font-num mt-1 ${isUnrealizedPlus ? 'text-sky-400' : 'text-rose-400'}`;
+      }
       
       setText('yearlyTotalBadge', `누적 +${Math.round(overallRealizedKRW/10000)}만 원`);
       setText('rankTotalBadge', `총 확정 실현손익: +${Math.round(overallRealizedKRW/10000)}만 원`);
       setText('holdingHeaderTotalKRW', '₩' + Math.round(totalValueKRW).toLocaleString());
       const hRateEl = document.getElementById('holdingHeaderTotalRate');
       if (hRateEl) {
-        hRateEl.textContent = `${unrealizedRate >= 0 ? '+' : ''}${unrealizedRate}%`;
-        hRateEl.className = `font-bold ${unrealizedRate >= 0 ? 'text-sky-400' : 'text-rose-400'}`;
+        hRateEl.textContent = `${Number(unrealizedRate) >= 0 ? '+' : ''}${unrealizedRate}%`;
+        hRateEl.className = `font-bold ${isUnrealizedPlus ? 'text-sky-400' : 'text-rose-400'}`;
       }
 
       try { renderRebalanceGuide(totalValueUSD, currentRate); } catch(e) {}
@@ -2867,7 +2878,7 @@
       fetchLatestExchangeRate();
       renderAll();
 
-      /* 클라우드 설정이되어 있다면 접속 즉시 서버에서 최신 장부 자동 동기화 */
+      /* 클라우드 설정이 되어 있다면 접속 즉시 서버에서 최신 장부 자동 동기화 */
       const cfg = loadCloudConfig();
       if (cfg && cfg.token) {
         pullFromGitHubCloud(true);
