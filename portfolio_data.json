@@ -1,6 +1,6 @@
 {
   "version": "3.3-cloud",
-  "updatedAt": "2026-11-27T16:08:59.907Z",
+  "updatedAt": "2026-11-27T16:21:20.078Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -73,7 +73,7 @@
       "category": "미국주식",
       "ticker": "FNGU",
       "name": "빅테크 Top10 3X",
-      "shares": 122,
+      "shares": 51,
       "avgPrice": 31.3849180327869,
       "curPrice": 28.24,
       "currency": "USD",
@@ -8729,6 +8729,17 @@
       "currency": "USD",
       "rate": 1116.4,
       "price": 101.41
+    },
+    {
+      "date": "2021-04-16",
+      "ticker": "FNGU",
+      "shares": 71,
+      "gross": 247113,
+      "net": 247113,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1117.6,
+      "price": 35.45
     },
     {
       "date": "2025-08-05",
