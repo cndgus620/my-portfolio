@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T17:45:16.452Z",
+  "updatedAt": "2026-11-27T17:46:16.071Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -68,17 +68,6 @@
       "currency": "USD",
       "target": 30,
       "note": "💵 예수금 및 CMA-RP 총알"
-    },
-    {
-      "category": "미국주식",
-      "ticker": "BNKU",
-      "name": "BNKU",
-      "shares": 47,
-      "avgPrice": 48.61872340425533,
-      "curPrice": 50.75,
-      "currency": "USD",
-      "target": 0,
-      "note": "분할 매수"
     },
     {
       "category": "미국주식",
@@ -8795,6 +8784,17 @@
       "currency": "USD",
       "rate": 1142.3,
       "price": 17.1
+    },
+    {
+      "date": "2021-08-11",
+      "ticker": "BNKU",
+      "shares": 47,
+      "gross": 298501,
+      "net": 298501,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1148.5,
+      "price": 54
     },
     {
       "date": "2025-08-05",
