@@ -1,6 +1,6 @@
 {
   "version": "3.3-cloud",
-  "updatedAt": "2026-11-27T15:53:05.020Z",
+  "updatedAt": "2026-11-27T15:58:34.210Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -29,7 +29,7 @@
       "category": "미국주식",
       "ticker": "SOXL",
       "name": "반도체 3X",
-      "shares": 81,
+      "shares": 80,
       "avgPrice": 65.81174799122876,
       "curPrice": 150,
       "currency": "USD",
@@ -8707,6 +8707,17 @@
       "currency": "USD",
       "rate": 1127.8,
       "price": 38.54
+    },
+    {
+      "date": "2021-04-07",
+      "ticker": "SOXL",
+      "shares": 1,
+      "gross": 8511,
+      "net": 8511,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1122.9,
+      "price": 42.21
     },
     {
       "date": "2025-08-05",
