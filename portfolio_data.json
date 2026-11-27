@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T19:30:57.651Z",
+  "updatedAt": "2026-11-27T19:48:20.929Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -63,8 +63,8 @@
       "ticker": "CASH",
       "name": "전략 대기 현금",
       "shares": 1,
-      "avgPrice": 1116.0714285714287,
-      "curPrice": 1116.0714285714287,
+      "avgPrice": 1116.155505952381,
+      "curPrice": 1116.155505952381,
       "currency": "USD",
       "target": 30,
       "note": "💵 예수금 및 CMA-RP 총알"
@@ -9009,6 +9009,13 @@
       "currency": "KRW",
       "amount": 1000000,
       "note": "투자금 추가 입금"
+    },
+    {
+      "date": "2022-04-10",
+      "type": "DEPOSIT",
+      "currency": "KRW",
+      "amount": 113,
+      "note": "예탁금 이용료"
     },
     {
       "date": "2022-08-12",
