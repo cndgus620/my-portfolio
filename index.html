@@ -178,7 +178,7 @@
           <span id="rateStatusBadge" class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">동기화 완료 🟢</span>
         </div>
 
-        <!-- 🌟 프라이버시 금액 블러 토글 버튼 🌟 -->
+        <!-- 프라이버시 금액 블러 토글 버튼 -->
         <button onclick="togglePrivacyMode()" id="privacyToggleBtn" title="민감한 금액 숨기기 / 표시하기 (프라이버시 모드)" class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-slate-200 hover:text-white border border-zinc-700 font-bold text-xs transition active:scale-95 flex items-center gap-1.5">
           <i id="privacyIcon" class="fa-solid fa-eye text-slate-300"></i>
           <span id="privacyLabel" class="hidden md:inline">금액 숨김</span>
@@ -208,9 +208,8 @@
   <!-- ================= 메인 컨테이너 ================= -->
   <main class="flex-1 max-w-[1650px] w-full mx-auto px-4 lg:px-10 py-5 space-y-5">
 
-    <!-- 🌟 [1번 업그레이드] 슬림 액션 바 & 글래스모피즘 뷰 전환 탭 🌟 -->
+    <!-- 슬림 액션 바 & 글래스모피즘 뷰 전환 탭 (+ 액면병합/분할 버튼 추가!) -->
     <section class="custom-card rounded-2xl px-4 lg:px-5 py-3.5 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3.5">
-      <!-- 뷰 전환 탭 -->
       <div class="inline-flex items-center p-1 rounded-xl bg-zinc-950/90 border border-zinc-800/90 self-start">
         <button type="button" id="viewTabALL" onclick="switchDashboardView('ALL')" class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black shadow-sm transition flex items-center gap-1.5">
           <i class="fa-solid fa-border-all"></i> 전체 보기
@@ -240,10 +239,14 @@
         <button onclick="openDepositModal()" class="whitespace-nowrap px-3 py-2 bg-zinc-900 hover:bg-zinc-800 text-white font-bold rounded-xl border border-zinc-700/90 text-xs flex items-center gap-1.5 transition active:scale-95">
           <i class="fa-solid fa-wallet text-emerald-400"></i> 현금 입출금
         </button>
+        <!-- 🌟 [신설] 액면병합 / 분할 전용 버튼 🌟 -->
+        <button onclick="openSplitModal()" class="whitespace-nowrap px-3 py-2 bg-zinc-900 hover:bg-zinc-800 text-white font-bold rounded-xl border border-purple-400/40 text-xs flex items-center gap-1.5 transition active:scale-95">
+          <i class="fa-solid fa-code-merge text-purple-400"></i> 액면병합/분할
+        </button>
       </div>
     </section>
 
-    <!-- 🌟 [2번 업그레이드] 럭셔리 KPI 요약 카드 4종 (메탈릭 광택 · 캡슐 배지 · 수익 구성 바) 🌟 -->
+    <!-- 럭셔리 KPI 요약 카드 4종 -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="custom-card kpi-card rounded-2xl p-5 flex flex-col justify-between">
         <div class="flex items-center justify-between">
@@ -299,7 +302,7 @@
     <!-- ================= 📊 [차트 & 리밸런싱 뷰 섹션] ================= -->
     <div id="viewChartsSection" class="space-y-5">
 
-      <!-- 🌟 [4번 업그레이드] AI 리밸런싱 목표 비중 수평 게이지 카드 🌟 -->
+      <!-- AI 리밸런싱 목표 비중 수평 게이지 카드 -->
       <section class="custom-card rounded-2xl p-4 lg:p-5">
         <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
           <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
@@ -346,7 +349,7 @@
         </div>
       </section>
 
-      <!-- 🌟 [5번 업그레이드] 차트 Row 2: 2열 대칭 컴팩트 배치 (총 자산 추이 ↔ 월간 실현손익) 🌟 -->
+      <!-- 차트 Row 2: 2열 대칭 컴팩트 배치 (총 자산 추이 ↔ 월간 실현손익) -->
       <section class="grid grid-cols-1 xl:grid-cols-2 gap-5">
         <div class="custom-card rounded-2xl p-5 flex flex-col justify-between">
           <div class="flex flex-wrap justify-between items-center gap-2 mb-4">
@@ -368,7 +371,6 @@
             <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
               <i class="fa-solid fa-chart-column text-slate-200"></i> 월간 실현손익 상세 흐름
             </h3>
-            <!-- 동적 연도 탭 자동 생성 컨테이너 -->
             <div class="inline-flex flex-wrap rounded-xl bg-zinc-950 p-1 border border-zinc-800 text-[11px] font-bold gap-1" id="monthlyYearTabGroup"></div>
           </div>
           <div class="relative h-64 w-full">
@@ -414,11 +416,16 @@
               <h3 class="text-sm lg:text-base font-extrabold text-white flex items-center gap-2">
                 <i class="fa-solid fa-layer-group text-slate-200"></i> 현재 보유 자산 잔고
               </h3>
-              <span class="text-[11px] font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-2.5 py-0.5 rounded-lg flex items-center gap-1.5">
-                <span>평가: <strong id="holdingHeaderTotalKRW" class="text-white font-bold sensitive-amt">₩0</strong></span>
-                <span class="text-zinc-600">|</span>
-                <span id="holdingHeaderTotalRate" class="text-sky-400 font-bold">+0.00%</span>
-              </span>
+              <div class="flex items-center gap-2">
+                <button onclick="event.stopPropagation(); openSplitModal()" class="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-purple-300 border border-purple-400/30 rounded-lg text-[11px] font-bold transition" title="액면병합 또는 액면분할을 기록합니다">
+                  🔀 병합/분할
+                </button>
+                <span class="text-[11px] font-num font-bold text-zinc-300 bg-zinc-900 border border-zinc-800 px-2.5 py-0.5 rounded-lg flex items-center gap-1.5">
+                  <span>평가: <strong id="holdingHeaderTotalKRW" class="text-white font-bold sensitive-amt">₩0</strong></span>
+                  <span class="text-zinc-600">|</span>
+                  <span id="holdingHeaderTotalRate" class="text-sky-400 font-bold">+0.00%</span>
+                </span>
+              </div>
             </div>
 
             <div onclick="event.stopPropagation()" class="flex items-center gap-2 mb-3 bg-zinc-950/80 p-2 rounded-xl border border-zinc-800 text-xs">
@@ -658,7 +665,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 1. 신규 매수 및 매수 내역 수정 ================= -->
+  <!-- ================= 모달 1. 신규 매수 및 매수 내역 수정 (과거 환율 자동 연동!) ================= -->
   <div id="buyModal" class="fixed inset-0 z-[65] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
     <div class="custom-card p-6 rounded-2xl w-full max-w-md border border-zinc-700 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
@@ -668,7 +675,7 @@
       <form onsubmit="handleBuySubmit(event)" class="space-y-3.5 text-xs font-medium">
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">매수 일자</label>
-          <input type="date" id="buyDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
+          <input type="date" id="buyDate" onchange="handleTxDateChange('buy')" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -676,7 +683,7 @@
               <span>Ticker (심볼)</span>
               <span class="text-[10px] text-slate-200 font-normal">자동완성 ⚡</span>
             </label>
-            <input type="text" id="buyTicker" oninput="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" onchange="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" onkeyup="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" onblur="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" placeholder="예: WANT, FNGU, NAIL" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-slate-300">
+            <input type="text" id="buyTicker" oninput="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" onchange="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" onblur="handleTickerAutoFill(this.value, 'buyName', 'buyCategory', setBuyCurrency)" placeholder="예: WANT, FNGU, 삼성전자" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-slate-300">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목 설명 (자동입력)</label>
@@ -706,7 +713,10 @@
           <input type="text" inputmode="decimal" id="buyPrice" placeholder="매입 단가 입력" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div id="buyRateWrapper">
-          <label class="block text-zinc-400 mb-1 font-semibold">매수 당시 적용 환율 (원/달러)</label>
+          <label class="block text-zinc-400 mb-1 font-semibold flex items-center justify-between gap-2">
+            <span>매수 당시 적용 환율 (원/달러)</span>
+            <span id="buyRateBadge" class="text-[10px] text-sky-400 font-normal"></span>
+          </label>
           <input type="text" inputmode="decimal" id="buyRate" placeholder="예: 1,133.5" class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div>
@@ -720,7 +730,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 2. 매도 손익 확정 및 수정 ================= -->
+  <!-- ================= 모달 2. 매도 손익 확정 및 수정 (과거 환율 자동 연동!) ================= -->
   <div id="sellModal" class="fixed inset-0 z-[65] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
     <div class="custom-card p-6 rounded-2xl w-full max-w-md border border-zinc-700 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
@@ -731,7 +741,7 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">매도 일자</label>
-            <input type="date" id="sellDate" oninput="updateSellAutoCalc()" onchange="updateSellAutoCalc()" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
+            <input type="date" id="sellDate" oninput="updateSellAutoCalc()" onchange="handleTxDateChange('sell'); updateSellAutoCalc()" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목 (Ticker)</label>
@@ -766,7 +776,10 @@
               <input type="text" inputmode="decimal" id="sellPrice" oninput="updateSellAutoCalc()" placeholder="예: 45.20" class="comma-number-input w-full bg-zinc-950 border border-zinc-700 rounded-lg p-2 text-white font-num focus:outline-none focus:border-slate-300">
             </div>
             <div id="sellRateWrapper">
-              <label class="block text-zinc-400 mb-1 text-[11px] font-semibold">당시 환율 (원/달러)</label>
+              <label class="block text-zinc-400 mb-1 text-[11px] font-semibold flex items-center justify-between gap-1">
+                <span>당시 환율</span>
+                <span id="sellRateBadge" class="text-[9px] text-sky-400 font-normal truncate"></span>
+              </label>
               <input type="text" inputmode="decimal" id="sellRate" oninput="updateSellAutoCalc()" placeholder="예: 1,130.5" class="comma-number-input w-full bg-zinc-950 border border-zinc-700 rounded-lg p-2 text-white font-num focus:outline-none focus:border-slate-300">
             </div>
           </div>
@@ -798,7 +811,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 3. 배당금 입금 및 수정 ================= -->
+  <!-- ================= 모달 3. 배당금 입금 및 수정 (원화 환율 숨김 & 과거 환율 자동 연동!) ================= -->
   <div id="dividendModal" class="fixed inset-0 z-[65] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
     <div class="custom-card p-6 rounded-2xl w-full max-w-md border border-zinc-700 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
@@ -808,16 +821,16 @@
       <form onsubmit="handleDividendSubmit(event)" class="space-y-3 text-xs font-medium">
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">배당금 입금일자</label>
-          <input type="date" id="divDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
+          <input type="date" id="divDate" onchange="handleTxDateChange('div')" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-zinc-400 mb-1 font-semibold">Ticker (심볼)</label>
-            <input type="text" id="divTicker" oninput="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" onchange="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" placeholder="예: ERX, WANT" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono">
+            <label class="block text-zinc-400 mb-1 font-semibold">Ticker (심볼 / 종목)</label>
+            <input type="text" id="divTicker" oninput="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" onchange="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" onblur="handleTickerAutoFill(this.value, 'divName', null, setDivCurrency)" placeholder="예: ERX, 삼성전자" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-slate-300">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목명 (자동입력)</label>
-            <input type="text" id="divName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white">
+            <input type="text" id="divName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-slate-300">
           </div>
         </div>
         <div>
@@ -831,20 +844,23 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold" id="divAmountLabel">세후 입금액 (외화 $)</label>
-            <input type="text" inputmode="decimal" id="divAmount" placeholder="예: 0.94" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
+            <input type="text" inputmode="decimal" id="divAmount" placeholder="예: 0.94" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">원천징수 세금</label>
-            <input type="text" inputmode="decimal" id="divTax" placeholder="예: 0.16" value="0" class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
+            <input type="text" inputmode="decimal" id="divTax" placeholder="예: 0.16" value="0" class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
           </div>
         </div>
-        <div>
-          <label class="block text-zinc-400 mb-1 font-semibold">당시 환율 (원/달러)</label>
-          <input type="text" inputmode="decimal" id="divRate" placeholder="1343" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
+        <div id="divRateWrapper">
+          <label class="block text-zinc-400 mb-1 font-semibold flex items-center justify-between gap-2">
+            <span>당시 환율 (원/달러)</span>
+            <span id="divRateBadge" class="text-[10px] text-sky-400 font-normal"></span>
+          </label>
+          <input type="text" inputmode="decimal" id="divRate" placeholder="1343" class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">배당 비고</label>
-          <input type="text" id="divNote" placeholder="예: 분기 정기 배당금 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white">
+          <input type="text" id="divNote" placeholder="예: 분기 정기 배당금 입금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-slate-300">
         </div>
         <button type="submit" id="divSubmitBtn" class="w-full py-3 bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black font-black rounded-xl hover:from-white hover:to-slate-200 transition mt-2 shadow-lg shadow-white/15">
           배당금 장부 반영 & 현금(CASH) 충전 💵
@@ -853,7 +869,7 @@
     </div>
   </div>
 
-  <!-- ================= 모달 4. 세금 출금 및 수정 ================= -->
+  <!-- ================= 모달 4. 세금 출금 및 수정 (원화 환율 숨김 & 과거 환율 자동 연동!) ================= -->
   <div id="taxModal" class="fixed inset-0 z-[65] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
     <div class="custom-card p-6 rounded-2xl w-full max-w-md border border-zinc-700 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
@@ -863,16 +879,16 @@
       <form onsubmit="handleTaxSubmit(event)" class="space-y-3.5 text-xs font-medium">
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">출금 거래일자</label>
-          <input type="date" id="taxDate" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
+          <input type="date" id="taxDate" onchange="handleTxDateChange('tax')" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목 (Ticker / 명칭)</label>
-            <input type="text" id="taxTicker" oninput="handleTickerAutoFill(this.value, 'taxName', null, null)" onchange="handleTickerAutoFill(this.value, 'taxName', null, null)" placeholder="예: ERX, WANT" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono">
+            <input type="text" id="taxTicker" oninput="handleTickerAutoFill(this.value, 'taxName', null, setTaxCurrency)" onchange="handleTickerAutoFill(this.value, 'taxName', null, setTaxCurrency)" onblur="handleTickerAutoFill(this.value, 'taxName', null, setTaxCurrency)" placeholder="예: ERX, 삼성전자" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-slate-300">
           </div>
           <div>
             <label class="block text-zinc-400 mb-1 font-semibold">종목 설명 (자동입력)</label>
-            <input type="text" id="taxName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white">
+            <input type="text" id="taxName" placeholder="티커 입력 시 자동 기입" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-slate-300">
           </div>
         </div>
         <div>
@@ -883,19 +899,20 @@
           </div>
           <input type="hidden" id="taxCurrency" value="USD">
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-zinc-400 mb-1 font-semibold" id="taxAmountLabel">외화정산금액 (출금세액 $)</label>
-            <input type="text" inputmode="decimal" id="taxAmount" placeholder="예: 5.20" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
-          </div>
-          <div>
-            <label class="block text-zinc-400 mb-1 font-semibold">당시 환율 (원/달러)</label>
-            <input type="text" inputmode="decimal" id="taxRate" placeholder="1343" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num">
-          </div>
+        <div>
+          <label class="block text-zinc-400 mb-1 font-semibold" id="taxAmountLabel">외화정산금액 (출금세액 $)</label>
+          <input type="text" inputmode="decimal" id="taxAmount" placeholder="예: 5.20" required class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
+        </div>
+        <div id="taxRateWrapper">
+          <label class="block text-zinc-400 mb-1 font-semibold flex items-center justify-between gap-2">
+            <span>당시 환율 (원/달러)</span>
+            <span id="taxRateBadge" class="text-[10px] text-sky-400 font-normal"></span>
+          </label>
+          <input type="text" inputmode="decimal" id="taxRate" placeholder="1343" class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-slate-300">
         </div>
         <div>
           <label class="block text-zinc-400 mb-1 font-semibold">세금 사유 / 비고</label>
-          <input type="text" id="taxNote" placeholder="예: 해외주식 배당소득세 사후 출금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white">
+          <input type="text" id="taxNote" placeholder="예: 해외주식 배당소득세 사후 출금" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-slate-300">
         </div>
         <button type="submit" id="taxSubmitBtn" class="w-full py-3 bg-rose-600 text-white font-extrabold rounded-xl hover:bg-rose-500 transition mt-2 shadow-lg">
           세금 출금 장부 반영 & 현금(CASH) 차감 💸
@@ -944,6 +961,107 @@
           입금 장부 반영 & 현금(CASH) 충전 💵
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- ================= 🌟 [신설] 모달 6. 액면병합 / 분할 적용 & 이력 관리 🌟 ================= -->
+  <div id="splitModal" class="fixed inset-0 z-[65] flex items-center justify-center bg-black/85 backdrop-blur-sm hidden p-4">
+    <div class="custom-card p-6 rounded-2xl w-full max-w-lg border border-purple-400/35 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-purple-500/15 border border-purple-400/40 flex items-center justify-center text-purple-300 text-base">
+            <i class="fa-solid fa-code-merge"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white">액면병합 / 액면분할 관리</h3>
+            <p class="text-[11px] text-slate-400">총 원금은 유지한 채 보유 수량·평단가(및 과거 매수 장부)를 비율대로 조정합니다</p>
+          </div>
+        </div>
+        <button onclick="closeModal('splitModal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form onsubmit="handleSplitSubmit(event)" class="space-y-3.5 text-xs font-medium">
+        <!-- 병합 / 분할 모드 전환 -->
+        <div>
+          <label class="block text-zinc-400 mb-1 font-semibold">유형 선택</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="btnSplitReverse" onclick="setSplitType('REVERSE')" class="py-2.5 rounded-lg font-extrabold border border-purple-400 bg-purple-500/20 text-purple-200 transition">📉 액면병합 (예: 10주 ➜ 1주)</button>
+            <button type="button" id="btnSplitForward" onclick="setSplitType('FORWARD')" class="py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 transition">📈 액면분할 (예: 1주 ➜ 2주)</button>
+          </div>
+          <input type="hidden" id="splitType" value="REVERSE">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-400 mb-1 font-semibold">기준 일자 (효력 발생일)</label>
+            <input type="date" id="splitDate" onchange="updateSplitPreview()" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-purple-300">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1 font-semibold">종목 (Ticker)</label>
+            <input type="text" id="splitTicker" oninput="updateSplitPreview()" onchange="updateSplitPreview()" placeholder="예: LABU, TQQQ, SOXL" required class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white uppercase font-mono focus:outline-none focus:border-purple-300">
+          </div>
+        </div>
+
+        <!-- 비율 입력 (기존 N주 ➜ 변경 M주) -->
+        <div class="p-3 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-slate-200">비율 설정 (기존 수량 ➜ 변경 수량)</span>
+            <span class="text-[10px] text-zinc-400" id="splitRatioHint">예: 10 : 1 (수량 1/10, 단가 10배)</span>
+          </div>
+          <div class="grid grid-cols-11 items-center gap-2">
+            <div class="col-span-5">
+              <label class="block text-[10px] text-zinc-400 mb-1">기존 주수 (분모)</label>
+              <input type="number" step="any" min="0.0001" id="splitOldRatio" value="10" oninput="updateSplitPreview()" required class="w-full bg-zinc-950 border border-zinc-700 rounded-lg p-2 text-white font-num text-center font-bold focus:outline-none focus:border-purple-300">
+            </div>
+            <div class="col-span-1 text-center text-purple-300 font-black pt-4">➜</div>
+            <div class="col-span-5">
+              <label class="block text-[10px] text-zinc-400 mb-1">변경 주수 (분자)</label>
+              <input type="number" step="any" min="0.0001" id="splitNewRatio" value="1" oninput="updateSplitPreview()" required class="w-full bg-zinc-950 border border-zinc-700 rounded-lg p-2 text-white font-num text-center font-bold focus:outline-none focus:border-purple-300">
+            </div>
+          </div>
+
+          <!-- 실시간 변환 미리보기 박스 -->
+          <div id="splitPreviewBox" class="text-[11px] text-zinc-400 font-num bg-zinc-950/80 border border-zinc-800 rounded-lg p-2.5 leading-relaxed">
+            💡 종목과 비율을 입력하면 변경될 수량과 평단가를 미리 보여드립니다
+          </div>
+        </div>
+
+        <!-- 과거 매수 장부 일괄 보정 옵션 -->
+        <label class="flex items-start gap-2.5 p-3 rounded-xl bg-zinc-900/70 border border-zinc-800 cursor-pointer hover:border-zinc-700 transition">
+          <input type="checkbox" id="splitAdjustBuys" checked onchange="updateSplitPreview()" class="mt-0.5 accent-purple-400 w-4 h-4 rounded cursor-pointer">
+          <div class="text-[11px] leading-snug">
+            <span class="font-bold text-white block">기준일 이전 매수 거래 장부도 비율대로 일괄 보정 (권장 ⭐)</span>
+            <span class="text-zinc-400">과거 매수 기록의 수량·매입단가를 현재 주가 기준으로 통일합니다 (총 매입원금은 변동 없음)</span>
+          </div>
+        </label>
+
+        <!-- 단주 현금정산 (선택) & 비고 -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-400 mb-1 font-semibold" id="splitCashLabel">단주 현금정산 ($ · 선택)</label>
+            <input type="text" inputmode="decimal" id="splitCashInLieu" placeholder="자투리 입금액 (미입력 0)" class="comma-number-input w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white font-num focus:outline-none focus:border-purple-300">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1 font-semibold">비고 / 메모</label>
+            <input type="text" id="splitNote" placeholder="예: 10:1 액면병합 반영" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-300">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black font-black rounded-xl hover:from-white hover:to-slate-200 transition shadow-lg shadow-white/15">
+          액면병합 / 분할 적용 & 클라우드 저장 🔀
+        </button>
+      </form>
+
+      <!-- 적용된 액면병합 / 분할 이력 및 원상 복구 리스트 -->
+      <div class="mt-5 pt-4 border-t border-zinc-800">
+        <div class="flex items-center justify-between mb-2.5">
+          <h4 class="text-xs font-extrabold text-slate-200 flex items-center gap-1.5">
+            <i class="fa-solid fa-clock-rotate-left text-purple-300"></i> 적용된 병합/분할 이력 (원상 복구 가능)
+          </h4>
+          <span id="splitHistoryCount" class="text-[10px] text-zinc-500 font-num">0건</span>
+        </div>
+        <div id="splitHistoryList" class="space-y-2 max-h-40 overflow-y-auto pr-1 text-[11px]"></div>
+      </div>
     </div>
   </div>
 
@@ -1046,7 +1164,7 @@
       </div>
     </div>
   </div>
-  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (5종 UI 풀패키지 & 전체 최적화 완비) 🌟 ================= -->
+  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (과거환율 자동조회 · 배당원화수정 · 액면병합/분할 완비) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
@@ -1056,6 +1174,11 @@
     let cloudAutoSaveTimer = null;
     let currentDashboardView = 'ALL';
     let lastFilterState = { buys: '', realized: '', deposits: '', dividends: '', taxes: '' };
+
+    /* 과거 환율 캐시 및 요청 순서 관리 (중복·경합 방지) */
+    const historicalRateCache = {};
+    const rateFetchSeq = { buy: 0, sell: 0, div: 0, tax: 0 };
+    let latestLiveExchangeRate = null;
 
     /* 0. 보안 이스케이프 · 숫자 변환 · 쉼표 포맷 · 색상 헬퍼 */
     function escapeHTML(str) {
@@ -1125,7 +1248,7 @@
       `;
     }
 
-    /* 🌟 [1번 업그레이드] 뷰 전환 탭 & 프라이버시 금액 블러 모드 🌟 */
+    /* 뷰 전환 탭 & 프라이버시 금액 블러 모드 */
     function switchDashboardView(view) {
       currentDashboardView = view;
       const chartsSec = document.getElementById('viewChartsSection');
@@ -1170,7 +1293,7 @@
       applyPrivacyModeUI(next);
     }
 
-    /* 1. 싱글 마스터 인풋 PIN 엔진 (샤이닝 실버 스타일 & 4자리 즉시 자동 해제) */
+    /* 1. 싱글 마스터 인풋 PIN 엔진 */
     function focusPinMaster() {
       const inp = document.getElementById('masterPinInput');
       if (inp) inp.focus();
@@ -1254,7 +1377,7 @@
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleMasterPinSubmit(); });
     }
 
-    /* 2. 3자리 쉼표 자동 서식 & ESC 모달 닫기 리스너 */
+    /* 2. 3자리 쉼표 자동 서식 & 종목명 수동 편집 감지 & ESC 닫기 */
     function setupCommaInputs() {
       document.querySelectorAll('.comma-number-input').forEach(input => {
         input.addEventListener('input', (e) => {
@@ -1272,12 +1395,21 @@
           e.target.value = formatted;
         });
       });
+
+      /* 사용자가 종목명 칸을 직접 고친 경우에만 자동 덮어쓰기를 멈춤 */
+      ['buyName', 'divName', 'taxName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          el.dataset.manualEdit = el.value.trim() ? '1' : '0';
+        });
+      });
     }
 
     function setupGlobalKeyHandlers() {
       document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
-        const modalIds = ['backupStatusModal', 'cloudSyncModal', 'deleteConfirmModal', 'buyModal', 'sellModal', 'dividendModal', 'taxModal', 'depositModal', 'fullHistoryModal'];
+        const modalIds = ['backupStatusModal', 'cloudSyncModal', 'deleteConfirmModal', 'splitModal', 'buyModal', 'sellModal', 'dividendModal', 'taxModal', 'depositModal', 'fullHistoryModal'];
         for (const id of modalIds) {
           const el = document.getElementById(id);
           if (el && !el.classList.contains('hidden')) {
@@ -1286,6 +1418,88 @@
           }
         }
       });
+    }
+
+    /* 🌟 [신설] 과거 거래일자 실제 USD/KRW 환율 자동 조회 엔진 (Frankfurter ECB API + 캐싱) 🌟 */
+    const TX_RATE_MAP = {
+      buy:  { dateId: 'buyDate',  currId: 'buyCurrency',  rateId: 'buyRate',  badgeId: 'buyRateBadge' },
+      sell: { dateId: 'sellDate', currId: 'sellCurrency', rateId: 'sellRate', badgeId: 'sellRateBadge' },
+      div:  { dateId: 'divDate',  currId: 'divCurrency',  rateId: 'divRate',  badgeId: 'divRateBadge' },
+      tax:  { dateId: 'taxDate',  currId: 'taxCurrency',  rateId: 'taxRate',  badgeId: 'taxRateBadge' }
+    };
+
+    async function handleTxDateChange(modalType) {
+      const cfg = TX_RATE_MAP[modalType];
+      if (!cfg) return;
+
+      const dateEl = document.getElementById(cfg.dateId);
+      const currEl = document.getElementById(cfg.currId);
+      const rateEl = document.getElementById(cfg.rateId);
+      const badgeEl = document.getElementById(cfg.badgeId);
+
+      const dateStr = (dateEl?.value || '').trim();
+      const curr = currEl?.value || 'USD';
+
+      if (curr !== 'USD') {
+        if (badgeEl) badgeEl.textContent = '';
+        return;
+      }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return;
+
+      const todayStr = new Date().toISOString().split('T')[0];
+
+      /* 오늘 또는 미래 날짜는 현재 최신 환율 적용 */
+      if (dateStr >= todayStr) {
+        const liveRate = latestLiveExchangeRate || getCurrentRate();
+        if (rateEl) rateEl.value = fmtComma(liveRate);
+        if (badgeEl) badgeEl.textContent = '최신 환율 반영 🟢';
+        if (modalType === 'sell') updateSellAutoCalc(true);
+        return;
+      }
+
+      /* 캐시 적중 시 즉시 반영 */
+      if (historicalRateCache[dateStr]) {
+        const cached = historicalRateCache[dateStr];
+        if (rateEl) rateEl.value = fmtComma(cached.rate);
+        if (badgeEl) {
+          badgeEl.textContent = cached.actualDate !== dateStr
+            ? `${cached.actualDate} 영업일 🟢`
+            : `${cached.actualDate} 기준 🟢`;
+        }
+        if (modalType === 'sell') updateSellAutoCalc(true);
+        return;
+      }
+
+      /* Frankfurter 무료 과거 환율 API (1999년~현재 지원, 주말/휴일 자동 직전영업일 보정) */
+      const reqId = ++rateFetchSeq[modalType];
+      if (badgeEl) badgeEl.textContent = '과거 환율 조회 중... ⏳';
+
+      try {
+        const res = await fetch(`https://api.frankfurter.app/${dateStr}?from=USD&to=KRW`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (reqId !== rateFetchSeq[modalType]) return;
+
+        if (data?.rates?.KRW) {
+          const histRate = Math.round(data.rates.KRW * 10) / 10;
+          const actualDate = data.date || dateStr;
+          historicalRateCache[dateStr] = { rate: histRate, actualDate };
+
+          if (rateEl) rateEl.value = fmtComma(histRate);
+          if (badgeEl) {
+            badgeEl.textContent = actualDate !== dateStr
+              ? `${actualDate} 직전영업일 🟢`
+              : `${actualDate} 기준 반영 🟢`;
+          }
+          if (modalType === 'sell') updateSellAutoCalc(true);
+          return;
+        }
+        throw new Error('No KRW rate');
+      } catch (err) {
+        if (reqId !== rateFetchSeq[modalType]) return;
+        if (badgeEl) badgeEl.textContent = '조회 실패 · 수동입력 ⚪';
+        if (rateEl && !rateEl.value) rateEl.value = fmtComma(getCurrentRate());
+      }
     }
 
     /* 3. 모달 열기/닫기 및 신규 추가 / 수정 모드 전환 */
@@ -1308,11 +1522,14 @@
       document.getElementById('buySubmitBtn').textContent = `매수 장부 & 포트폴리오에 반영하기 💾`;
       document.getElementById('buyDate').value = today;
       document.getElementById('buyTicker').value = '';
-      document.getElementById('buyName').value = '';
+      const nameEl = document.getElementById('buyName');
+      if (nameEl) { nameEl.value = ''; nameEl.dataset.manualEdit = '0'; }
       document.getElementById('buyCategory').value = '미국주식';
       document.getElementById('buyShares').value = '';
       document.getElementById('buyPrice').value = '';
       document.getElementById('buyRate').value = fmtComma(topRate);
+      const badgeEl = document.getElementById('buyRateBadge');
+      if (badgeEl) badgeEl.textContent = '날짜 변경 시 자동조회 🌍';
       document.getElementById('buyNote').value = '분할매수';
       setBuyCurrency('USD');
       openModal('buyModal');
@@ -1330,6 +1547,8 @@
       document.getElementById('sellShares').value = '';
       document.getElementById('sellPrice').value = '';
       document.getElementById('sellRate').value = fmtComma(topRate);
+      const badgeEl = document.getElementById('sellRateBadge');
+      if (badgeEl) badgeEl.textContent = '날짜 자동 🌍';
       document.getElementById('sellFee').value = '';
       document.getElementById('sellGrossProfit').value = '';
       document.getElementById('sellNetProfit').value = '';
@@ -1348,13 +1567,17 @@
       document.getElementById('divSubmitBtn').textContent = `배당금 장부 반영 & 현금(CASH) 충전 💵`;
       document.getElementById('divDate').value = today;
       document.getElementById('divTicker').value = '';
-      document.getElementById('divName').value = '';
+      const nameEl = document.getElementById('divName');
+      if (nameEl) { nameEl.value = ''; nameEl.dataset.manualEdit = '0'; }
       document.getElementById('divAmount').value = '';
       document.getElementById('divTax').value = '0';
       document.getElementById('divRate').value = fmtComma(topRate);
+      const badgeEl = document.getElementById('divRateBadge');
+      if (badgeEl) badgeEl.textContent = '날짜 변경 시 자동조회 🌍';
       document.getElementById('divNote').value = '';
       setDivCurrency('USD');
       openModal('dividendModal');
+      setTimeout(() => document.getElementById('divTicker')?.focus(), 100);
     }
 
     function openTaxModal() {
@@ -1365,12 +1588,16 @@
       document.getElementById('taxSubmitBtn').textContent = `세금 출금 장부 반영 & 현금(CASH) 차감 💸`;
       document.getElementById('taxDate').value = today;
       document.getElementById('taxTicker').value = '';
-      document.getElementById('taxName').value = '';
+      const nameEl = document.getElementById('taxName');
+      if (nameEl) { nameEl.value = ''; nameEl.dataset.manualEdit = '0'; }
       document.getElementById('taxAmount').value = '';
       document.getElementById('taxRate').value = fmtComma(topRate);
+      const badgeEl = document.getElementById('taxRateBadge');
+      if (badgeEl) badgeEl.textContent = '날짜 변경 시 자동조회 🌍';
       document.getElementById('taxNote').value = '';
       setTaxCurrency('USD');
       openModal('taxModal');
+      setTimeout(() => document.getElementById('taxTicker')?.focus(), 100);
     }
 
     function openDepositModal() {
@@ -1385,12 +1612,315 @@
       openModal('depositModal');
     }
 
+    /* 🌟 [신설] 액면병합 / 액면분할 전용 모달 & 무손실 복원 엔진 🌟 */
+    function openSplitModal() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('splitDate').value = today;
+      document.getElementById('splitTicker').value = '';
+      document.getElementById('splitCashInLieu').value = '';
+      document.getElementById('splitNote').value = '';
+      document.getElementById('splitAdjustBuys').checked = true;
+      setSplitType('REVERSE');
+      renderSplitHistoryList();
+      updateSplitPreview();
+      openModal('splitModal');
+      setTimeout(() => document.getElementById('splitTicker')?.focus(), 100);
+    }
+
+    function setSplitType(type) {
+      document.getElementById('splitType').value = type;
+      const btnRev = document.getElementById('btnSplitReverse');
+      const btnFwd = document.getElementById('btnSplitForward');
+      const oldInput = document.getElementById('splitOldRatio');
+      const newInput = document.getElementById('splitNewRatio');
+      const hint = document.getElementById('splitRatioHint');
+
+      if (type === 'REVERSE') {
+        if (btnRev) btnRev.className = "py-2.5 rounded-lg font-extrabold border border-purple-400 bg-purple-500/20 text-purple-200 transition";
+        if (btnFwd) btnFwd.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 transition";
+        if (oldInput) oldInput.value = '10';
+        if (newInput) newInput.value = '1';
+        if (hint) hint.textContent = '예: 10 : 1 (수량 1/10, 단가 10배)';
+      } else {
+        if (btnFwd) btnFwd.className = "py-2.5 rounded-lg font-extrabold border border-sky-400 bg-sky-500/20 text-sky-200 transition";
+        if (btnRev) btnRev.className = "py-2.5 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-400 transition";
+        if (oldInput) oldInput.value = '1';
+        if (newInput) newInput.value = '2';
+        if (hint) hint.textContent = '예: 1 : 2 (수량 2배, 단가 1/2)';
+      }
+      updateSplitPreview();
+    }
+
+    function updateSplitPreview() {
+      const box = document.getElementById('splitPreviewBox');
+      const cashLabel = document.getElementById('splitCashLabel');
+      const ticker = (document.getElementById('splitTicker')?.value || '').toUpperCase().trim();
+      const splitDate = (document.getElementById('splitDate')?.value || '').trim();
+      const type = document.getElementById('splitType')?.value || 'REVERSE';
+      const oldR = toNum(document.getElementById('splitOldRatio')?.value, 0);
+      const newR = toNum(document.getElementById('splitNewRatio')?.value, 0);
+      const adjustBuys = document.getElementById('splitAdjustBuys')?.checked;
+      const cashInLieu = toNum(document.getElementById('splitCashInLieu')?.value, 0);
+
+      const curr = detectTickerCurrency(ticker);
+      if (cashLabel) cashLabel.textContent = `단주 현금정산 (${curr === 'KRW' ? '₩' : '$'} · 선택)`;
+
+      if (!ticker) {
+        if (box) box.innerHTML = `💡 종목과 비율을 입력하면 변경될 수량과 평단가를 미리 보여드립니다`;
+        return;
+      }
+      if (oldR <= 0 || newR <= 0 || oldR === newR) {
+        if (box) box.innerHTML = `<span class="text-amber-300">⚠️ 기존 주수와 변경 주수를 서로 다른 양수로 입력해 주세요.</span>`;
+        return;
+      }
+
+      const factor = newR / oldR;
+      const holding = holdings.find(h => (h.ticker || '').toUpperCase().trim() === ticker);
+      const matchingBuys = buyList.filter(b =>
+        (b.ticker || '').toUpperCase().trim() === ticker &&
+        (!splitDate || !b.date || b.date <= splitDate)
+      );
+
+      if (!holding && matchingBuys.length === 0) {
+        if (box) box.innerHTML = `<span class="text-amber-300">⚠️ 보유 잔고 및 ${splitDate || '기준일'} 이전 매수 장부에서 <strong>${escapeHTML(ticker)}</strong> 종목을 찾지 못했습니다.</span>`;
+        return;
+      }
+
+      const lines = [];
+      if (holding) {
+        const isUSD = holding.currency === 'USD';
+        const fmtP = (p) => isUSD ? '$' + p.toFixed(2) : '₩' + Math.round(p).toLocaleString();
+        const curSh = toNum(holding.shares);
+        const rawNewSh = curSh * factor;
+        const hasFrac = Math.abs(rawNewSh - Math.floor(rawNewSh)) > 1e-6;
+        const finalSh = (cashInLieu > 0 && type === 'REVERSE' && hasFrac) ? Math.floor(rawNewSh) : Number(rawNewSh.toFixed(4));
+        const newAvg = toNum(holding.avgPrice) / factor;
+        const fracNote = (cashInLieu > 0 && type === 'REVERSE' && hasFrac)
+          ? ` <span class="text-emerald-400">(단주 ${(rawNewSh - finalSh).toFixed(4)}주 정산)</span>`
+          : '';
+
+        lines.push(`<div>📦 <strong>보유 잔고:</strong> ${curSh.toLocaleString()}주 ➜ <strong class="text-white">${finalSh.toLocaleString()}주</strong>${fracNote}</div>`);
+        lines.push(`<div>🏷️ <strong>평균 단가:</strong> ${fmtP(toNum(holding.avgPrice))} ➜ <strong class="text-sky-400">${fmtP(newAvg)}</strong></div>`);
+      } else {
+        lines.push(`<div class="text-zinc-400">📦 현재 보유 잔고에는 없는 종목입니다 (과거 매수 장부만 보정)</div>`);
+      }
+
+      if (adjustBuys) {
+        lines.push(`<div class="text-purple-300">📋 <strong>과거 매수 장부:</strong> ${splitDate || '전체'} 이전 <strong>${matchingBuys.length}건</strong> 수량·단가 일괄 보정</div>`);
+      } else {
+        lines.push(`<div class="text-zinc-500">📋 과거 매수 장부 원본은 수정하지 않고 유지합니다</div>`);
+      }
+
+      if (box) box.innerHTML = lines.join('');
+    }
+
+    function handleSplitSubmit(e) {
+      e.preventDefault();
+      const type = document.getElementById('splitType').value;
+      const date = (document.getElementById('splitDate').value || '').trim() || new Date().toISOString().split('T')[0];
+      const ticker = (document.getElementById('splitTicker').value || '').toUpperCase().trim();
+      const oldR = toNum(document.getElementById('splitOldRatio').value, 0);
+      const newR = toNum(document.getElementById('splitNewRatio').value, 0);
+      const adjustBuys = document.getElementById('splitAdjustBuys').checked;
+      const cashInLieu = Math.max(0, toNum(document.getElementById('splitCashInLieu').value, 0));
+      const note = (document.getElementById('splitNote').value || '').trim() || `${oldR}:${newR} ${type === 'REVERSE' ? '액면병합' : '액면분할'}`;
+
+      if (!ticker || oldR <= 0 || newR <= 0 || oldR === newR) {
+        showBackupNotice("입력 확인 필요 ⚠️", "종목 티커와 올바른 병합/분할 비율(서로 다른 양수)을 입력해 주세요.", false);
+        return;
+      }
+
+      const factor = newR / oldR;
+      const holding = holdings.find(h => (h.ticker || '').toUpperCase().trim() === ticker);
+      const matchingBuys = adjustBuys
+        ? buyList.filter(b => (b.ticker || '').toUpperCase().trim() === ticker && (!b.date || b.date <= date))
+        : [];
+
+      if (!holding && matchingBuys.length === 0) {
+        showBackupNotice("대상 종목 없음 ⚠️", `보유 잔고나 ${date} 이전 매수 장부에서 <strong>${escapeHTML(ticker)}</strong> 기록을 찾지 못했습니다.`, false);
+        return;
+      }
+
+      const splitId = 'sp_' + Date.now();
+      const curr = holding ? holding.currency : detectTickerCurrency(ticker);
+      let holdingSnapshot = null;
+      let cashedFractionalShares = 0;
+
+      if (holding) {
+        const beforeShares = toNum(holding.shares);
+        const beforeAvg = toNum(holding.avgPrice);
+        const beforeCur = toNum(holding.curPrice);
+        const rawNewShares = beforeShares * factor;
+        const hasFrac = Math.abs(rawNewShares - Math.floor(rawNewShares)) > 1e-6;
+        let finalShares = Number(rawNewShares.toFixed(6));
+
+        if (cashInLieu > 0 && type === 'REVERSE' && hasFrac) {
+          finalShares = Math.floor(rawNewShares);
+          cashedFractionalShares = Number((rawNewShares - finalShares).toFixed(6));
+        }
+
+        holding.shares = finalShares;
+        holding.avgPrice = Number((beforeAvg / factor).toFixed(4));
+        holding.curPrice = Number((beforeCur / factor).toFixed(4));
+
+        holdingSnapshot = {
+          beforeShares, beforeAvg, beforeCur,
+          afterShares: holding.shares,
+          afterAvg: holding.avgPrice,
+          afterCur: holding.curPrice
+        };
+      }
+
+      if (adjustBuys && matchingBuys.length > 0) {
+        matchingBuys.forEach(b => {
+          if (!Array.isArray(b._splitUndo)) b._splitUndo = [];
+          b._splitUndo.push({ id: splitId, oldShares: b.shares, oldPrice: b.price });
+          b.shares = Number((toNum(b.shares) * factor).toFixed(6));
+          b.price = Number((toNum(b.price) / factor).toFixed(4));
+        });
+      }
+
+      let cashDeltaUSD = 0;
+      if (cashInLieu > 0) {
+        const cashHolding = holdings.find(h => h.ticker === 'CASH');
+        const rate = getCurrentRate();
+        cashDeltaUSD = curr === 'USD' ? cashInLieu : (cashInLieu / rate);
+        if (cashHolding) {
+          cashHolding.curPrice = Math.max(0, toNum(cashHolding.curPrice) + cashDeltaUSD);
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
+
+      splitList.push({
+        id: splitId,
+        date,
+        type,
+        ticker,
+        oldRatio: oldR,
+        newRatio: newR,
+        factor,
+        adjustBuys,
+        adjustedBuysCount: matchingBuys.length,
+        cashInLieu,
+        cashDeltaUSD,
+        currency: curr,
+        cashedFractionalShares,
+        holdingSnapshot,
+        note
+      });
+
+      closeModal('splitModal');
+      renderAll();
+      scheduleCloudAutoSave();
+
+      const typeKor = type === 'REVERSE' ? '액면병합' : '액면분할';
+      showBackupNotice(
+        `${ticker} ${typeKor} 적용 완료 🔀✨`,
+        `<strong>${escapeHTML(ticker)}</strong>에 <strong>${oldR}:${newR} ${typeKor}</strong>이 깔끔하게 반영되었습니다!<br>` +
+        (holdingSnapshot ? `보유 수량: ${holdingSnapshot.beforeShares.toLocaleString()}주 ➜ <strong class="text-sky-400">${holdingSnapshot.afterShares.toLocaleString()}주</strong><br>` : '') +
+        (matchingBuys.length > 0 ? `과거 매수 장부 <strong class="text-purple-300">${matchingBuys.length}건</strong> 일괄 보정 완료` : '과거 매수 장부 원본 유지'),
+        true
+      );
+    }
+
+    function renderSplitHistoryList() {
+      const container = document.getElementById('splitHistoryList');
+      const countEl = document.getElementById('splitHistoryCount');
+      if (!container) return;
+
+      if (countEl) countEl.textContent = `${splitList.length}건`;
+      if (!splitList.length) {
+        container.innerHTML = `<div class="text-center py-4 text-zinc-500 bg-zinc-950/60 rounded-xl border border-zinc-800/80">아직 기록된 액면병합 / 분할 이력이 없습니다 ☕</div>`;
+        return;
+      }
+
+      const sorted = splitList.map((s, originalIndex) => ({ ...s, originalIndex })).sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
+      container.innerHTML = sorted.map(s => {
+        const badgeCls = s.type === 'REVERSE'
+          ? 'bg-purple-500/20 text-purple-300 border-purple-400/30'
+          : 'bg-sky-500/20 text-sky-300 border-sky-400/30';
+        const typeTxt = s.type === 'REVERSE' ? '병합' : '분할';
+        return `
+          <div class="p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-800 flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-zinc-400 font-num">${escapeHTML(s.date)}</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold border ${badgeCls}">${typeTxt} ${s.oldRatio}:${s.newRatio}</span>
+                <span class="font-bold text-white inline-flex items-center gap-1">${getTickerDotHTML(s.ticker)}${escapeHTML(s.ticker)}</span>
+              </div>
+              <div class="text-[10px] text-zinc-400 mt-0.5 truncate" title="${escapeHTML(s.note || '')}">
+                ${escapeHTML(s.note || '-')} ${s.adjustedBuysCount ? `· 매수 ${s.adjustedBuysCount}건 보정` : ''} ${s.cashInLieu ? `· 단주정산 ${s.currency === 'USD' ? '$' : '₩'}${fmtComma(s.cashInLieu)}` : ''}
+              </div>
+            </div>
+            <button type="button" onclick="undoSplit(${s.originalIndex})" title="이 병합/분할 적용을 취소하고 원래 수량·단가로 되돌립니다" class="px-2.5 py-1 rounded-lg bg-rose-950/50 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 font-bold text-[10px] whitespace-nowrap transition">
+              되돌리기 ↩️
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function undoSplit(index) {
+      const s = splitList[index];
+      if (!s) return;
+
+      /* 1. 과거 매수 장부 무손실 복원 */
+      if (s.id) {
+        buyList.forEach(b => {
+          if (Array.isArray(b._splitUndo)) {
+            const idx = b._splitUndo.findIndex(u => u.id === s.id);
+            if (idx !== -1) {
+              const snap = b._splitUndo[idx];
+              b.shares = snap.oldShares;
+              b.price = snap.oldPrice;
+              b._splitUndo.splice(idx, 1);
+            }
+          }
+        });
+      }
+
+      /* 2. 보유 잔고 수량·단가 복원 */
+      const holding = holdings.find(h => (h.ticker || '').toUpperCase().trim() === (s.ticker || '').toUpperCase().trim());
+      if (holding && s.holdingSnapshot) {
+        const snap = s.holdingSnapshot;
+        if (Math.abs(toNum(holding.shares) - snap.afterShares) < 1e-4) {
+          holding.shares = snap.beforeShares;
+          holding.avgPrice = snap.beforeAvg;
+          holding.curPrice = snap.beforeCur;
+        } else {
+          const factor = toNum(s.factor, 1);
+          if (factor > 0) {
+            holding.shares = Number(((toNum(holding.shares) + toNum(s.cashedFractionalShares, 0)) / factor).toFixed(6));
+            holding.avgPrice = Number((toNum(holding.avgPrice) * factor).toFixed(4));
+            holding.curPrice = Number((toNum(holding.curPrice) * factor).toFixed(4));
+          }
+        }
+      }
+
+      /* 3. 단주 현금정산 차감 복원 */
+      if (toNum(s.cashDeltaUSD) > 0) {
+        const cashHolding = holdings.find(h => h.ticker === 'CASH');
+        if (cashHolding) {
+          cashHolding.curPrice = Math.max(0, toNum(cashHolding.curPrice) - toNum(s.cashDeltaUSD));
+          cashHolding.avgPrice = cashHolding.curPrice;
+        }
+      }
+
+      splitList.splice(index, 1);
+      renderAll();
+      renderSplitHistoryList();
+      scheduleCloudAutoSave();
+      showBackupNotice("원상 복구 완료 ↩️✨", `<strong>${escapeHTML(s.ticker)}</strong>의 ${s.oldRatio}:${s.newRatio} 기록이 취소되고 이전 수량·단가로 복원되었습니다.`, true);
+    }
+
     /* 매도 손익 자동 계산 보조 로직 */
     function detectTickerCurrency(ticker) {
-      const t = (ticker || '').toUpperCase().trim();
+      const raw = (ticker || '').trim();
+      const t = raw.toUpperCase();
       if (!t) return 'USD';
       if (TICKER_NAME_MAP[t]) return TICKER_NAME_MAP[t].curr || 'USD';
-      if (/^\d{6}/.test(t) || /[가-힣]/.test(t)) return 'KRW';
+      if (TICKER_NAME_MAP[raw]) return TICKER_NAME_MAP[raw].curr || 'USD';
+      if (/^\d{6}/.test(t) || /[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(raw)) return 'KRW';
       const fromBuy = buyList.find(b => (b.ticker || '').toUpperCase().trim() === t);
       if (fromBuy && fromBuy.currency) return fromBuy.currency;
       const fromHold = holdings.find(h => (h.ticker || '').toUpperCase().trim() === t);
@@ -1542,7 +2072,7 @@
       if (badge) badge.innerHTML = badgeHTML;
     }
 
-    /* 각 장부 '수정(✏️)' 버튼 클릭 시 기존 데이터 불러오기 */
+    /* 각 장부 '수정(✏️)' 버튼 클릭 시 기존 데이터 불러오기 (기존 저장 환율 보호!) */
     function triggerEdit(type, index) {
       editState = { type, index };
       const topRate = getCurrentRate();
@@ -1553,12 +2083,15 @@
         document.getElementById('buySubmitBtn').textContent = `수정 내용 저장 및 잔고 업데이트 ✨`;
         document.getElementById('buyDate').value = item.date || '';
         document.getElementById('buyTicker').value = item.ticker || '';
-        document.getElementById('buyName').value = item.name || '';
+        const nameEl = document.getElementById('buyName');
+        if (nameEl) { nameEl.value = item.name || ''; nameEl.dataset.manualEdit = item.name ? '1' : '0'; }
         document.getElementById('buyCategory').value = item.category || '미국주식';
         setBuyCurrency(item.currency || 'USD');
         document.getElementById('buyShares').value = fmtComma(item.shares);
         document.getElementById('buyPrice').value = fmtComma(item.price);
-        document.getElementById('buyRate').value = fmtComma(item.rate || topRate);
+        document.getElementById('buyRate').value = item.currency === 'USD' ? fmtComma(item.rate || topRate) : '';
+        const badgeEl = document.getElementById('buyRateBadge');
+        if (badgeEl) badgeEl.textContent = item.currency === 'USD' ? '저장된 환율 유지 📌' : '';
         document.getElementById('buyNote').value = item.note || '';
         openModal('buyModal');
       } else if (type === 'sell' && realizedList[index]) {
@@ -1568,9 +2101,12 @@
         document.getElementById('sellDate').value = item.date || '';
         document.getElementById('sellTicker').value = item.ticker || '';
         document.getElementById('sellShares').value = fmtComma(item.shares || 0);
-        setSellCurrency(item.currency || detectTickerCurrency(item.ticker), false);
+        const itemCurr = item.currency || detectTickerCurrency(item.ticker);
+        setSellCurrency(itemCurr, false);
         document.getElementById('sellPrice').value = item.price ? fmtComma(item.price) : '';
         document.getElementById('sellRate').value = item.rate ? fmtComma(item.rate) : fmtComma(topRate);
+        const badgeEl = document.getElementById('sellRateBadge');
+        if (badgeEl) badgeEl.textContent = itemCurr === 'USD' ? '저장값 유지 📌' : '';
         document.getElementById('sellFee').value = item.fee ? fmtComma(item.fee) : '';
         document.getElementById('sellGrossProfit').value = fmtComma(item.gross);
         document.getElementById('sellNetProfit').value = fmtComma(item.net);
@@ -1590,33 +2126,41 @@
         openModal('depositModal');
       } else if (type === 'dividend' && dividendList[index]) {
         const item = dividendList[index];
+        const itemCurr = item.currency || detectTickerCurrency(item.ticker);
         document.getElementById('divModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-300"></i> 배당금 입금 내역 수정`;
         document.getElementById('divSubmitBtn').textContent = `수정 내용 저장하기 ✨`;
         document.getElementById('divDate').value = item.date || '';
         document.getElementById('divTicker').value = item.ticker || '';
-        document.getElementById('divName').value = item.name || '';
-        setDivCurrency(item.currency || 'USD');
+        const nameEl = document.getElementById('divName');
+        if (nameEl) { nameEl.value = item.name || ''; nameEl.dataset.manualEdit = item.name ? '1' : '0'; }
+        setDivCurrency(itemCurr);
         document.getElementById('divAmount').value = fmtComma(item.amount);
         document.getElementById('divTax').value = fmtComma(item.tax || 0);
-        document.getElementById('divRate').value = fmtComma(item.rate || topRate);
+        document.getElementById('divRate').value = itemCurr === 'USD' ? fmtComma(item.rate || topRate) : '';
+        const badgeEl = document.getElementById('divRateBadge');
+        if (badgeEl) badgeEl.textContent = itemCurr === 'USD' ? '저장된 환율 유지 📌' : '';
         document.getElementById('divNote').value = item.note || '';
         openModal('dividendModal');
       } else if (type === 'tax' && taxList[index]) {
         const item = taxList[index];
+        const itemCurr = item.currency || detectTickerCurrency(item.ticker);
         document.getElementById('taxModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-rose-400"></i> 외화 세금 출금 내역 수정`;
         document.getElementById('taxSubmitBtn').textContent = `수정 내용 저장하기 ✨`;
         document.getElementById('taxDate').value = item.date || '';
         document.getElementById('taxTicker').value = item.ticker || '';
-        document.getElementById('taxName').value = item.name || '';
-        setTaxCurrency(item.currency || 'USD');
+        const nameEl = document.getElementById('taxName');
+        if (nameEl) { nameEl.value = item.name || ''; nameEl.dataset.manualEdit = item.name ? '1' : '0'; }
+        setTaxCurrency(itemCurr);
         document.getElementById('taxAmount').value = fmtComma(item.amount);
-        document.getElementById('taxRate').value = fmtComma(item.rate || topRate);
+        document.getElementById('taxRate').value = itemCurr === 'USD' ? fmtComma(item.rate || topRate) : '';
+        const badgeEl = document.getElementById('taxRateBadge');
+        if (badgeEl) badgeEl.textContent = itemCurr === 'USD' ? '저장된 환율 유지 📌' : '';
         document.getElementById('taxNote').value = item.note || '';
         openModal('taxModal');
       }
     }
 
-    /* 4. 초기 데이터 및 종목 사전 */
+    /* 4. 초기 데이터 및 종목 사전 (국내 한글 종목명 완비!) */
     const INITIAL_HOLDINGS = [
       { category: '미국주식', ticker: 'LABU', name: '바이오 3X', shares: 41, avgPrice: 477.84, curPrice: 261.30, currency: 'USD', target: 0, note: '과비중 탈출 관리' },
       { category: '미국주식', ticker: 'WEBL', name: '인터넷 3X', shares: 305, avgPrice: 33.79, curPrice: 28.72, currency: 'USD', target: 0, note: '빅테크 분할 매수' },
@@ -1673,9 +2217,10 @@
 
     const INITIAL_DIVIDENDS = [];
     const INITIAL_TAXES = [];
+    const INITIAL_SPLITS = [];
 
     const TICKER_COLOR_MAP = {
-      'TQQQ': '#38bdf8', 'GDXU': '#fbbf24', 'TECL': '#8b5cf6', '005930': '#14b8a6', '005930(삼성전자)': '#14b8a6', '삼성전자': '#14b8a6',
+      'TQQQ': '#38bdf8', 'GDXU': '#fbbf24', 'TECL': '#8b5cf6', '005930': '#14b8a6', '005930(삼성전자)': '#14b8a6', '삼성전자': '#14b8a6', '삼성전자우': '#14b8a6',
       'FNGU': '#f97316', 'ERX': '#10b981', 'ERY': '#ef4444', 'SOXL': '#06b6d4', 'LABU': '#f43f5e', 'WEBL': '#a855f7',
       'NAIL': '#e11d48', 'BNKU': '#2563eb', 'WANT': '#ec4899', 'RETL': '#84cc16', 'DPST': '#6366f1', 'CURE': '#14b8a6',
       'DFEN': '#64748b', 'HIBL': '#f59e0b', 'DRN': '#10b981', 'BULZ': '#f97316', 'BITX': '#eab308', 'BTC': '#eab308', 'CASH': '#94a3b8'
@@ -1724,23 +2269,40 @@
       'ETH': { name: '이더리움', category: '가상자산', curr: 'KRW' },
       '005930': { name: '삼성전자', category: '국내주식', curr: 'KRW' },
       '005930(삼성전자)': { name: '삼성전자', category: '국내주식', curr: 'KRW' },
-      '000660': { name: 'SK하이닉스', category: '국내주식', curr: 'KRW' }
+      '삼성전자': { name: '삼성전자 (005930)', category: '국내주식', curr: 'KRW' },
+      '삼성전자우': { name: '삼성전자우 (005935)', category: '국내주식', curr: 'KRW' },
+      '000660': { name: 'SK하이닉스', category: '국내주식', curr: 'KRW' },
+      'SK하이닉스': { name: 'SK하이닉스 (000660)', category: '국내주식', curr: 'KRW' },
+      '현대차': { name: '현대차 (005380)', category: '국내주식', curr: 'KRW' },
+      '기아': { name: '기아 (000270)', category: '국내주식', curr: 'KRW' },
+      '네이버': { name: 'NAVER (035420)', category: '국내주식', curr: 'KRW' },
+      '카카오': { name: '카카오 (035720)', category: '국내주식', curr: 'KRW' }
     };
 
+    /* 🌟 한글 티커(예: 삼성전자) 입력 시 첫 자음('ㅅ')에서 멈추던 버그 완전 수정! 🌟 */
     function handleTickerAutoFill(val, nameInputId, catSelectId, currencyCallback) {
-      const ticker = (val || '').toUpperCase().trim();
+      const raw = (val || '').trim();
+      const ticker = raw.toUpperCase();
       const nameInput = document.getElementById(nameInputId);
       const catSelect = catSelectId ? document.getElementById(catSelectId) : null;
-      if (!ticker) { if (nameInput) nameInput.value = ''; return; }
 
-      if (TICKER_NAME_MAP[ticker]) {
-        const info = TICKER_NAME_MAP[ticker];
-        if (nameInput) nameInput.value = info.name;
-        if (catSelect) catSelect.value = info.category;
-        if (currencyCallback) currencyCallback(info.curr);
+      if (!raw) {
+        if (nameInput && nameInput.dataset.manualEdit !== '1') nameInput.value = '';
+        return;
+      }
+
+      const mapped = TICKER_NAME_MAP[ticker] || TICKER_NAME_MAP[raw];
+      if (mapped) {
+        if (nameInput && nameInput.dataset.manualEdit !== '1') {
+          nameInput.value = mapped.name;
+        }
+        if (catSelect) catSelect.value = mapped.category;
+        if (currencyCallback) currencyCallback(mapped.curr);
       } else {
-        if (nameInput && !nameInput.value) nameInput.value = ticker;
-        if (/^\d{6}$/.test(ticker)) {
+        if (nameInput && nameInput.dataset.manualEdit !== '1') {
+          nameInput.value = raw;
+        }
+        if (/^\d{6}$/.test(ticker) || /[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(raw)) {
           if (catSelect) catSelect.value = '국내주식';
           if (currencyCallback) currencyCallback('KRW');
         } else {
@@ -1750,12 +2312,12 @@
       }
     }
 
-    function safeLoadList(key, defaultData) {
+    function safeLoadList(key, defaultData, allowEmpty = false) {
       try {
         const item = localStorage.getItem(key);
         if (item) {
           const parsed = JSON.parse(item);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && (allowEmpty || parsed.length > 0)) return parsed;
         }
       } catch(e) {}
       return defaultData;
@@ -1765,8 +2327,9 @@
     let buyList = safeLoadList('alpha_buys', INITIAL_BUYS);
     let realizedList = safeLoadList('alpha_realized', INITIAL_REALIZED);
     let depositList = safeLoadList('alpha_deposits', INITIAL_DEPOSITS);
-    let dividendList = safeLoadList('alpha_dividends', INITIAL_DIVIDENDS);
-    let taxList = safeLoadList('alpha_taxes', INITIAL_TAXES);
+    let dividendList = safeLoadList('alpha_dividends', INITIAL_DIVIDENDS, true);
+    let taxList = safeLoadList('alpha_taxes', INITIAL_TAXES, true);
+    let splitList = safeLoadList('alpha_splits', INITIAL_SPLITS, true);
 
     let currentMonthlyYearFilter = 'ALL';
     let currentAssetTrendView = 'YEARLY';
@@ -1785,7 +2348,6 @@
     let assetTrendChartInstance = null;
     let tickerProfitChartInstance = null;
 
-    /* 장부별 종목 선택 드롭다운 자동 동기화 헬퍼 */
     function syncTickerDropdown(selectId, list) {
       const sel = document.getElementById(selectId);
       if (!sel) return;
@@ -1801,7 +2363,7 @@
       sel.value = tickers.includes(prevVal) ? prevVal : 'ALL';
     }
 
-    /* 5. GitHub 실시간 클라우드 자동 동기화 엔진 (표준 TextEncoder/TextDecoder 적용) */
+    /* 5. GitHub 실시간 클라우드 자동 동기화 엔진 (splits 이력 포함) */
     function getAutoDetectedGitHubInfo() {
       let defaultOwner = '', defaultRepo = '';
       try {
@@ -1879,7 +2441,7 @@
       try {
         updateCloudBadge('SAVING', '실시간 저장 중... ⏳');
         const payloadObj = {
-          version: "4.0-pro",
+          version: "4.1-pro",
           updatedAt: new Date().toISOString(),
           exchangeRate: getCurrentRate(),
           holdings: holdings || [],
@@ -1887,7 +2449,8 @@
           realized: realizedList || [],
           deposits: depositList || [],
           dividends: dividendList || [],
-          taxes: taxList || []
+          taxes: taxList || [],
+          splits: splitList || []
         };
 
         const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`;
@@ -1921,7 +2484,7 @@
 
         updateCloudBadge('OK', '실시간 동기화 🟢');
         if (!silent) {
-          const totalCount = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length;
+          const totalCount = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length + splitList.length;
           showBackupNotice(
             "클라우드 업로드 완료 ☁️✨",
             `현재 브라우저의 총 <strong class="text-sky-400">${totalCount}건</strong> 장부 데이터가 GitHub <span class="font-mono text-white">${escapeHTML(cfg.repo)}/${escapeHTML(cfg.path)}</span>에 영구 저장되었습니다!<br>이제 어떤 브라우저에서든 자동으로 유지됩니다 🥳`,
@@ -1976,6 +2539,7 @@
         if (Array.isArray(data.deposits)) depositList = data.deposits;
         if (Array.isArray(data.dividends)) dividendList = data.dividends;
         if (Array.isArray(data.taxes)) taxList = data.taxes;
+        if (Array.isArray(data.splits)) splitList = data.splits;
         if (data.exchangeRate) {
           const rateInput = document.getElementById('usdExchangeRate');
           if (rateInput) rateInput.value = data.exchangeRate;
@@ -1985,7 +2549,7 @@
         updateCloudBadge('OK', '실시간 동기화 🟢');
 
         if (!silent) {
-          const totalCount = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length;
+          const totalCount = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length + splitList.length;
           showBackupNotice(
             "클라우드 동기화 완료 🥳",
             `GitHub 서버로부터 최신 장부 데이터 총 <strong class="text-sky-400">${totalCount}건</strong>을 성공적으로 불러왔습니다! 💖`,
@@ -2031,7 +2595,7 @@
       showBackupNotice("클라우드 연동 해제 ⚪", "이 브라우저의 GitHub 자동 동기화 설정이 해제되었습니다.", true);
     }
 
-    /* 6. 파일 백업 & 복원 엔진 */
+    /* 6. 파일 백업 & 복원 엔진 (splits 포함) */
     function showBackupNotice(title, msg, isSuccess = true) {
       const icon = document.getElementById('backupStatusIcon');
       const titleEl = document.getElementById('backupStatusTitle');
@@ -2045,7 +2609,7 @@
     function exportPortfolioData() {
       try {
         const backupPayload = {
-          version: "4.0-pro",
+          version: "4.1-pro",
           exportedAt: new Date().toISOString(),
           exchangeRate: getCurrentRate(),
           holdings: holdings || [],
@@ -2053,7 +2617,8 @@
           realized: realizedList || [],
           deposits: depositList || [],
           dividends: dividendList || [],
-          taxes: taxList || []
+          taxes: taxList || [],
+          splits: splitList || []
         };
         const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: "application/json;charset=utf-8" });
         const url = URL.createObjectURL(blob);
@@ -2066,10 +2631,10 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        const totalRecords = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length;
+        const totalRecords = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length + splitList.length;
         showBackupNotice(
           "데이터 백업 완료 💾",
-          `총 <strong class="text-white">${totalRecords}건</strong>의 6대 장부 데이터가<br><span class="text-sky-400 font-mono">alpha_portfolio_backup_${today}.json</span> 파일로 안전하게 다운로드되었습니다 ✨`,
+          `총 <strong class="text-white">${totalRecords}건</strong>의 전체 장부 및 병합 이력 데이터가<br><span class="text-sky-400 font-mono">alpha_portfolio_backup_${today}.json</span> 파일로 안전하게 다운로드되었습니다 ✨`,
           true
         );
       } catch (err) {
@@ -2093,6 +2658,7 @@
           if (Array.isArray(data.deposits)) depositList = data.deposits;
           if (Array.isArray(data.dividends)) dividendList = data.dividends;
           if (Array.isArray(data.taxes)) taxList = data.taxes;
+          if (Array.isArray(data.splits)) splitList = data.splits;
           if (data.exchangeRate) {
             const rateInput = document.getElementById('usdExchangeRate');
             if (rateInput) rateInput.value = data.exchangeRate;
@@ -2102,10 +2668,10 @@
           renderAll();
           scheduleCloudAutoSave();
 
-          const totalRestored = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length;
+          const totalRestored = holdings.length + buyList.length + realizedList.length + depositList.length + dividendList.length + taxList.length + splitList.length;
           showBackupNotice(
             "백업 데이터 복원 성공 🥳",
-            `백업 파일로부터 총 <strong class="text-sky-400">${totalRestored}건</strong>의 포트폴리오 및 6대 장부 기록이 완벽하게 복원되었습니다! 💖`,
+            `백업 파일로부터 총 <strong class="text-sky-400">${totalRestored}건</strong>의 포트폴리오 및 장부 기록이 완벽하게 복원되었습니다! 💖`,
             true
           );
         } catch (err) {
@@ -2117,7 +2683,7 @@
       reader.readAsText(file);
     }
 
-    /* 7. 통화 및 입력폼 버튼 제어 */
+    /* 7. 통화 및 입력폼 버튼 제어 (배당금·세금 KRW 선택 시 환율 칸 자동 숨김 및 필수 해제!) */
     function setBuyCurrency(curr) {
       const buyCurrEl = document.getElementById('buyCurrency');
       if (buyCurrEl) buyCurrEl.value = curr;
@@ -2183,21 +2749,60 @@
       document.getElementById('btnDepUSD').className = curr === 'USD' ? "py-2 rounded-lg font-bold border border-slate-200 bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black" : "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
     }
 
+    /* 🌟 배당금 통화 전환 (원화 선택 시 환율 칸 숨김 & 필수 해제!) 🌟 */
     function setDivCurrency(curr) {
       document.getElementById('divCurrency').value = curr;
       document.getElementById('divAmountLabel').textContent = `세후 입금액 (${curr === 'KRW' ? '원화 ₩' : '외화 $'})`;
       document.getElementById('btnDivUSD').className = curr === 'USD' ? "py-2 rounded-lg font-bold border border-slate-200 bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black" : "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
       document.getElementById('btnDivKRW').className = curr === 'KRW' ? "py-2 rounded-lg font-bold border border-slate-200 bg-gradient-to-r from-slate-200 via-white to-slate-300 text-black" : "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
+
+      const amountInput = document.getElementById('divAmount');
+      const taxInput = document.getElementById('divTax');
+      const rateWrapper = document.getElementById('divRateWrapper');
+      const rateInput = document.getElementById('divRate');
+
+      if (curr === 'KRW') {
+        if (amountInput) amountInput.placeholder = "예: 3,249";
+        if (taxInput) taxInput.placeholder = "예: 570 (원화)";
+        if (rateWrapper) rateWrapper.style.display = 'none';
+        if (rateInput) rateInput.removeAttribute('required');
+      } else {
+        if (amountInput) amountInput.placeholder = "예: 0.94";
+        if (taxInput) taxInput.placeholder = "예: 0.16 (달러)";
+        if (rateWrapper) rateWrapper.style.display = 'block';
+        if (rateInput) {
+          rateInput.setAttribute('required', 'required');
+          if (!rateInput.value) rateInput.value = fmtComma(getCurrentRate());
+        }
+      }
     }
 
+    /* 🌟 세금 출금 통화 전환 (원화 선택 시 환율 칸 숨김 & 필수 해제!) 🌟 */
     function setTaxCurrency(curr) {
       document.getElementById('taxCurrency').value = curr;
-      document.getElementById('taxAmountLabel').textContent = `외화정산금액 (${curr === 'KRW' ? '원화 ₩' : '출금세액 $'})`;
+      document.getElementById('taxAmountLabel').textContent = `정산 금액 (${curr === 'KRW' ? '출금세액 ₩' : '출금세액 $'})`;
       document.getElementById('btnTaxUSD').className = curr === 'USD' ? "py-2 rounded-lg font-bold border border-rose-400 bg-rose-400 text-black" : "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
       document.getElementById('btnTaxKRW').className = curr === 'KRW' ? "py-2 rounded-lg font-bold border border-rose-400 bg-rose-400 text-black" : "py-2 rounded-lg font-bold border border-zinc-700 bg-zinc-800 text-zinc-300";
+
+      const amountInput = document.getElementById('taxAmount');
+      const rateWrapper = document.getElementById('taxRateWrapper');
+      const rateInput = document.getElementById('taxRate');
+
+      if (curr === 'KRW') {
+        if (amountInput) amountInput.placeholder = "예: 15,000";
+        if (rateWrapper) rateWrapper.style.display = 'none';
+        if (rateInput) rateInput.removeAttribute('required');
+      } else {
+        if (amountInput) amountInput.placeholder = "예: 5.20";
+        if (rateWrapper) rateWrapper.style.display = 'block';
+        if (rateInput) {
+          rateInput.setAttribute('required', 'required');
+          if (!rateInput.value) rateInput.value = fmtComma(getCurrentRate());
+        }
+      }
     }
 
-    /* 8. 10단위 청크 페이징 (부분 렌더링 연동으로 초고속 전환!) */
+    /* 8. 10단위 청크 페이징 */
     function renderPaginationUI(containerId, currentPage, totalPages, onPageClickFnName) {
       const bar = document.getElementById(containerId);
       if (!bar) return;
@@ -2244,7 +2849,7 @@
     function changeDividendsPage(p) { currentPageDividends = p; renderDividendsOnly(); }
     function changeTaxesPage(p) { currentPageTaxes = p; renderTaxesOnly(); }
 
-    /* 🌟 장부별 독립 부분 렌더링 래퍼 (검색·필터·페이지 이동 시 차트 재그리기 차단!) 🌟 */
+    /* 장부별 독립 부분 렌더링 래퍼 */
     function renderHoldingsOnly() { renderHoldingsUI(getCurrentRate()); }
     function renderBuysOnly() { renderBuysTable(getCurrentRate()); }
     function renderRealizedOnly() { renderRealizedTable(); }
@@ -2252,7 +2857,7 @@
     function renderDividendsOnly() { renderDividendsTable(); }
     function renderTaxesOnly() { renderTaxesTable(); }
 
-    /* 삭제 확인 모달 (상세 내역 표시로 오삭제 방지!) */
+    /* 삭제 확인 모달 */
     let pendingDelete = null;
     function triggerDelete(type, index) {
       pendingDelete = { type, index };
@@ -2324,7 +2929,7 @@
         const oldDiv = dividendList[index];
         let cash = holdings.find(h => h.ticker === 'CASH');
         if (cash) {
-          const oldDelta = oldDiv.currency === 'USD' ? toNum(oldDiv.amount) : (toNum(oldDiv.amount) / toNum(oldDiv.rate, rate));
+          const oldDelta = oldDiv.currency === 'USD' ? toNum(oldDiv.amount) : (toNum(oldDiv.amount) / rate);
           cash.curPrice = Math.max(0, toNum(cash.curPrice) - oldDelta);
           cash.avgPrice = cash.curPrice;
         }
@@ -2333,7 +2938,7 @@
         const oldT = taxList[index];
         let cash = holdings.find(h => h.ticker === 'CASH');
         if (cash) {
-          const oldDelta = oldT.currency === 'USD' ? toNum(oldT.amount) : (toNum(oldT.amount) / toNum(oldT.rate, rate));
+          const oldDelta = oldT.currency === 'USD' ? toNum(oldT.amount) : (toNum(oldT.amount) / rate);
           cash.curPrice = toNum(cash.curPrice) + oldDelta;
           cash.avgPrice = cash.curPrice;
         }
@@ -2347,7 +2952,7 @@
       if (activeFullModalType) openFullHistoryModal(activeFullModalType);
     }
 
-    /* 9. 핵심 렌더링 총괄 (KPI 카드 업그레이드 + 6대 장부 + 5개 차트) */
+    /* 9. 핵심 렌더링 총괄 */
     function renderAll() {
       const currentRate = getCurrentRate();
 
@@ -2356,6 +2961,7 @@
       realizedList = (realizedList || []).filter(Boolean);
       dividendList = (dividendList || []).filter(Boolean);
       taxList = (taxList || []).filter(Boolean);
+      splitList = (splitList || []).filter(Boolean);
 
       depositList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
       realizedList.sort((a, b) => new Date(a.date || '1970-01-01') - new Date(b.date || '1970-01-01'));
@@ -2396,7 +3002,6 @@
       setText('kpiTotalKRW', '₩' + Math.round(totalValueKRW).toLocaleString());
       setText('kpiTotalUSD', '$' + totalValueUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
-      /* KPI 3: 확정 순 실현손익 + 비율 컬러 바 */
       const isOverallPlus = overallRealizedKRW >= 0;
       setText('kpiRealizedKRW', (isOverallPlus ? '+₩' : '-₩') + Math.abs(Math.round(overallRealizedKRW)).toLocaleString());
       const kpiRealEl = document.getElementById('kpiRealizedKRW');
@@ -2412,20 +3017,16 @@
         const absTax = Math.abs(totalTaxKRW);
         const absSum = absSell + absDiv + absTax;
         if (absSum > 0) {
-          const pSell = (absSell / absSum * 100).toFixed(1);
-          const pDiv = (absDiv / absSum * 100).toFixed(1);
-          const pTax = (absTax / absSum * 100).toFixed(1);
           barEl.innerHTML = `
-            <div class="bg-sky-400 h-full transition-all" style="width:${pSell}%" title="매도 손익"></div>
-            <div class="bg-amber-300 h-full transition-all" style="width:${pDiv}%" title="배당 수익"></div>
-            <div class="bg-rose-400 h-full transition-all" style="width:${pTax}%" title="세금 출금"></div>
+            <div class="bg-sky-400 h-full transition-all" style="width:${(absSell / absSum * 100).toFixed(1)}%" title="매도 손익"></div>
+            <div class="bg-amber-300 h-full transition-all" style="width:${(absDiv / absSum * 100).toFixed(1)}%" title="배당 수익"></div>
+            <div class="bg-rose-400 h-full transition-all" style="width:${(absTax / absSum * 100).toFixed(1)}%" title="세금 출금"></div>
           `;
         } else {
           barEl.innerHTML = `<div class="bg-zinc-700 h-full" style="width:100%"></div>`;
         }
       }
 
-      /* KPI 4: 미실현 보유 평가손익 (플러스 푸른색 / 마이너스 로즈 레드 캡슐 배지) */
       const isUnrealizedPlus = unrealizedKRW >= 0;
       setText('kpiUnrealizedKRW', (isUnrealizedPlus ? '+₩' : '-₩') + Math.abs(Math.round(unrealizedKRW)).toLocaleString());
       const kpiUnKRWEl = document.getElementById('kpiUnrealizedKRW');
@@ -2472,9 +3073,9 @@
       localStorage.setItem('alpha_deposits', JSON.stringify(depositList));
       localStorage.setItem('alpha_dividends', JSON.stringify(dividendList));
       localStorage.setItem('alpha_taxes', JSON.stringify(taxList));
+      localStorage.setItem('alpha_splits', JSON.stringify(splitList));
     }
 
-    /* 🌟 [4번 업그레이드] AI 리밸런싱 수평 게이지 카드 시각화 🌟 */
     function renderRebalanceGuide(totalUSD, rate) {
       const container = document.getElementById('rebalanceGuideContent');
       if (!container) return;
@@ -2547,7 +3148,6 @@
       `;
     }
 
-    /* 🌟 [3번 업그레이드] 6대 장부 렌더링 (컬러 도트 · 비고 툴팁 · 잔고 비중 미니 바 · 일괄 DOM 렌더링) 🌟 */
     function renderHoldingsUI(rate, precomputedTotalKRW) {
       const tbody = document.getElementById('holdingsTableBody');
       if (!tbody) return;
@@ -2575,7 +3175,7 @@
         return;
       }
 
-      const rows = filtered.map(h => {
+      tbody.innerHTML = filtered.map(h => {
         const valUSD = h.currency === 'USD' ? (toNum(h.shares) * toNum(h.curPrice)) : (toNum(h.shares) * toNum(h.curPrice) / rate);
         const valKRW = h.currency === 'USD' ? (valUSD * rate) : (toNum(h.shares) * toNum(h.curPrice));
         const weightPct = totalKRWAll > 0 ? ((valKRW / totalKRWAll) * 100) : 0;
@@ -2605,8 +3205,7 @@
             <td class="py-2.5 px-2 text-right font-bold font-num whitespace-nowrap ${isProfit ? 'text-sky-400' : 'text-rose-400'}">${isProfit ? '+' : ''}${profitRate}%</td>
           </tr>
         `;
-      });
-      tbody.innerHTML = rows.join('');
+      }).join('');
     }
 
     function renderBuysTable(rate) {
@@ -2630,10 +3229,7 @@
         if (tickerFilter !== 'ALL' && t !== tickerFilter) return false;
         if (!q) return true;
         const desc = b.name || (TICKER_NAME_MAP[t] ? TICKER_NAME_MAP[t].name : '');
-        return t.toLowerCase().includes(q) ||
-               desc.toLowerCase().includes(q) ||
-               (b.note || '').toLowerCase().includes(q) ||
-               (b.date || '').includes(q);
+        return t.toLowerCase().includes(q) || desc.toLowerCase().includes(q) || (b.note || '').toLowerCase().includes(q) || (b.date || '').includes(q);
       });
 
       if (badgeEl) {
@@ -2709,10 +3305,7 @@
         if (tickerFilter !== 'ALL' && t !== tickerFilter) return false;
         if (!q) return true;
         const desc = TICKER_NAME_MAP[t] ? TICKER_NAME_MAP[t].name : '';
-        return t.toLowerCase().includes(q) ||
-               desc.toLowerCase().includes(q) ||
-               (r.note || '').toLowerCase().includes(q) ||
-               (r.date || '').includes(q);
+        return t.toLowerCase().includes(q) || desc.toLowerCase().includes(q) || (r.note || '').toLowerCase().includes(q) || (r.date || '').includes(q);
       });
 
       if (badgeEl) {
@@ -2841,7 +3434,7 @@
               <td class="py-2 px-2 text-zinc-400 font-num whitespace-nowrap">${escapeHTML(div.date)}</td>
               <td class="py-2 px-2 font-bold text-white whitespace-nowrap"><span class="inline-flex items-center gap-1.5">${getTickerDotHTML(div.ticker)}${escapeHTML(div.ticker)}</span></td>
               <td class="py-2 px-2 text-right font-bold text-white font-num whitespace-nowrap sensitive-amt">${div.currency === 'USD' ? '$' + toNum(div.amount).toFixed(2) : '₩' + Math.round(toNum(div.amount)).toLocaleString()}</td>
-              <td class="py-2 px-2 text-right text-zinc-400 font-num whitespace-nowrap">${div.tax ? (div.currency === 'USD' ? '$' + toNum(div.tax).toFixed(2) : '₩' + Math.round(toNum(div.tax)).toLocaleString()) : '-'}</td>
+              <td class="py-2 px-2 text-right text-zinc-400 font-num whitespace-nowrap">${toNum(div.tax) > 0 ? (div.currency === 'USD' ? '$' + toNum(div.tax).toFixed(2) : '₩' + Math.round(toNum(div.tax)).toLocaleString()) : '-'}</td>
               <td class="py-2 px-2 text-right font-bold text-sky-400 font-num whitespace-nowrap sensitive-amt">+₩${Math.round(valKRW).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]" title="${safeNote}">${safeNote}</td>
               <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('dividend', div.originalIndex)}</td>
@@ -2879,14 +3472,15 @@
       } else {
         const curRate = getCurrentRate();
         tbody.innerHTML = pageItems.map(t => {
-          const valKRW = t.currency === 'KRW' ? toNum(t.amount) : (toNum(t.amount) * toNum(t.rate, curRate));
+          const isUSD = t.currency === 'USD';
+          const valKRW = isUSD ? (toNum(t.amount) * toNum(t.rate, curRate)) : toNum(t.amount);
           const safeNote = escapeHTML(t.note || '-');
           return `
             <tr class="border-b border-zinc-800/40">
               <td class="py-2 px-2 text-zinc-400 font-num whitespace-nowrap">${escapeHTML(t.date)}</td>
               <td class="py-2 px-2 font-bold text-white whitespace-nowrap"><span class="inline-flex items-center gap-1.5">${getTickerDotHTML(t.ticker)}${escapeHTML(t.ticker)}</span></td>
-              <td class="py-2 px-2 text-right font-bold text-white font-num whitespace-nowrap sensitive-amt">${t.currency === 'USD' ? '$' + toNum(t.amount).toFixed(2) : '₩' + Math.round(toNum(t.amount)).toLocaleString()}</td>
-              <td class="py-2 px-2 text-right text-zinc-400 font-num whitespace-nowrap">${toNum(t.rate, curRate).toLocaleString()}원</td>
+              <td class="py-2 px-2 text-right font-bold text-white font-num whitespace-nowrap sensitive-amt">${isUSD ? '$' + toNum(t.amount).toFixed(2) : '₩' + Math.round(toNum(t.amount)).toLocaleString()}</td>
+              <td class="py-2 px-2 text-right text-zinc-400 font-num whitespace-nowrap">${isUSD ? toNum(t.rate, curRate).toLocaleString() + '원' : '<span class="text-zinc-600">-</span>'}</td>
               <td class="py-2 px-2 text-right font-bold text-rose-400 font-num whitespace-nowrap sensitive-amt">-₩${Math.round(valKRW).toLocaleString()}</td>
               <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]" title="${safeNote}">${safeNote}</td>
               <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('tax', t.originalIndex)}</td>
@@ -2897,7 +3491,6 @@
       renderPaginationUI('taxesPaginationBar', currentPageTaxes, totalPages, 'changeTaxesPage');
     }
 
-    /* 전체보기 팝업 (일괄 DOM 렌더링 + 컬러 도트 + 민감 금액 블러 연동) */
     function openFullHistoryModal(type) {
       activeFullModalType = type;
       const modal = document.getElementById('fullHistoryModal');
@@ -3015,7 +3608,7 @@
       modal.classList.remove('hidden');
     }
 
-    /* 10. 🌟 [5번 업그레이드] 차트 그라데이션 · 다크 글래스 툴팁 · KRW 환산 버그 수정 · 동적 연도 탭 🌟 */
+    /* 10. 차트 렌더링 총괄 */
     function getDarkGlassTooltip() {
       return {
         backgroundColor: 'rgba(15, 15, 19, 0.94)',
@@ -3046,7 +3639,6 @@
       renderTickerProfitChart(overallRealizedKRW);
     }
 
-    /* 포트폴리오 비중 도넛 차트 (USD·KRW 통화 혼용 합산 버그 수정 ➜ KRW 원화 일괄 환산!) */
     function renderDonutChart(rate = getCurrentRate()) {
       const canvas = document.getElementById('portfolioDonutChart');
       if (!canvas) return;
@@ -3203,7 +3795,6 @@
       }
     }
 
-    /* 🌟 월간 실현손익 동적 연도 탭 자동 생성 (2021~현재 모든 기록 연도 자동 인식!) 🌟 */
     function renderMonthlyYearTabs() {
       const group = document.getElementById('monthlyYearTabGroup');
       if (!group) return;
@@ -3370,7 +3961,7 @@
       renderDonutChart(getCurrentRate());
     }
 
-    /* 11. 폼 제출 처리 (저장 즉시 실시간 클라우드 자동 백업 호출) */
+    /* 11. 폼 제출 처리 (원화 배당·세금 CASH 환산 정확도 보완 & 즉시 클라우드 저장) */
     function handleBuySubmit(e) {
       e.preventDefault();
       const curr = document.getElementById('buyCurrency').value;
@@ -3509,14 +4100,15 @@
       const curr = document.getElementById('divCurrency').value;
       const amount = toNum(document.getElementById('divAmount').value);
       const tax = toNum(document.getElementById('divTax').value);
-      const rate = toNum(document.getElementById('divRate').value, getCurrentRate());
+      const topRate = getCurrentRate();
+      const rate = curr === 'USD' ? toNum(document.getElementById('divRate').value, topRate) : 1;
       const note = document.getElementById('divNote').value.trim() || '배당금 입금';
 
       let cash = holdings.find(h => h.ticker === 'CASH');
       if (editState.type === 'dividend' && editState.index !== null && dividendList[editState.index]) {
         const oldDiv = dividendList[editState.index];
         if (cash) {
-          const oldDelta = oldDiv.currency === 'USD' ? toNum(oldDiv.amount) : (toNum(oldDiv.amount) / toNum(oldDiv.rate, rate));
+          const oldDelta = oldDiv.currency === 'USD' ? toNum(oldDiv.amount) : (toNum(oldDiv.amount) / topRate);
           cash.curPrice = toNum(cash.curPrice) - oldDelta;
         }
         dividendList[editState.index] = { date, ticker, name, currency: curr, amount, tax, rate, note };
@@ -3525,7 +4117,7 @@
       }
 
       if (cash) {
-        const delta = curr === 'USD' ? amount : (amount / rate);
+        const delta = curr === 'USD' ? amount : (amount / topRate);
         cash.curPrice = Math.max(0, toNum(cash.curPrice) + delta);
         cash.avgPrice = cash.curPrice;
       }
@@ -3544,14 +4136,15 @@
       const name = document.getElementById('taxName').value.trim() || ticker;
       const curr = document.getElementById('taxCurrency').value;
       const amount = toNum(document.getElementById('taxAmount').value);
-      const rate = toNum(document.getElementById('taxRate').value, getCurrentRate());
-      const note = document.getElementById('taxNote').value.trim() || '외화 세금 출금';
+      const topRate = getCurrentRate();
+      const rate = curr === 'USD' ? toNum(document.getElementById('taxRate').value, topRate) : 1;
+      const note = document.getElementById('taxNote').value.trim() || '세금 출금';
 
       let cash = holdings.find(h => h.ticker === 'CASH');
       if (editState.type === 'tax' && editState.index !== null && taxList[editState.index]) {
         const oldT = taxList[editState.index];
         if (cash) {
-          const oldDelta = oldT.currency === 'USD' ? toNum(oldT.amount) : (toNum(oldT.amount) / toNum(oldT.rate, rate));
+          const oldDelta = oldT.currency === 'USD' ? toNum(oldT.amount) : (toNum(oldT.amount) / topRate);
           cash.curPrice = toNum(cash.curPrice) + oldDelta;
         }
         taxList[editState.index] = { date, ticker, name, currency: curr, amount, rate, note };
@@ -3560,7 +4153,7 @@
       }
 
       if (cash) {
-        const delta = curr === 'USD' ? amount : (amount / rate);
+        const delta = curr === 'USD' ? amount : (amount / topRate);
         cash.curPrice = Math.max(0, toNum(cash.curPrice) - delta);
         cash.avgPrice = cash.curPrice;
       }
@@ -3572,7 +4165,7 @@
       if (activeFullModalType) openFullHistoryModal(activeFullModalType);
     }
 
-    /* 12. 환율 자동 연동 */
+    /* 12. 실시간 최신 환율 자동 연동 */
     async function fetchLatestExchangeRate() {
       const rateInput = document.getElementById('usdExchangeRate');
       const badge = document.getElementById('rateStatusBadge');
@@ -3583,10 +4176,11 @@
           const data = await res.json();
           if (data?.rates?.KRW) {
             const latest = Math.round(data.rates.KRW);
+            latestLiveExchangeRate = latest;
             if (rateInput) rateInput.value = latest;
             if (badge) badge.textContent = '동기화 완료 🟢';
-            const dRate = document.getElementById('divRate'); if (dRate) dRate.value = fmtComma(latest);
-            const tRate = document.getElementById('taxRate'); if (tRate) tRate.value = fmtComma(latest);
+            const dRate = document.getElementById('divRate'); if (dRate && !dRate.value) dRate.value = fmtComma(latest);
+            const tRate = document.getElementById('taxRate'); if (tRate && !tRate.value) tRate.value = fmtComma(latest);
             const bRate = document.getElementById('buyRate'); if (bRate && !bRate.value) bRate.value = fmtComma(latest);
             const sRate = document.getElementById('sellRate'); if (sRate && !sRate.value) sRate.value = fmtComma(latest);
             renderAll();
@@ -3602,7 +4196,7 @@
     /* 초기 실행 */
     document.addEventListener('DOMContentLoaded', () => {
       const today = new Date().toISOString().split('T')[0];
-      ['sellDate', 'buyDate', 'depositDate', 'divDate', 'taxDate'].forEach(id => {
+      ['sellDate', 'buyDate', 'depositDate', 'divDate', 'taxDate', 'splitDate'].forEach(id => {
         const el = document.getElementById(id); if (el) el.value = today;
       });
       const bNote = document.getElementById('buyNote'); if (bNote) bNote.value = '분할매수';
