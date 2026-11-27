@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T19:53:56.124Z",
+  "updatedAt": "2026-11-27T19:57:45.254Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -40,7 +40,7 @@
       "category": "미국주식",
       "ticker": "GDXU",
       "name": "금광 3X",
-      "shares": 341,
+      "shares": 41,
       "avgPrice": 19.633576850873112,
       "curPrice": 165.77,
       "currency": "USD",
@@ -8839,6 +8839,17 @@
       "currency": "KRW",
       "rate": 1,
       "price": 1540
+    },
+    {
+      "date": "2022-02-14",
+      "ticker": "GDXU",
+      "shares": 300,
+      "gross": -194332,
+      "net": -194332,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1199.6,
+      "price": 10.5
     },
     {
       "date": "2025-08-05",
