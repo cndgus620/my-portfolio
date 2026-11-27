@@ -1,7 +1,7 @@
 {
-  "version": "3.0-cloud",
-  "updatedAt": "2026-11-11T15:27:42.895Z",
-  "exchangeRate": 1342,
+  "version": "3.1-cloud",
+  "updatedAt": "2026-11-27T14:59:50.020Z",
+  "exchangeRate": 1344,
   "holdings": [
     {
       "category": "미국주식",
@@ -63,8 +63,8 @@
       "ticker": "CASH",
       "name": "전략 대기 현금",
       "shares": 1,
-      "avgPrice": 439.23,
-      "curPrice": 439.23,
+      "avgPrice": 0,
+      "curPrice": 0,
       "currency": "USD",
       "target": 30,
       "note": "💵 예수금 및 CMA-RP 총알"
@@ -8763,6 +8763,13 @@
       "currency": "USD",
       "amount": 20,
       "note": "이벤트 지원금 (외화)"
+    },
+    {
+      "date": "2021-02-17",
+      "type": "WITHDRAW",
+      "currency": "KRW",
+      "amount": -600000,
+      "note": "이체출금"
     },
     {
       "date": "2021-02-19",
