@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T17:27:05.454Z",
+  "updatedAt": "2026-11-27T17:37:20.983Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -132,6 +132,17 @@
       "avgPrice": 4.89066225165563,
       "curPrice": 3.02,
       "currency": "USD",
+      "target": 0,
+      "note": "분할매수"
+    },
+    {
+      "category": "국내주식",
+      "ticker": "TS트릴리온",
+      "name": "T",
+      "shares": 846,
+      "avgPrice": 1280,
+      "curPrice": 1280,
+      "currency": "KRW",
       "target": 0,
       "note": "분할매수"
     }
@@ -3656,6 +3667,17 @@
       "currency": "USD",
       "rate": 1141.1,
       "note": "분할 매수"
+    },
+    {
+      "date": "2021-07-19",
+      "category": "국내주식",
+      "ticker": "TS트릴리온",
+      "name": "T",
+      "shares": 846,
+      "price": 1280,
+      "currency": "KRW",
+      "rate": 1,
+      "note": "분할매수"
     },
     {
       "date": "2021-07-20",
