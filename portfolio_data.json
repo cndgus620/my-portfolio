@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T17:22:35.264Z",
+  "updatedAt": "2026-11-27T17:23:36.269Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -68,17 +68,6 @@
       "currency": "USD",
       "target": 30,
       "note": "💵 예수금 및 CMA-RP 총알"
-    },
-    {
-      "category": "미국주식",
-      "ticker": "FNGU",
-      "name": "빅테크 Top10 3X",
-      "shares": 51,
-      "avgPrice": 31.3849180327869,
-      "curPrice": 28.24,
-      "currency": "USD",
-      "target": 0,
-      "note": "분할 매수"
     },
     {
       "category": "미국주식",
@@ -8751,6 +8740,17 @@
       "currency": "USD",
       "rate": 1135.4,
       "price": 113.23
+    },
+    {
+      "date": "2021-06-25",
+      "ticker": "FNGU",
+      "shares": 51,
+      "gross": 150501,
+      "net": 150501,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1135.8,
+      "price": 33.59
     },
     {
       "date": "2025-08-05",
