@@ -1,6 +1,6 @@
 {
   "version": "3.3-cloud",
-  "updatedAt": "2026-11-27T15:45:18.599Z",
+  "updatedAt": "2026-11-27T15:47:58.406Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -8,8 +8,8 @@
       "ticker": "LABU",
       "name": "바이오 3X",
       "shares": 430,
-      "avgPrice": 99.75175256134716,
-      "curPrice": 195.95,
+      "avgPrice": 99.73779907297506,
+      "curPrice": 103.62,
       "currency": "USD",
       "target": 0,
       "note": "🚨 과비중 탈출 관리 (반등 시 점진 매도)"
@@ -1221,7 +1221,7 @@
       "ticker": "LABU",
       "name": "바이오 3X",
       "shares": 2,
-      "price": 106.62,
+      "price": 103.62,
       "currency": "USD",
       "rate": 1133.5,
       "note": "분할 매수"
