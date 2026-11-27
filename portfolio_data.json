@@ -1,6 +1,6 @@
 {
   "version": "3.3-cloud",
-  "updatedAt": "2026-11-27T15:58:34.210Z",
+  "updatedAt": "2026-11-27T16:08:59.907Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -51,7 +51,7 @@
       "category": "미국주식",
       "ticker": "TQQQ",
       "name": "나스닥 3X",
-      "shares": 243,
+      "shares": 180,
       "avgPrice": 81.75459705075448,
       "curPrice": 76.5,
       "currency": "USD",
@@ -8718,6 +8718,17 @@
       "currency": "USD",
       "rate": 1122.9,
       "price": 42.21
+    },
+    {
+      "date": "2021-04-08",
+      "ticker": "TQQQ",
+      "shares": 63,
+      "gross": 618660,
+      "net": 618660,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1116.4,
+      "price": 101.41
     },
     {
       "date": "2025-08-05",
