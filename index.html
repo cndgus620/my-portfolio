@@ -390,7 +390,7 @@
       </section>
     </div>
 
-    <!-- ROW 2: [매수 장부] ↔ [실현손익 확정 장부] -->
+    <!-- ROW 2: [매수 장부 (매입금액($) 추가!)] ↔ [실현손익 확정 장부] -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-stretch">
       <section onclick="openFullHistoryModal('buys')" class="custom-card interactive-card rounded-2xl p-5 lg:p-6 flex flex-col justify-between" title="카드를 클릭하면 전체 매수 내역이 크게 열립니다 👆">
         <div>
@@ -418,8 +418,14 @@
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-wider text-[11px]">
-                  <th class="py-2.5 px-2">일자</th><th class="py-2.5 px-2">종목</th><th class="py-2.5 px-2 text-right">수량</th>
-                  <th class="py-2.5 px-2 text-right">매입단가</th><th class="py-2.5 px-2 text-right">매입금액</th><th class="py-2.5 px-2">비고</th><th class="py-2.5 px-2 text-center">수정 / 삭제</th>
+                  <th class="py-2.5 px-1.5 whitespace-nowrap">일자</th>
+                  <th class="py-2.5 px-1.5 whitespace-nowrap">종목</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">수량</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">매입단가</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">매입금액($)</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">매입금액(₩)</th>
+                  <th class="py-2.5 px-1.5 whitespace-nowrap">비고</th>
+                  <th class="py-2.5 px-1.5 text-center whitespace-nowrap">수정 / 삭제</th>
                 </tr>
               </thead>
               <tbody id="buysTableBody" class="divide-y divide-zinc-800/60 font-num text-[11px]"></tbody>
@@ -912,7 +918,7 @@
       </div>
     </div>
   </div>
-  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (미실현수익 푸른색 자동전환 & 실시간 클라우드 탑재) 🌟 ================= -->
+  <!-- ================= 🌟 [코드 2편] 자바스크립트 전체 엔진 (매수 장부 달러 매입금액 & 실시간 클라우드 완비) 🌟 ================= -->
   <script>
     const MASTER_PIN = "5929";
 
@@ -1479,7 +1485,7 @@
         const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
 
         const payloadObj = {
-          version: "3.1-cloud",
+          version: "3.2-cloud",
           updatedAt: new Date().toISOString(),
           exchangeRate: currentRate,
           holdings: holdings || [],
@@ -1663,7 +1669,7 @@
         const rateInput = document.getElementById('usdExchangeRate');
         const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
         const backupPayload = {
-          version: "3.1-cloud",
+          version: "3.2-cloud",
           exportedAt: new Date().toISOString(),
           exchangeRate: currentRate,
           holdings: holdings || [],
@@ -1932,7 +1938,7 @@
       if (activeFullModalType) openFullHistoryModal(activeFullModalType);
     }
 
-    /* 9. 🌟 핵심 렌더링 총괄 (미실현 평가손익 +일 때 푸른색 text-sky-400 자동 전환!) 🌟 */
+    /* 9. 핵심 렌더링 총괄 (미실현 평가손익 +일 때 푸른색 text-sky-400 자동 전환!) */
     function renderAll() {
       const rateInput = document.getElementById('usdExchangeRate');
       const currentRate = rateInput ? (parseFloat(rateInput.value) || 1343) : 1343;
@@ -1989,7 +1995,6 @@
       
       setText('kpiProfitBreakdownText', `매도: +₩${Math.round(totalNetRealizedKRW/10000)}만 | 배당: +₩${Math.round(totalDividendKRW/10000)}만 | 세금: -₩${Math.round(totalTaxKRW/10000)}만`);
 
-      /* 🌟 미실현 보유 평가손익 플러스(+)일 때 푸른색(text-sky-400), 마이너스(-)일 때 붉은색(text-rose-400) 자동 적용 🌟 */
       const isUnrealizedPlus = unrealizedKRW >= 0;
       setText('kpiUnrealizedKRW', (isUnrealizedPlus ? '+₩' : '-₩') + Math.abs(Math.round(unrealizedKRW)).toLocaleString());
       const kpiUnKRWEl = document.getElementById('kpiUnrealizedKRW');
@@ -2090,6 +2095,7 @@
       });
     }
 
+    /* 🌟 매수 거래 장부 렌더링 (매입금액($) 추가 & 국내주식 '-' 표시 & 필터 배지 달러/원화 동시 합산) 🌟 */
     function renderBuysTable(rate) {
       const tbody = document.getElementById('buysTableBody');
       if (!tbody) return;
@@ -2115,11 +2121,13 @@
 
       if (badgeEl) {
         if (tickerFilter !== 'ALL' || q !== '') {
+          const sumUSD = filtered.reduce((acc, b) => acc + (b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price)) : 0), 0);
           const sumKRW = filtered.reduce((acc, b) => {
             const bRate = b.currency === 'USD' ? toNum(b.rate, rate) : 1;
             return acc + (b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price) * bRate) : (toNum(b.shares) * toNum(b.price)));
           }, 0);
-          badgeEl.textContent = `${filtered.length}건 · ₩${Math.round(sumKRW).toLocaleString()}`;
+          const usdPart = sumUSD > 0 ? ` · $${sumUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '';
+          badgeEl.textContent = `${filtered.length}건${usdPart} · ₩${Math.round(sumKRW).toLocaleString()}`;
         } else {
           badgeEl.textContent = '';
         }
@@ -2130,20 +2138,27 @@
       const pageItems = filtered.slice((currentPageBuys - 1) * PAGE_SIZE, currentPageBuys * PAGE_SIZE);
 
       if (!pageItems.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-zinc-500">조건에 맞는 매수 내역이 없습니다 ☕</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-zinc-500">조건에 맞는 매수 내역이 없습니다 ☕</td></tr>`;
       } else {
         pageItems.forEach(b => {
-          const buyRate = b.currency === 'USD' ? toNum(b.rate, rate) : 1;
-          const totalKRW = b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price) * buyRate) : (toNum(b.shares) * toNum(b.price));
+          const isUSD = b.currency === 'USD';
+          const buyRate = isUSD ? toNum(b.rate, rate) : 1;
+          const totalUSD = isUSD ? (toNum(b.shares) * toNum(b.price)) : 0;
+          const totalKRW = isUSD ? (totalUSD * buyRate) : (toNum(b.shares) * toNum(b.price));
+          const usdCellHTML = isUSD
+            ? '$' + totalUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : '<span class="text-zinc-600">-</span>';
+
           tbody.innerHTML += `
             <tr class="hover:bg-zinc-800/40 border-b border-zinc-800/40">
-              <td class="py-2 px-2 text-zinc-400 font-num whitespace-nowrap">${b.date}</td>
-              <td class="py-2 px-2 font-bold text-white">${b.ticker}</td>
-              <td class="py-2 px-2 text-right font-num text-zinc-200">${toNum(b.shares).toLocaleString()}</td>
-              <td class="py-2 px-2 text-right text-zinc-300 font-num">${b.currency === 'USD' ? '$' + toNum(b.price).toFixed(2) : '₩' + Math.round(toNum(b.price)).toLocaleString()}</td>
-              <td class="py-2 px-2 text-right font-bold text-white font-num whitespace-nowrap">₩${Math.round(totalKRW).toLocaleString()}</td>
-              <td class="py-2 px-2 text-zinc-400 truncate max-w-[80px]">${b.note || '-'}</td>
-              <td class="py-2 px-2 text-center whitespace-nowrap">${getActionButtonsHTML('buy', b.originalIndex)}</td>
+              <td class="py-2 px-1.5 text-zinc-400 font-num whitespace-nowrap">${b.date}</td>
+              <td class="py-2 px-1.5 font-bold text-white whitespace-nowrap">${b.ticker}</td>
+              <td class="py-2 px-1.5 text-right font-num text-zinc-200 whitespace-nowrap">${toNum(b.shares).toLocaleString()}</td>
+              <td class="py-2 px-1.5 text-right text-zinc-300 font-num whitespace-nowrap">${isUSD ? '$' + toNum(b.price).toFixed(2) : '₩' + Math.round(toNum(b.price)).toLocaleString()}</td>
+              <td class="py-2 px-1.5 text-right text-slate-200 font-semibold font-num whitespace-nowrap">${usdCellHTML}</td>
+              <td class="py-2 px-1.5 text-right font-bold text-white font-num whitespace-nowrap">₩${Math.round(totalKRW).toLocaleString()}</td>
+              <td class="py-2 px-1.5 text-zinc-400 truncate max-w-[70px]">${b.note || '-'}</td>
+              <td class="py-2 px-1.5 text-center whitespace-nowrap">${getActionButtonsHTML('buy', b.originalIndex)}</td>
             </tr>
           `;
         });
@@ -2348,6 +2363,7 @@
       renderPaginationUI('taxesPaginationBar', currentPageTaxes, totalPages, 'changeTaxesPage');
     }
 
+    /* 🌟 전체보기 팝업 (매수 장부에도 매입금액($) 열과 '-' 표시 동일 반영!) 🌟 */
     function openFullHistoryModal(type) {
       activeFullModalType = type;
       const modal = document.getElementById('fullHistoryModal');
@@ -2371,11 +2387,38 @@
         title.textContent = '매수 거래 장부 (전체 이력 - 최신순)';
         countText.textContent = `총 ${buyList.length}건 매수 기록`;
         const sorted = buyList.map((b, originalIndex) => ({ ...b, originalIndex })).sort((a, b) => new Date(b.date || '1970-01-01') - new Date(a.date || '1970-01-01'));
-        html = `<table class="w-full text-left text-xs"><tbody class="divide-y divide-zinc-800">`;
+        html = `<table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-zinc-800 text-zinc-400 font-bold text-[11px]">
+              <th class="py-2 px-3">일자</th>
+              <th class="py-2 px-3">종목</th>
+              <th class="py-2 px-3 text-right">수량</th>
+              <th class="py-2 px-3 text-right">매입단가</th>
+              <th class="py-2 px-3 text-right">매입금액($)</th>
+              <th class="py-2 px-3 text-right">매입금액(₩)</th>
+              <th class="py-2 px-3">비고</th>
+              <th class="py-2 px-3 text-center">수정 / 삭제</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800">`;
         sorted.forEach(b => {
-          const valKRW = b.currency === 'USD' ? (toNum(b.shares) * toNum(b.price) * toNum(b.rate, rate)) : (toNum(b.shares) * toNum(b.price));
+          const isUSD = b.currency === 'USD';
+          const totalUSD = isUSD ? (toNum(b.shares) * toNum(b.price)) : 0;
+          const valKRW = isUSD ? (totalUSD * toNum(b.rate, rate)) : (toNum(b.shares) * toNum(b.price));
           const desc = b.name || (TICKER_NAME_MAP[b.ticker] ? TICKER_NAME_MAP[b.ticker].name : b.ticker);
-          html += `<tr><td class="py-2.5 px-3 text-zinc-400 font-num">${b.date}</td><td class="py-2.5 px-3 font-bold text-white">${b.ticker} (${desc})</td><td class="py-2.5 px-3 text-right font-num">${toNum(b.shares)}주</td><td class="py-2.5 px-3 text-right text-white font-bold font-num">₩${Math.round(valKRW).toLocaleString()}</td><td class="py-2.5 px-3 text-zinc-400">${b.note || '-'}</td><td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('buy', b.originalIndex, false)}</td></tr>`;
+          const usdCellHTML = isUSD
+            ? '$' + totalUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : '<span class="text-zinc-600">-</span>';
+          html += `<tr>
+            <td class="py-2.5 px-3 text-zinc-400 font-num whitespace-nowrap">${b.date}</td>
+            <td class="py-2.5 px-3 font-bold text-white whitespace-nowrap">${b.ticker} <span class="text-zinc-500 font-normal">(${desc})</span></td>
+            <td class="py-2.5 px-3 text-right font-num whitespace-nowrap">${toNum(b.shares).toLocaleString()}주</td>
+            <td class="py-2.5 px-3 text-right text-zinc-300 font-num whitespace-nowrap">${isUSD ? '$' + toNum(b.price).toFixed(2) : '₩' + Math.round(toNum(b.price)).toLocaleString()}</td>
+            <td class="py-2.5 px-3 text-right text-slate-200 font-semibold font-num whitespace-nowrap">${usdCellHTML}</td>
+            <td class="py-2.5 px-3 text-right text-white font-bold font-num whitespace-nowrap">₩${Math.round(valKRW).toLocaleString()}</td>
+            <td class="py-2.5 px-3 text-zinc-400">${b.note || '-'}</td>
+            <td class="py-2.5 px-3 text-center whitespace-nowrap">${getActionButtonsHTML('buy', b.originalIndex, false)}</td>
+          </tr>`;
         });
         html += `</tbody></table>`;
       } else if (type === 'realized') {
