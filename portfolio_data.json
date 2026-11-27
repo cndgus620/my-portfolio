@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T19:57:45.254Z",
+  "updatedAt": "2026-11-27T20:02:41.534Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -9114,6 +9114,16 @@
       "tax": 0.02,
       "rate": 1133.5,
       "note": "외화 배당금 입금"
+    },
+    {
+      "date": "2022-11-15",
+      "ticker": "삼성전자",
+      "name": "ㅅ",
+      "currency": "KRW",
+      "amount": 0,
+      "tax": 0,
+      "rate": 3249,
+      "note": "배당금 입금"
     }
   ],
   "taxes": [
