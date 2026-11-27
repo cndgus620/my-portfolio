@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T19:48:20.929Z",
+  "updatedAt": "2026-11-27T19:51:12.977Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -99,6 +99,17 @@
       "avgPrice": 4.89066225165563,
       "curPrice": 3.02,
       "currency": "USD",
+      "target": 0,
+      "note": "분할매수"
+    },
+    {
+      "category": "국내주식",
+      "ticker": "삼성전자",
+      "name": "ㅅ",
+      "shares": 9,
+      "avgPrice": 61200,
+      "curPrice": 61200,
+      "currency": "KRW",
       "target": 0,
       "note": "분할매수"
     }
@@ -6922,6 +6933,17 @@
       "price": 48.09,
       "currency": "USD",
       "rate": 1234.5,
+      "note": "분할매수"
+    },
+    {
+      "date": "2022-08-18",
+      "category": "국내주식",
+      "ticker": "삼성전자",
+      "name": "ㅅ",
+      "shares": 9,
+      "price": 61200,
+      "currency": "KRW",
+      "rate": 1,
       "note": "분할매수"
     },
     {
