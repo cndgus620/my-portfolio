@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T17:37:20.983Z",
+  "updatedAt": "2026-11-27T17:43:01.620Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -68,17 +68,6 @@
       "currency": "USD",
       "target": 30,
       "note": "💵 예수금 및 CMA-RP 총알"
-    },
-    {
-      "category": "미국주식",
-      "ticker": "NAIL",
-      "name": "NAIL",
-      "shares": 35,
-      "avgPrice": 73.89714285714285,
-      "curPrice": 76.78,
-      "currency": "USD",
-      "target": 0,
-      "note": "분할 매수"
     },
     {
       "category": "미국주식",
@@ -8784,6 +8773,17 @@
       "currency": "USD",
       "rate": 1129.5,
       "price": 43
+    },
+    {
+      "date": "2021-08-03",
+      "ticker": "NAIL",
+      "shares": 35,
+      "gross": 330248,
+      "net": 330248,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1151.5,
+      "price": 81.65
     },
     {
       "date": "2025-08-05",
