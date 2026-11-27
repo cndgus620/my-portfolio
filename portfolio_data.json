@@ -1,6 +1,6 @@
 {
   "version": "4.0-pro",
-  "updatedAt": "2026-11-27T18:04:35.818Z",
+  "updatedAt": "2026-11-27T18:08:47.776Z",
   "exchangeRate": 1344,
   "holdings": [
     {
@@ -68,17 +68,6 @@
       "currency": "USD",
       "target": 30,
       "note": "💵 예수금 및 CMA-RP 총알"
-    },
-    {
-      "category": "미국주식",
-      "ticker": "WANT",
-      "name": "임의소비재 3X",
-      "shares": 56,
-      "avgPrice": 70.11125000000001,
-      "curPrice": 73.32,
-      "currency": "USD",
-      "target": 0,
-      "note": "분할매수"
     },
     {
       "category": "미국주식",
@@ -8806,6 +8795,17 @@
       "currency": "USD",
       "rate": 1170.8,
       "price": 44.98
+    },
+    {
+      "date": "2021-10-21",
+      "ticker": "WANT",
+      "shares": 56,
+      "gross": 428065,
+      "net": 428065,
+      "note": "수익실현",
+      "currency": "USD",
+      "rate": 1175.6,
+      "price": 77.47
     },
     {
       "date": "2025-08-05",
